@@ -1,0 +1,10 @@
+{
+  "name": "@agentfico/cli",
+  "private": true,
+  "type": "module",
+  "dependencies": {
+    "@agentfico/adapters": "workspace:*",
+    "@agentfico/db": "workspace:*",
+    "@agentfico/sim": "workspace:*"
+  }
+}

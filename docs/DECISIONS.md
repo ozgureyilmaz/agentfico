@@ -3,6 +3,10 @@
 Newest first. Each entry: date (Istanbul), decision, reason. Changing a decision needs a new entry.
 
 ## Nov 5, 2026
+- **Offline simulation.** Anchor the simulation window at 2026-11-05 00:00 UTC and derive timestamps and ULIDs from the seed. This makes event hashes independent of when and where the simulator runs. Synthetic work evaluations carry explicit provenance and omit real evaluation IDs.
+- **Canonical event IDs.** Reject lowercase ULIDs at ingestion so the same ID cannot bypass case-sensitive deduplication and signed evidence can stay unmodified.
+- **SQLite ingestion.** Validate batches before writing them in a transaction. Deduplicate by event ID and scope evidence hashes to subject and event type so separate subjects and event types can cite the same evidence.
+- **Initial workspace and CI.** Pin the same Bun release for local development and CI. CI installs from the committed lockfile and runs the root check on pull requests and pushes to main.
 - **Track: Reppo**, with Kite as fallback (checkpoint Nov 10) and Open as last resort (Nov 13). Reasons: Reppo publicly asked for a "FICO for agents" built on its Eval API and said it is open to funding it; judged work quality is what separates this score from payment-only reputation; the Kite track is crowded with spend-safety projects; Reppo evals are cheap.
 - **Open source, free, MIT.** No x402 paywall on score lookups.
 - **No lending in the product or demo.** No lender pool, no credit lines, no credit-decision table. Lenders are just one kind of consumer of an open score.

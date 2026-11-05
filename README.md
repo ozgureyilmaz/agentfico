@@ -2,7 +2,7 @@
 
 **A FICO score for AI agents.** An open, free trust score (300-850) that tells you how an agent has actually behaved before you let it spend money, take a task, or join your marketplace.
 
-> Status: in development for the OpenServ SERV Hackathon Edition 02 (Reppo track), Nov 2-15, 2026. Demo agents are **simulated and labeled as such**; work-quality verdicts come from the real Reppo Evaluation API.
+> Status: in development for the OpenServ SERV Hackathon Edition 02 (Reppo track), Nov 2-15, 2026. The local simulator generates **simulated events**. The Reppo Evaluation API will provide judged work-quality verdicts in a later milestone.
 
 ## Why
 Agents now pay, get paid and act for people. Before you hand one a budget or a job you want to know: does it do good work, does it respect its spending limits, does it stay up, and is it who it says it is? Today there is no shared answer. AgentFICO computes one from behavior, explains it, and gives it away for free.
@@ -45,17 +45,32 @@ flowchart LR
 | Phoenix | recovering agent that acts on Reppo feedback | climbs over time |
 
 ## Quickstart
-_Coming with milestone M9. Planned:_
+
+Use the Bun version pinned in `.bun-version`. The simulator and local checks run without credentials.
+
 ```bash
-git clone https://github.com/ozgureyilmaz/agentfico && cd agentfico
 bun install
-bun run demo          # no keys needed; opens the dashboard with simulated data
+bun run sim -- --seed 42
+bun run sim -- --seed 42 --days 90 --personas all
+bun run check
+bun test
+bun run dev
 ```
-Score your own agent (planned):
+
+The simulator writes five personas to SQLite at `AFC_DB_PATH` (default `./data/agentfico.sqlite`) and reports the SHA-256 of the serialized events. Running the same command again keeps the stored event count stable. The development API serves `/healthz` on port 8787 and the web scaffold runs on port 5173 by default. Use `cp .env.example .env` to set local configuration.
+
+Planned commands for later milestones
+
 ```bash
-bun run afc -- score --log my-agent.jsonl
+bun run demo
+bun run afc -- score --id afc:sim:atlas
+bun run afc -- score --log examples/my-agent.jsonl
 bun run afc -- score --kite 0xYourAgentAddress
-curl http://localhost:8787/v1/score/afc:sim:atlas
+bun run afc -- explain afc:sim:blaze
+bun run afc -- evaluate --samples examples/samples.jsonl --category shopping
+bun run afc -- serv-log --afc-id afc:sim:atlas
+bun run reppo:worker
+bun run serv:smoke
 ```
 
 ## SERV Reasoning usage

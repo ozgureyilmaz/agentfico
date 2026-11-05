@@ -1,0 +1,22 @@
+{
+  "name": "agentfico",
+  "private": true,
+  "type": "module",
+  "packageManager": "bun@1.4.4",
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "dev": "bun run --parallel --filter @agentfico/api --filter @agentfico/web dev",
+    "sim": "bun run packages/cli/src/sim.ts",
+    "typecheck": "tsc --noEmit",
+    "lint": "biome ci .",
+    "check": "bun run typecheck && bun run lint && bun test"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "2.6.5",
+    "@types/bun": "^1.4.0",
+    "typescript": "7.0.2"
+  }
+}

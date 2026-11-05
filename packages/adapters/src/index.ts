@@ -1,0 +1,1 @@
+export { SimulatorAdapter } from "./simulator";
