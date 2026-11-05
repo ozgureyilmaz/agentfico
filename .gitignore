@@ -1,0 +1,34 @@
+# dependencies
+node_modules/
+.bun/
+
+# env and secrets
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+
+# local data
+data/*.sqlite
+data/*.sqlite-*
+data/*.db
+runs/
+
+# build output
+dist/
+build/
+.vite/
+coverage/
+*.tsbuildinfo
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.swp
+
+# logs
+*.log
+npm-debug.log*
