@@ -3,13 +3,13 @@
 Tick only with proof: time (Istanbul) + one-line proof (command output, PR or commit link). No proof, no tick.
 Deadline: Nov 16 02:59 Istanbul (Nov 15 23:59 UTC). Code complete: Nov 13.
 
-Last updated: Nov 05 20:07 Istanbul
+Last updated: Nov 05 20:12 Istanbul
 
 ## Now
-M1 is verified locally. The M0 scaffold and workflow are in place. GitHub Actions proof on `main` is pending.
+M1 is verified locally. [PR #1](https://github.com/ozgureyilmaz/agentfico/pull/1) is open for review with a passing CI run on the implementation commit. GitHub Actions proof on `main` is pending.
 
 ## Next
-1. Review M0/M1, publish to GitHub with owner approval, and record the CI run on `main`.
+1. Review PR #1 and record the CI run on `main` after merge.
 2. Ozgur: SERV and Reppo keys into local `.env`; enable data collection in the OpenServ console
 
 ## Setup (Ozgur)
@@ -51,7 +51,7 @@ M1 is verified locally. The M0 scaffold and workflow are in place. GitHub Action
 - [ ] Form submitted, confirmation saved
 
 ## Blockers / open questions
-- M0 needs a successful GitHub Actions run on `main` after owner approval to publish.
+- M0 needs a successful GitHub Actions run on `main` after PR #1 merges.
 - Hosting provider (Ozgur).
 - Reppo credits: enough for about 40 evals?
 
@@ -79,3 +79,4 @@ M1 is verified locally. The M0 scaffold and workflow are in place. GitHub Action
 - Nov 05 20:05 Istanbul · M1 · Replayed on the same database with `TZ=America/New_York bun run sim -- --seed 42 --days 90 --personas all` after a run in `Europe/Istanbul`. `cmp` of stdout exited 0. A read-only `bun:sqlite` query returned `events, reppo_queue, scores, serv_calls, verdicts`, `{"events":1401,"simulated":1401,"personas":5}` and `{"journal_mode":"wal"}`.
 - Nov 05 20:05 Istanbul · M1 · `bun test` → `25 pass`, `0 fail`, including event validation, migration, ingestion, and golden hash tests.
 - Nov 05 20:07 Istanbul · M0/M1 · `bun run check` → `tsc --noEmit` passed, Biome `Checked 38 files`, and Bun reported `25 pass`, `0 fail`.
+- Nov 05 20:12 Istanbul · M0/M1 · `gh run view 42072309456` → `pull_request`, commit `c47a163`, job `check` → `success`. [GitHub Actions run](https://github.com/ozgureyilmaz/agentfico/actions/runs/42072309456)
