@@ -1,0 +1,11 @@
+{
+  "name": "@agentfico/api",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "bun --watch src/index.ts"
+  },
+  "dependencies": {
+    "hono": "^4.0.0"
+  }
+}
