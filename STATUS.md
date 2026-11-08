@@ -3,14 +3,15 @@
 Tick only with proof: time (Istanbul) + one-line proof (command output, PR or commit link). No proof, no tick.
 Deadline: Nov 16 02:59 Istanbul (Nov 15 23:59 UTC). Code complete: Nov 13.
 
-Last updated: Nov 08 09:38 Istanbul
+Last updated: Nov 08 09:40 Istanbul
 
 ## Now
-M0 and M1 are complete. [PR #1](https://github.com/ozgureyilmaz/agentfico/pull/1) is merged, and CI passed on `main` at `82699b1`. M2 is ready locally on `feat/m2-scoring` for publication and review.
+M0 and M1 are complete. PR #1 is merged, and CI passed on main at 82699b1 and 4941aa7. [PR #2](https://github.com/ozgureyilmaz/agentfico/pull/2) contains M2, rebased onto main, with a passing CI run at `bd76fc6`.
 
 ## Next
-1. Rebase and publish M2, then open its PR.
-2. Ozgur: SERV and Reppo keys into local `.env`; enable data collection in the OpenServ console
+1. Review PR #2.
+2. Ozgur: SERV and Reppo keys into local `.env`; enable data collection in the OpenServ console.
+3. M3 SERV wrapper, offline fixtures and call logging.
 
 ## Setup (Ozgur)
 - [x] Repo created, public, MIT (Nov 05)
@@ -23,7 +24,7 @@ M0 and M1 are complete. [PR #1](https://github.com/ozgureyilmaz/agentfico/pull/1
 ## Milestones (criteria in AGENTS.md)
 - [x] M0 Scaffold + CI (Nov 08 09:38 Istanbul) — CI passed on the merged `main` commit `82699b1`. [Run proof](https://github.com/ozgureyilmaz/agentfico/actions/runs/42455536165)
 - [x] M1 Events + DB + simulator (Nov 05 20:05 Istanbul) — seed 42 generated 1,401 simulated events for 5 personas. Replay matched byte for byte and retained 1,401 stored rows. See the verification log.
-- [ ] M2 Scorer + reason codes (golden + property tests)
+- [x] M2 Scorer + reason codes (Nov 08 09:26 Istanbul) — `bun run check` passed with 92 tests. Persona snapshots, adverse-addition properties, caps, penalties, reason citations and methodology export passed. See the verification log.
 - [ ] M3 SERV client + call log + jobs 2, 3, 4, 7
 - [ ] M4 Reppo worker + real evals per persona
 - [ ] M5 API + CLI
@@ -80,3 +81,32 @@ M0 and M1 are complete. [PR #1](https://github.com/ozgureyilmaz/agentfico/pull/1
 - Nov 05 20:07 Istanbul · M0/M1 · `bun run check` → `tsc --noEmit` passed, Biome `Checked 38 files`, and Bun reported `25 pass`, `0 fail`.
 - Nov 05 20:12 Istanbul · M0/M1 · `gh run view 42072309456` → `pull_request`, commit `c47a163`, job `check` → `success`. [GitHub Actions run](https://github.com/ozgureyilmaz/agentfico/actions/runs/42072309456)
 - Nov 08 09:38 Istanbul · M0 · `gh pr view 1 --json state,mergedAt,mergeCommit` → `MERGED`, commit `82699b1ebdb237669eef2cf695ccf7bc5608aa86`. `gh run view 42455536165` → event `push`, branch `main`, matching commit, job `check` → `success`. [GitHub Actions run](https://github.com/ozgureyilmaz/agentfico/actions/runs/42455536165)
+- Nov 08 09:21 Istanbul · M0 · `gh pr view 1 --json state,mergedAt,mergeCommit` → `{"mergeCommit":null,"mergedAt":null,"state":"OPEN"}`. `gh run list --branch main --workflow CI --limit 5 --json headSha,conclusion,status,url,event` → `[]`. `git ls-remote --heads origin main` → `808a65117f0bfae3fca810fe49a746b53831d0bf refs/heads/main`. M0 remains pending.
+- Nov 08 09:25 Istanbul · M2 · `bun install --frozen-lockfile` → `Checked 63 installs across 127 packages (no changes)`. `bun run check` → `tsc --noEmit` passed, Biome `Checked 48 files`, `92 pass`, `0 fail`, `1231 expect() calls`. This includes 13 scoring tests with seeded monotonicity trials, 15 feature tests, 33 reason-code tests, and existing database/simulator checks.
+- Nov 08 09:25 Istanbul · M2 · `AFC_DB_PATH=:memory: bun run sim -- --seed 42` returned the calibrated stream:
+
+  ```text
+  SIMULATED DATA | seed=42 days=90 events=1268
+  afc:sim:murk 218
+  afc:sim:phoenix 456
+  afc:sim:blaze 242
+  afc:sim:atlas 338
+  afc:sim:nova-7 14
+  sha256=a9de2d8448468b5154eadb99b380d4c9300811c145117e43fd5bc4bcd48f9248
+  ```
+
+- Nov 08 09:26 Istanbul · M2 · The locked assertions in `bun test packages/core/test/score.test.ts` verify Atlas 778, Blaze 647, Murk 618, Nova-7 549 with low confidence and under review, and Phoenix 520 at day 30 → 691 at day 90. `bun -e` calling `scoreAgent(generateSimulation({seed:42}), id, SIMULATION_ANCHOR)` independently returned:
+
+  ```text
+  atlas 778 high active I03:hurts Q01:helps P04:helps
+  blaze 647 high active P01:hurts C01:hurts I03:hurts P02:hurts
+  murk 618 high active Q01:hurts Q02:hurts L01:hurts P03:hurts
+  nova-7 549 low under_review F01:hurts F02:hurts I01:hurts C01:hurts
+  phoenix 691 high active Q01:hurts Q02:hurts C02:hurts L02:hurts P04:helps
+  phoenix-day30 520
+  methodology afc-0.2 100 19
+  ```
+
+- Nov 08 09:26 Istanbul · M2 · `bun test packages/cli packages/db` → `9 pass`, `0 fail`. Upgrade tests verified that reseeding replaces selected legacy simulator events, preserves real sources and unselected personas, and rolls back on SQL failure. Methodology is exported from core for M5 API wiring.
+- Nov 08 09:40 Istanbul · M0 · CI also passed on main's status-update commit `4941aa779c70f14403a97944b45f4d251536c0a7`. `gh run list --branch main --workflow CI` → `completed`, `success`. [GitHub Actions run](https://github.com/ozgureyilmaz/agentfico/actions/runs/42455608672)
+- Nov 08 09:40 Istanbul · M2 · Rebased onto `4941aa7`; `bun run check` → `92 pass`, `0 fail`, `1231 expect() calls`. `gh run watch 42455703824 --exit-status` → `completed with 'success'` for PR #2 at `bd76fc61ad7e61100c71d98eb4a9bb0b7347d609`. [GitHub Actions run](https://github.com/ozgureyilmaz/agentfico/actions/runs/42455703824)

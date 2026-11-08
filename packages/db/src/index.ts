@@ -10,4 +10,4 @@ export {
   verdicts,
 } from "./schema";
 export type { StoreEventsResult } from "./store-events";
-export { storeEvents } from "./store-events";
+export { replaceSimulatorEvents, storeEvents } from "./store-events";

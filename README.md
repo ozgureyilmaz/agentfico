@@ -57,7 +57,7 @@ bun test
 bun run dev
 ```
 
-The simulator writes five personas to SQLite at `AFC_DB_PATH` (default `./data/agentfico.sqlite`) and reports the SHA-256 of the serialized events. Running the same command again keeps the stored event count stable. The development API serves `/healthz` on port 8787 and the web scaffold runs on port 5173 by default. Use `cp .env.example .env` to set local configuration.
+The simulator writes five personas to SQLite at `AFC_DB_PATH` (default `./data/agentfico.sqlite`) and reports the SHA-256 of the serialized events. Reseeding replaces the selected personas' simulator histories in one transaction, preserving other sources and unselected personas. Running the same command again keeps the stored event count stable. The development API serves `/healthz` on port 8787 and the web scaffold runs on port 5173 by default. Use `cp .env.example .env` to set local configuration.
 
 Planned commands for later milestones
 

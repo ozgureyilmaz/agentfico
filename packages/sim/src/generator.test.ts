@@ -9,7 +9,7 @@ import {
 } from "./index";
 
 const DEFAULT_GOLDEN_SHA256 =
-  "23c1074adc4d9135a2adc5a86467d8345a4aa21f2935360acdec0265e9a1ebd8";
+  "a9de2d8448468b5154eadb99b380d4c9300811c145117e43fd5bc4bcd48f9248";
 
 function eventsFor(
   events: readonly BehaviorEvent[],
@@ -120,8 +120,8 @@ describe("seeded simulator", () => {
       (event) => numberAttr(event, "weekend_spend_multiplier") === 5,
     );
 
-    expect(payments).toHaveLength(270);
-    expect(failures).toHaveLength(16);
+    expect(payments).toHaveLength(48);
+    expect(failures).toHaveLength(3);
     expect(failures.length / payments.length).toBeCloseTo(0.06, 2);
     expect(violations).toHaveLength(3);
     expect(
@@ -150,6 +150,9 @@ describe("seeded simulator", () => {
       80,
     );
     expect(failedTasks).toBe(25);
+    expect(
+      murk.filter((event) => event.type === "payment.received"),
+    ).toHaveLength(6);
   });
 
   test("Nova-7 stays inside a one-day window and its wash cycle is under 24 hours", () => {
