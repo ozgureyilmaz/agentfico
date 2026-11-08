@@ -3,13 +3,13 @@
 Tick only with proof: time (Istanbul) + one-line proof (command output, PR or commit link). No proof, no tick.
 Deadline: Nov 16 02:59 Istanbul (Nov 15 23:59 UTC). Code complete: Nov 13.
 
-Last updated: Nov 05 16:42 Istanbul (docs pack)
+Last updated: Nov 05 20:12 Istanbul
 
 ## Now
-Docs pack pushed. Next: M0 scaffold.
+M1 is verified locally. [PR #1](https://github.com/ozgureyilmaz/agentfico/pull/1) is open for review with a passing CI run on the implementation commit. GitHub Actions proof on `main` is pending.
 
 ## Next
-1. M0 scaffold, M1 events + simulator (Nov 6)
+1. Review PR #1 and record the CI run on `main` after merge.
 2. Ozgur: SERV and Reppo keys into local `.env`; enable data collection in the OpenServ console
 
 ## Setup (Ozgur)
@@ -21,8 +21,8 @@ Docs pack pushed. Next: M0 scaffold.
 - [ ] Hosting choice made
 
 ## Milestones (criteria in AGENTS.md)
-- [ ] M0 Scaffold + CI
-- [ ] M1 Events + DB + simulator (deterministic)
+- [ ] M0 Scaffold + CI (awaiting a green run on `main`)
+- [x] M1 Events + DB + simulator (Nov 05 20:05 Istanbul) — seed 42 generated 1,401 simulated events for 5 personas. Replay matched byte for byte and retained 1,401 stored rows. See the verification log.
 - [ ] M2 Scorer + reason codes (golden + property tests)
 - [ ] M3 SERV client + call log + jobs 2, 3, 4, 7
 - [ ] M4 Reppo worker + real evals per persona
@@ -51,6 +51,7 @@ Docs pack pushed. Next: M0 scaffold.
 - [ ] Form submitted, confirmation saved
 
 ## Blockers / open questions
+- M0 needs a successful GitHub Actions run on `main` after PR #1 merges.
 - Hosting provider (Ozgur).
 - Reppo credits: enough for about 40 evals?
 
@@ -60,3 +61,22 @@ Docs pack pushed. Next: M0 scaffold.
 
 ## Verification log
 (append newest at the bottom: date, milestone, command, short output)
+
+- Nov 05 20:05 Istanbul · M0 · `bun install --frozen-lockfile` → `Checked 63 installs across 127 packages (no changes)`. `bun run --filter @agentfico/web build` → `✓ 15 modules transformed`, exit 0. With `PORT=18787 WEB_PORT=15173 bun run dev`, the API returned `{"ok":true,"simulated_share":0}` at `/healthz` and the web response contained `<title>AgentFICO</title>`.
+- Nov 05 20:05 Istanbul · M0 · UNSURE: CI on `main`. `gh api repos/ozgureyilmaz/agentfico/commits/main/check-runs --jq '.total_count'` → `0`. Workflow publication and the first run on `main` are pending.
+- Nov 05 20:05 Istanbul · M1 · `bun run sim -- --seed 42` on a fresh SQLite file returned:
+
+  ```text
+  SIMULATED DATA | seed=42 days=90 events=1401
+  afc:sim:murk 211
+  afc:sim:blaze 464
+  afc:sim:phoenix 374
+  afc:sim:atlas 338
+  afc:sim:nova-7 14
+  sha256=23c1074adc4d9135a2adc5a86467d8345a4aa21f2935360acdec0265e9a1ebd8
+  ```
+
+- Nov 05 20:05 Istanbul · M1 · Replayed on the same database with `TZ=America/New_York bun run sim -- --seed 42 --days 90 --personas all` after a run in `Europe/Istanbul`. `cmp` of stdout exited 0. A read-only `bun:sqlite` query returned `events, reppo_queue, scores, serv_calls, verdicts`, `{"events":1401,"simulated":1401,"personas":5}` and `{"journal_mode":"wal"}`.
+- Nov 05 20:05 Istanbul · M1 · `bun test` → `25 pass`, `0 fail`, including event validation, migration, ingestion, and golden hash tests.
+- Nov 05 20:07 Istanbul · M0/M1 · `bun run check` → `tsc --noEmit` passed, Biome `Checked 38 files`, and Bun reported `25 pass`, `0 fail`.
+- Nov 05 20:12 Istanbul · M0/M1 · `gh run view 42072309456` → `pull_request`, commit `c47a163`, job `check` → `success`. [GitHub Actions run](https://github.com/ozgureyilmaz/agentfico/actions/runs/42072309456)

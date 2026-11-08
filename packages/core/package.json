@@ -1,0 +1,13 @@
+{
+  "name": "@agentfico/core",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts",
+    "./events": "./src/events.ts"
+  },
+  "dependencies": {
+    "zod": "^4.6.7"
+  }
+}

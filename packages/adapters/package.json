@@ -1,0 +1,14 @@
+{
+  "name": "@agentfico/adapters",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts",
+    "./simulator": "./src/simulator.ts"
+  },
+  "dependencies": {
+    "@agentfico/core": "workspace:*",
+    "@agentfico/sim": "workspace:*"
+  }
+}

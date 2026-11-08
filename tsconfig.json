@@ -1,0 +1,16 @@
+{
+  "compilerOptions": {
+    "target": "ESNext",
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "moduleDetection": "force",
+    "jsx": "react-jsx",
+    "strict": true,
+    "noEmit": true,
+    "skipLibCheck": true,
+    "verbatimModuleSyntax": true,
+    "resolveJsonModule": true,
+    "types": ["bun"]
+  },
+  "include": ["apps/**/*.ts", "apps/**/*.tsx", "packages/**/*.ts"]
+}
