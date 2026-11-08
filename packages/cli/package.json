@@ -4,6 +4,8 @@
   "type": "module",
   "dependencies": {
     "@agentfico/adapters": "workspace:*",
+    "@agentfico/core": "workspace:*",
+    "@agentfico/serv": "workspace:*",
     "@agentfico/db": "workspace:*",
     "@agentfico/sim": "workspace:*"
   }

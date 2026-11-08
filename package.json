@@ -10,6 +10,7 @@
   "scripts": {
     "dev": "bun run --parallel --filter @agentfico/api --filter @agentfico/web dev",
     "sim": "bun run packages/cli/src/sim.ts",
+    "serv:smoke": "bun run packages/cli/src/serv-smoke.ts",
     "typecheck": "tsc --noEmit",
     "lint": "biome ci .",
     "check": "bun run typecheck && bun run lint && bun test"

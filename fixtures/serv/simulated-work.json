@@ -1,0 +1,29 @@
+{
+  "samples": [
+    {
+      "id": "compare-options",
+      "task": "For {{category}}, compare two options against a stated requirement.",
+      "output": "Synthetic sample: identify the requirement, compare the options, and state a supported choice targeting quality {{target_quality}}."
+    },
+    {
+      "id": "summarize-request",
+      "task": "For {{category}}, summarize a short request and identify its constraints.",
+      "output": "Synthetic sample: restate the request, list its constraints, and explain what remains uncertain."
+    },
+    {
+      "id": "recommend-next-step",
+      "task": "For {{category}}, recommend a next step using supplied evidence.",
+      "output": "Synthetic sample: connect the evidence to one practical next step and state its limitation."
+    },
+    {
+      "id": "check-result",
+      "task": "For {{category}}, compare a proposed result with a checkable requirement.",
+      "output": "Synthetic sample: show the check, report the observed match, and flag any gap."
+    },
+    {
+      "id": "explain-answer",
+      "task": "For {{category}}, answer a question with a concise supporting explanation.",
+      "output": "Synthetic sample: give a direct answer, cite the supplied basis, and avoid unsupported claims."
+    }
+  ]
+}
