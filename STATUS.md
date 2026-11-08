@@ -3,13 +3,13 @@
 Tick only with proof: time (Istanbul) + one-line proof (command output, PR or commit link). No proof, no tick.
 Deadline: Nov 16 02:59 Istanbul (Nov 15 23:59 UTC). Code complete: Nov 13.
 
-Last updated: Nov 05 20:12 Istanbul
+Last updated: Nov 08 09:38 Istanbul
 
 ## Now
-M1 is verified locally. [PR #1](https://github.com/ozgureyilmaz/agentfico/pull/1) is open for review with a passing CI run on the implementation commit. GitHub Actions proof on `main` is pending.
+M0 and M1 are complete. [PR #1](https://github.com/ozgureyilmaz/agentfico/pull/1) is merged, and CI passed on `main` at `82699b1`. M2 is ready locally on `feat/m2-scoring` for publication and review.
 
 ## Next
-1. Review PR #1 and record the CI run on `main` after merge.
+1. Rebase and publish M2, then open its PR.
 2. Ozgur: SERV and Reppo keys into local `.env`; enable data collection in the OpenServ console
 
 ## Setup (Ozgur)
@@ -21,7 +21,7 @@ M1 is verified locally. [PR #1](https://github.com/ozgureyilmaz/agentfico/pull/1
 - [ ] Hosting choice made
 
 ## Milestones (criteria in AGENTS.md)
-- [ ] M0 Scaffold + CI (awaiting a green run on `main`)
+- [x] M0 Scaffold + CI (Nov 08 09:38 Istanbul) — CI passed on the merged `main` commit `82699b1`. [Run proof](https://github.com/ozgureyilmaz/agentfico/actions/runs/42455536165)
 - [x] M1 Events + DB + simulator (Nov 05 20:05 Istanbul) — seed 42 generated 1,401 simulated events for 5 personas. Replay matched byte for byte and retained 1,401 stored rows. See the verification log.
 - [ ] M2 Scorer + reason codes (golden + property tests)
 - [ ] M3 SERV client + call log + jobs 2, 3, 4, 7
@@ -51,7 +51,6 @@ M1 is verified locally. [PR #1](https://github.com/ozgureyilmaz/agentfico/pull/1
 - [ ] Form submitted, confirmation saved
 
 ## Blockers / open questions
-- M0 needs a successful GitHub Actions run on `main` after PR #1 merges.
 - Hosting provider (Ozgur).
 - Reppo credits: enough for about 40 evals?
 
@@ -80,3 +79,4 @@ M1 is verified locally. [PR #1](https://github.com/ozgureyilmaz/agentfico/pull/1
 - Nov 05 20:05 Istanbul · M1 · `bun test` → `25 pass`, `0 fail`, including event validation, migration, ingestion, and golden hash tests.
 - Nov 05 20:07 Istanbul · M0/M1 · `bun run check` → `tsc --noEmit` passed, Biome `Checked 38 files`, and Bun reported `25 pass`, `0 fail`.
 - Nov 05 20:12 Istanbul · M0/M1 · `gh run view 42072309456` → `pull_request`, commit `c47a163`, job `check` → `success`. [GitHub Actions run](https://github.com/ozgureyilmaz/agentfico/actions/runs/42072309456)
+- Nov 08 09:38 Istanbul · M0 · `gh pr view 1 --json state,mergedAt,mergeCommit` → `MERGED`, commit `82699b1ebdb237669eef2cf695ccf7bc5608aa86`. `gh run view 42455536165` → event `push`, branch `main`, matching commit, job `check` → `success`. [GitHub Actions run](https://github.com/ozgureyilmaz/agentfico/actions/runs/42455536165)
