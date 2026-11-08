@@ -1,6 +1,6 @@
 import { parseArgs } from "node:util";
 import { SimulatorAdapter } from "@agentfico/adapters";
-import { migrateDb, openDb, storeEvents } from "@agentfico/db";
+import { migrateDb, openDb, replaceSimulatorEvents } from "@agentfico/db";
 import {
   DEFAULT_SIMULATION_DAYS,
   DEFAULT_SIMULATION_SEED,
@@ -48,7 +48,7 @@ function main(args: string[]) {
   const db = openDb();
   try {
     migrateDb(db);
-    storeEvents(db, events);
+    replaceSimulatorEvents(db, events);
   } finally {
     db.$client.close();
   }

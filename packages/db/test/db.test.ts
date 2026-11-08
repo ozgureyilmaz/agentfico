@@ -3,7 +3,13 @@ import { mkdtempSync, rmSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { type BehaviorEvent, BehaviorEventSchema } from "@agentfico/core";
-import { type AgentFicoDb, migrateDb, openDb, storeEvents } from "../src";
+import {
+  type AgentFicoDb,
+  migrateDb,
+  openDb,
+  replaceSimulatorEvents,
+  storeEvents,
+} from "../src";
 import { reppoQueue, servCalls } from "../src/schema";
 
 const event = (
@@ -135,6 +141,23 @@ describe("AgentFICO SQLite database", () => {
       .query("SELECT COUNT(*) AS count FROM reppo_queue")
       .get() as { count: number };
     expect(count.count).toBe(3);
+  });
+
+  test("simulator replacement validates before deleting and rolls back on SQL failure", () => {
+    const original = event(eventId("1"));
+    const replacement = event(eventId("2"));
+    storeEvents(db, [original]);
+    expect(() =>
+      replaceSimulatorEvents(db, [{ ...replacement, simulated: false }]),
+    ).toThrow();
+    db.$client.exec(`CREATE TRIGGER fail_replacement BEFORE INSERT ON events
+      WHEN NEW.event_id = '${replacement.event_id}'
+      BEGIN SELECT RAISE(ABORT, 'replacement failed'); END`);
+    expect(() => replaceSimulatorEvents(db, [replacement])).toThrow();
+    const ids = db.$client
+      .query<{ event_id: string }, []>("SELECT event_id FROM events")
+      .all();
+    expect(ids).toEqual([{ event_id: original.event_id }]);
   });
 
   test("stores the SERV offline flag and defaults live-call rows to false", () => {

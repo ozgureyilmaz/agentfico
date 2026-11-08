@@ -4,12 +4,13 @@ import { mkdtempSync, rmSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { fileURLToPath } from "node:url";
+import { migrateDb, openDb, storeEvents } from "@agentfico/db";
 
 const root = fileURLToPath(new URL("../../../", import.meta.url));
 
-function runSimulator(dbPath: string) {
+function runSimulator(dbPath: string, args: string[] = []) {
   const result = Bun.spawnSync(
-    [process.execPath, "run", "sim", "--", "--seed", "42"],
+    [process.execPath, "run", "sim", "--", "--seed", "42", ...args],
     {
       cwd: root,
       env: { ...process.env, AFC_DB_PATH: dbPath },
@@ -49,6 +50,59 @@ test("the seed-42 command writes all five personas and keeps its event hash and 
       expect(simulated).toBe(count);
     } finally {
       db.close();
+    }
+  } finally {
+    rmSync(directory, { recursive: true, force: true });
+  }
+});
+
+test("reseeding replaces selected legacy simulation histories and preserves other sources and personas", () => {
+  const directory = mkdtempSync(join(tmpdir(), "agentfico-upgrade-"));
+  const dbPath = join(directory, "events.sqlite");
+  const oldAtlasId = "01ARZ3NDEKTSV4RRFFQ69G5FA1";
+  const oldBlazeId = "01ARZ3NDEKTSV4RRFFQ69G5FA2";
+  const realId = "01ARZ3NDEKTSV4RRFFQ69G5FA3";
+  try {
+    const db = openDb(dbPath);
+    try {
+      migrateDb(db);
+      const legacy = {
+        event_id: oldAtlasId,
+        subject: { afc_id: "afc:sim:atlas" },
+        source: "simulator",
+        simulated: true,
+        attestation: "self_reported",
+        type: "identity.registered",
+        occurred_at: "2026-10-01T00:00:00.000Z",
+      };
+      storeEvents(db, [
+        legacy,
+        {
+          ...legacy,
+          event_id: oldBlazeId,
+          subject: { afc_id: "afc:sim:blaze" },
+        },
+        {
+          ...legacy,
+          event_id: realId,
+          source: "reppo",
+          simulated: false,
+          type: "work.evaluated",
+        },
+      ]);
+      const output = runSimulator(dbPath, ["--personas", "atlas"]);
+      const count = Number(/events=(\d+)/.exec(output)?.[1]);
+      const rows = db.$client
+        .query<{ event_id: string }, []>("SELECT event_id FROM events")
+        .all();
+      const ids = rows.map((row) => row.event_id);
+      expect(rows).toHaveLength(count + 2);
+      expect(ids).not.toContain(oldAtlasId);
+      expect(ids).toContain(oldBlazeId);
+      expect(ids).toContain(realId);
+      expect(runSimulator(dbPath, ["--personas", "atlas"])).toBe(output);
+    } finally {
+      db.$client.close();
     }
   } finally {
     rmSync(directory, { recursive: true, force: true });
