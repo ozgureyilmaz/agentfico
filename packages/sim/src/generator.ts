@@ -190,7 +190,11 @@ function evenlySpacedIndices(total: number, count: number): Set<number> {
   );
 }
 
-function emitProbes(context: SimulationContext, uptimePercent: number): void {
+function emitProbes(
+  context: SimulationContext,
+  uptimePercent: number,
+  successLatency: readonly [number, number] = [180, 1100],
+): void {
   const probeCount = 100;
   const failedCount = probeCount - uptimePercent;
   const failedIndices = evenlySpacedIndices(probeCount, failedCount);
@@ -200,7 +204,7 @@ function emitProbes(context: SimulationContext, uptimePercent: number): void {
     const failed = failedIndices.has(index);
     const latencyMs = failed
       ? context.random.integer(3200, 7200)
-      : context.random.integer(180, 1100);
+      : context.random.integer(...successLatency);
     emitEvent(context, dayIndex, {
       type: "probe.uptime",
       outcome: failed ? "failure" : "success",
@@ -250,31 +254,31 @@ function generateAtlas(context: SimulationContext): void {
 
 function generateBlaze(context: SimulationContext): void {
   emitIdentity(context);
-  const totalPayments = context.activeDays * 3;
+  const purchaseDays = Array.from(
+    { length: context.activeDays },
+    (_, day) => day,
+  ).filter((day) => day % 3 === 0 || isWeekend(context, day));
   const failedPaymentIndices = evenlySpacedIndices(
-    totalPayments,
-    Math.round(totalPayments * 0.06),
+    purchaseDays.length,
+    Math.round(purchaseDays.length * 0.06),
   );
-  let paymentIndex = 0;
+  for (const [index, day] of purchaseDays.entries()) {
+    const weekend = isWeekend(context, day);
+    emitPayment(context, day, {
+      cents: context.random.integer(500, 2000) * (weekend ? 5 : 1),
+      counterpartyId: `merchant:blaze-${index % 20 === 0 ? 2 : index % 20 === 10 ? 3 : 1}`,
+      kind: "merchant",
+      outcome: failedPaymentIndices.has(index) ? "failure" : "success",
+      attrs: weekend ? { weekend_spend_multiplier: 5 } : undefined,
+    });
+  }
 
   for (let day = 0; day < context.activeDays; day += 1) {
-    const date = new Date(context.startMs + day * DAY_MS);
-    const weekend = date.getUTCDay() === 0 || date.getUTCDay() === 6;
-
-    for (let index = 0; index < 3; index += 1) {
-      const baseCents = context.random.integer(500, 2000);
-      const failed = failedPaymentIndices.has(paymentIndex);
-      emitPayment(context, day, {
-        cents: baseCents * (weekend ? 5 : 1),
-        counterpartyId: `merchant:blaze-${String(context.random.integer(1, 8)).padStart(2, "0")}`,
-        kind: "merchant",
-        outcome: failed ? "failure" : "success",
-        attrs: weekend ? { weekend_spend_multiplier: 5 } : undefined,
-      });
-      paymentIndex += 1;
-    }
-
-    emitWorkEvaluation(context, day, context.random.integer(66, 82));
+    const score =
+      day % 5 === 4
+        ? context.random.integer(34, 41)
+        : context.random.integer(70, 77);
+    emitWorkEvaluation(context, day, score);
   }
 
   for (const dayIndex of [
@@ -289,20 +293,39 @@ function generateBlaze(context: SimulationContext): void {
     });
   }
 
-  emitProbes(context, 95);
+  emitProbes(context, 97, [2600, 3000]);
+}
+
+function isWeekend(context: SimulationContext, day: number): boolean {
+  const weekday = new Date(context.startMs + day * DAY_MS).getUTCDay();
+  return weekday === 0 || weekday === 6;
 }
 
 function generateMurk(context: SimulationContext): void {
   emitIdentity(context);
 
-  const qualityScores = [86, 84, 80, 78, 76, 74, 55, 48, 36, 31];
+  const qualityScores = [74, 72, 72, 71, 70, 70, 50, 38, 32, 28];
   const failedTaskIndices = evenlySpacedIndices(100, 25);
   for (let index = 0; index < qualityScores.length; index += 1) {
     const dayIndex = Math.floor(
       (index * context.activeDays) / qualityScores.length,
     );
-    emitWorkEvaluation(context, dayIndex, qualityScores[index]);
+    const score = qualityScores[index];
+    emitWorkEvaluation(context, dayIndex, score);
+    if (score >= 70) {
+      emitPayment(context, dayIndex, {
+        cents: 1800,
+        counterpartyId: "user:murk-buyer",
+        kind: "user",
+        received: true,
+      });
+    }
   }
+  emitEvent(context, Math.floor(context.activeDays * 0.75), {
+    type: "payment.dispute",
+    outcome: "disputed",
+    counterparty: { id: "user:murk-buyer", kind: "user" },
+  });
 
   for (let index = 0; index < 100; index += 1) {
     const dayIndex = Math.floor((index * context.activeDays) / 100);
@@ -314,7 +337,7 @@ function generateMurk(context: SimulationContext): void {
     });
   }
 
-  emitProbes(context, 80);
+  emitProbes(context, 80, [3900, 5000]);
 }
 
 function generateNova(context: SimulationContext): void {
@@ -383,9 +406,11 @@ function generatePhoenix(context: SimulationContext): void {
     for (let index = 0; index < 2; index += 1) {
       const paymentIndex = day * 2 + index;
       const failed = day < 30 && failedEarlyPayments.has(paymentIndex);
+      const cents = context.random.integer(300, 1200);
+      const merchant = context.random.integer(1, 6);
       emitPayment(context, day, {
-        cents: context.random.integer(300, 1200),
-        counterpartyId: `merchant:phoenix-${String(context.random.integer(1, 6)).padStart(2, "0")}`,
+        cents,
+        counterpartyId: `merchant:phoenix-${day < 30 ? 1 : merchant}`,
         kind: "merchant",
         outcome: failed ? "failure" : "success",
       });
@@ -393,16 +418,25 @@ function generatePhoenix(context: SimulationContext): void {
 
     const score =
       day < 30
-        ? 30 + (day % 7) * 3 + context.random.integer(0, 4)
+        ? 18 + (day % 7) * 3 + context.random.integer(0, 4)
         : Math.min(
             94,
-            Math.round(58 + (day - 30) * 0.52 + context.random.integer(0, 4)),
+            Math.round(54 + (day - 30) * 0.44 + context.random.integer(0, 4)),
           );
     emitWorkEvaluation(context, day, score, {
       ...(day >= 30
         ? { feedback_action: "adapted_after_simulated_feedback" }
         : {}),
     });
+    if (day < 30 && day % 5 < 2) {
+      emitEvent(context, day, { type: "payment.refund", outcome: "reversed" });
+    }
+    if (day < 30 || day % 3 !== 0) {
+      emitEvent(context, day, {
+        type: day < 30 ? "task.failed" : "task.completed",
+        outcome: day < 30 ? "failure" : "success",
+      });
+    }
   }
 
   for (const dayIndex of [4, 14, 27]) {
