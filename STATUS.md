@@ -3,13 +3,13 @@
 Tick only with proof: time (Istanbul) + one-line proof (command output, PR or commit link). No proof, no tick.
 Deadline: Nov 16 02:59 Istanbul (Nov 15 23:59 UTC). Code complete: Nov 13.
 
-Last updated: Nov 08 09:39 Istanbul
+Last updated: Nov 08 09:40 Istanbul
 
 ## Now
-M0 and M1 are complete. PR #1 is merged, and CI passed on main at 82699b1 and 4941aa7. M2 is verified locally on `feat/m2-scoring`, with publication approved.
+M0 and M1 are complete. PR #1 is merged, and CI passed on main at 82699b1 and 4941aa7. [PR #2](https://github.com/ozgureyilmaz/agentfico/pull/2) contains M2, rebased onto main, with a passing CI run at `bd76fc6`.
 
 ## Next
-1. Publish M2 and open its PR for review.
+1. Review PR #2.
 2. Ozgur: SERV and Reppo keys into local `.env`; enable data collection in the OpenServ console.
 3. M3 SERV wrapper, offline fixtures and call logging.
 
@@ -108,3 +108,5 @@ M0 and M1 are complete. PR #1 is merged, and CI passed on main at 82699b1 and 49
   ```
 
 - Nov 08 09:26 Istanbul · M2 · `bun test packages/cli packages/db` → `9 pass`, `0 fail`. Upgrade tests verified that reseeding replaces selected legacy simulator events, preserves real sources and unselected personas, and rolls back on SQL failure. Methodology is exported from core for M5 API wiring.
+- Nov 08 09:40 Istanbul · M0 · CI also passed on main's status-update commit `4941aa779c70f14403a97944b45f4d251536c0a7`. `gh run list --branch main --workflow CI` → `completed`, `success`. [GitHub Actions run](https://github.com/ozgureyilmaz/agentfico/actions/runs/42455608672)
+- Nov 08 09:40 Istanbul · M2 · Rebased onto `4941aa7`; `bun run check` → `92 pass`, `0 fail`, `1231 expect() calls`. `gh run watch 42455703824 --exit-status` → `completed with 'success'` for PR #2 at `bd76fc61ad7e61100c71d98eb4a9bb0b7347d609`. [GitHub Actions run](https://github.com/ozgureyilmaz/agentfico/actions/runs/42455703824)
