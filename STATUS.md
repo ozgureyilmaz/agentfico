@@ -3,13 +3,13 @@
 Tick only with proof: time (Istanbul) + one-line proof (command output, PR or commit link). No proof, no tick.
 Deadline: Nov 16 02:59 Istanbul (Nov 15 23:59 UTC). Code complete: Nov 13.
 
-Last updated: Nov 10 11:49 Istanbul
+Last updated: Nov 10 11:54 Istanbul
 
 ## Now
-M0–M3 are verified. The live M3 smoke passed jobs 2, 3, 4 and 7 with response IDs and token counts persisted in `serv_calls`. The full check passed 135 tests. Publication of `feat/m3-serv` is approved; the PR and its CI run are next.
+M0–M3 are verified. The live M3 smoke passed jobs 2, 3, 4 and 7 with response IDs and token counts persisted in `serv_calls`. The full check passed 135 tests. [PR #3](https://github.com/ozgureyilmaz/agentfico/pull/3) is open with passing CI at `69e465f`.
 
 ## Next
-1. Publish M3, open its PR and verify CI.
+1. Review PR #3.
 2. Ozgur: Reppo key into local `.env`; enable data collection in the OpenServ console.
 3. M4 single-flight Reppo queue.
 
@@ -141,3 +141,4 @@ M0–M3 are verified. The live M3 smoke passed jobs 2, 3, 4 and 7 with response 
 
 - Nov 10 11:49 Istanbul · M3 · A read-only query of `serv_calls` confirmed seven persisted live attempts across both runs: six successes and one truncation. The final run has exactly four successful rows for jobs `2,3,4,7`. A credential scan of all stored log fields and the exported metadata passed. [Recorded metadata](docs/evidence/serv-calls.sample.jsonl)
 - Nov 10 11:49 Istanbul · M3 · `bun run check` → `tsc --noEmit` passed, Biome `Checked 63 files`, `135 pass`, `0 fail`, `1494 expect() calls`. `.env` remains gitignored.
+- Nov 10 11:54 Istanbul · M3 · `gh pr view feat/m3-serv --json state,headRefOid,statusCheckRollup` → PR #3 `OPEN`, commit `69e465f9643169a3da44f1e6e8f09fd66823f931`, job `check` → `SUCCESS`. The publication hygiene and credential scans passed before push. [GitHub Actions run](https://github.com/ozgureyilmaz/agentfico/actions/runs/42786273795)
