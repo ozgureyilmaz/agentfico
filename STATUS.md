@@ -3,15 +3,15 @@
 Tick only with proof: time (Istanbul) + one-line proof (command output, PR or commit link). No proof, no tick.
 Deadline: Nov 16 02:59 Istanbul (Nov 15 23:59 UTC). Code complete: Nov 13.
 
-Last updated: Nov 10 11:54 Istanbul
+Last updated: Nov 10 12:15 Istanbul
 
 ## Now
-M0–M3 are verified. The live M3 smoke passed jobs 2, 3, 4 and 7 with response IDs and token counts persisted in `serv_calls`. The full check passed 135 tests. [PR #3](https://github.com/ozgureyilmaz/agentfico/pull/3) is open with passing CI at `69e465f`.
+M0–M3 are verified and merged. [PR #3](https://github.com/ozgureyilmaz/agentfico/pull/3) is merged, and CI passed on main at `d2d355d`. M4, M5 and M6 are next.
 
 ## Next
-1. Review PR #3.
-2. Ozgur: Reppo key into local `.env`; enable data collection in the OpenServ console.
-3. M4 single-flight Reppo queue.
+1. M4 single-flight Reppo queue with persisted evaluation evidence.
+2. M5 API and CLI, followed by M6 dashboard.
+3. Ozgur: enable data collection in the OpenServ console and choose hosting.
 
 ## Setup (Ozgur)
 - [x] Repo created, public, MIT (Nov 05)
@@ -25,7 +25,7 @@ M0–M3 are verified. The live M3 smoke passed jobs 2, 3, 4 and 7 with response 
 - [x] M0 Scaffold + CI (Nov 08 09:38 Istanbul) — CI passed on the merged `main` commit `82699b1`. [Run proof](https://github.com/ozgureyilmaz/agentfico/actions/runs/42455536165)
 - [x] M1 Events + DB + simulator (Nov 05 20:05 Istanbul) — seed 42 generated 1,401 simulated events for 5 personas. Replay matched byte for byte and retained 1,401 stored rows. See the verification log.
 - [x] M2 Scorer + reason codes (Nov 08 10:29 Istanbul) — 92 tests passed, and CI passed on the merged main commit `2e92a86`. [Run proof](https://github.com/ozgureyilmaz/agentfico/actions/runs/42458956765)
-- [x] M3 SERV client + call log + jobs 2, 3, 4, 7 (Nov 10 11:49 Istanbul) — four live jobs succeeded and were logged with usage; `bun run check` passed 135 tests. [Live call sample](docs/evidence/serv-calls.sample.jsonl)
+- [x] M3 SERV client + call log + jobs 2, 3, 4, 7 (Nov 10 12:15 Istanbul) — four live jobs succeeded; 135 tests passed; merged main CI passed at `d2d355d`. [Main run proof](https://github.com/ozgureyilmaz/agentfico/actions/runs/42788871372)
 - [ ] M4 Reppo worker + real evals per persona
 - [ ] M5 API + CLI
 - [ ] M6 Dashboard (leaderboard, agent page, SERV trace, upload, Phoenix replay)
@@ -142,3 +142,4 @@ M0–M3 are verified. The live M3 smoke passed jobs 2, 3, 4 and 7 with response 
 - Nov 10 11:49 Istanbul · M3 · A read-only query of `serv_calls` confirmed seven persisted live attempts across both runs: six successes and one truncation. The final run has exactly four successful rows for jobs `2,3,4,7`. A credential scan of all stored log fields and the exported metadata passed. [Recorded metadata](docs/evidence/serv-calls.sample.jsonl)
 - Nov 10 11:49 Istanbul · M3 · `bun run check` → `tsc --noEmit` passed, Biome `Checked 63 files`, `135 pass`, `0 fail`, `1494 expect() calls`. `.env` remains gitignored.
 - Nov 10 11:54 Istanbul · M3 · `gh pr view feat/m3-serv --json state,headRefOid,statusCheckRollup` → PR #3 `OPEN`, commit `69e465f9643169a3da44f1e6e8f09fd66823f931`, job `check` → `SUCCESS`. The publication hygiene and credential scans passed before push. [GitHub Actions run](https://github.com/ozgureyilmaz/agentfico/actions/runs/42786273795)
+- Nov 10 12:15 Istanbul · M3 · `gh pr view 3 --json state,mergedAt,mergeCommit` → `MERGED`, commit `d2d355d8911838be66621f6e9ca0199c07ac1fd4`. `gh run watch 42788871372 --exit-status` → `completed with 'success'` on main. [GitHub Actions run](https://github.com/ozgureyilmaz/agentfico/actions/runs/42788871372)
