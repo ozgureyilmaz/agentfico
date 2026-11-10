@@ -3,20 +3,19 @@
 Tick only with proof: time (Istanbul) + one-line proof (command output, PR or commit link). No proof, no tick.
 Deadline: Nov 16 02:59 Istanbul (Nov 15 23:59 UTC). Code complete: Nov 13.
 
-Last updated: Nov 08 10:51 Istanbul
+Last updated: Nov 10 11:49 Istanbul
 
 ## Now
-M0–M2 are complete. PR #2 is merged, and CI passed on main at `2e92a86` and `079c924`. M3 is implemented locally on `feat/m3-serv`; 134 tests and the four-job offline smoke pass. Live-call proof and publication remain pending.
+M0–M3 are verified. The live M3 smoke passed jobs 2, 3, 4 and 7 with response IDs and token counts persisted in `serv_calls`. The full check passed 135 tests. Publication of `feat/m3-serv` is approved; the PR and its CI run are next.
 
 ## Next
-1. Obtain owner approval to push M3 and open its PR.
-2. With a local SERV key and configured request settings, run `AFC_OFFLINE=0 bun run serv:smoke` and record the live rows before ticking M3.
-3. Ozgur: Reppo key into local `.env`; enable data collection in the OpenServ console.
-4. M4 single-flight Reppo queue.
+1. Publish M3, open its PR and verify CI.
+2. Ozgur: Reppo key into local `.env`; enable data collection in the OpenServ console.
+3. M4 single-flight Reppo queue.
 
 ## Setup (Ozgur)
 - [x] Repo created, public, MIT (Nov 05)
-- [ ] `SERV_API_KEY` in local `.env`; one SERV call succeeds
+- [x] `SERV_API_KEY` in local `.env`; one SERV call succeeds (Nov 10 11:49 Istanbul) — live call `67c48c14-7cb1-4467-a5dd-052b957c6843` succeeded with provider response ID and usage. See the verification log.
 - [ ] Data collection enabled at console.openserv.ai/settings/organization (screenshot in `docs/evidence/`)
 - [ ] Reppo account + API key in local `.env`; credits checked
 - [ ] Partner credits requested via the OpenServ Telegram if needed (Nov 4 email)
@@ -26,7 +25,7 @@ M0–M2 are complete. PR #2 is merged, and CI passed on main at `2e92a86` and `0
 - [x] M0 Scaffold + CI (Nov 08 09:38 Istanbul) — CI passed on the merged `main` commit `82699b1`. [Run proof](https://github.com/ozgureyilmaz/agentfico/actions/runs/42455536165)
 - [x] M1 Events + DB + simulator (Nov 05 20:05 Istanbul) — seed 42 generated 1,401 simulated events for 5 personas. Replay matched byte for byte and retained 1,401 stored rows. See the verification log.
 - [x] M2 Scorer + reason codes (Nov 08 10:29 Istanbul) — 92 tests passed, and CI passed on the merged main commit `2e92a86`. [Run proof](https://github.com/ozgureyilmaz/agentfico/actions/runs/42458956765)
-- [ ] M3 SERV client + call log + jobs 2, 3, 4, 7 (offline implementation verified; live-call proof pending)
+- [x] M3 SERV client + call log + jobs 2, 3, 4, 7 (Nov 10 11:49 Istanbul) — four live jobs succeeded and were logged with usage; `bun run check` passed 135 tests. [Live call sample](docs/evidence/serv-calls.sample.jsonl)
 - [ ] M4 Reppo worker + real evals per persona
 - [ ] M5 API + CLI
 - [ ] M6 Dashboard (leaderboard, agent page, SERV trace, upload, Phoenix replay)
@@ -53,8 +52,6 @@ M0–M2 are complete. PR #2 is merged, and CI passed on main at `2e92a86` and `0
 - [ ] Form submitted, confirmation saved
 
 ## Blockers / open questions
-- M3 live verification is UNSURE because `SERV_API_KEY` is absent from the local environment.
-- M3 push and PR await owner approval.
 - Hosting provider (Ozgur).
 - Reppo credits: enough for about 40 evals?
 
@@ -132,3 +129,15 @@ M0–M2 are complete. PR #2 is merged, and CI passed on main at `2e92a86` and `0
   ```
 
 - Nov 08 10:51 Istanbul · M3 · UNSURE live proof. A conditional credential check returned `Live smoke UNSURE | SERV_API_KEY absent`. No live smoke ran, so M3 remains unchecked. The offline CLI test also passes with an explicitly empty key.
+- Nov 10 11:49 Istanbul · M3 · Initial live smoke at 11:43 Istanbul logged three attempts. Jobs 2 and 3 succeeded; job 4 stopped with `truncated` after 1,024 completion tokens. Its call ID is `2aad01ad-a715-45cf-bd96-f772b71b3afc`. The full citation response exceeded the original limit. The job-4 budget was raised to 8,192 tokens with a 180-second timeout, and a full-citation regression test was added.
+- Nov 10 11:49 Istanbul · M3 · `AFC_OFFLINE=0 bun run serv:smoke` exited 0 with a local SERV key configured. The explicit flag overrode the process's initial offline setting; the stored `offline=0` rows and provider metadata establish live execution. The successful run started at `2026-11-10T08:47:40.633Z` (11:47:40 Istanbul). All four newly created call IDs matched stored rows with `status=success`, `offline=0`, provider response IDs and positive token counts:
+
+  | Job | Created at (UTC) | Call ID | SERV model | Prompt tokens | Completion tokens | Cached prompt tokens |
+  |---|---|---|---|---:|---:|---:|
+  | 2 | 2026-11-10T08:47:40.712Z | 67c48c14-7cb1-4467-a5dd-052b957c6843 | gpt-5.4-mini-serv-kronos-multipath | 235 | 144 | 0 |
+  | 3 | 2026-11-10T08:47:43.641Z | c3686e9c-2376-4d17-a0f5-752a1c402489 | gpt-6-luna | 449 | 37 | 0 |
+  | 4 | 2026-11-10T08:47:59.781Z | bb6438ef-808c-4da5-bbb6-a3f4028f6d53 | gpt-5.4-mini-serv-multipath | 4,968 | 4,544 | 4,864 |
+  | 7 | 2026-11-10T08:48:22.363Z | fa7b5ed5-26a7-4914-83cd-a3ee8c9a07b4 | gpt-6-luna | 420 | 321 | 0 |
+
+- Nov 10 11:49 Istanbul · M3 · A read-only query of `serv_calls` confirmed seven persisted live attempts across both runs: six successes and one truncation. The final run has exactly four successful rows for jobs `2,3,4,7`. A credential scan of all stored log fields and the exported metadata passed. [Recorded metadata](docs/evidence/serv-calls.sample.jsonl)
+- Nov 10 11:49 Istanbul · M3 · `bun run check` → `tsc --noEmit` passed, Biome `Checked 63 files`, `135 pass`, `0 fail`, `1494 expect() calls`. `.env` remains gitignored.

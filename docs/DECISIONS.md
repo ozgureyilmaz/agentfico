@@ -2,6 +2,9 @@
 
 Newest first. Each entry: date (Istanbul), decision, reason. Changing a decision needs a new entry.
 
+## Nov 10, 2026
+- **Explanation response budget.** The first live smoke reached the 1,024-token output cap while copying Atlas's full citation set. Give job 4 an 8,192-token ceiling and a 180-second timeout so its required citations fit. The successful rerun returned 4,544 completion tokens for that job. A regression test exercises the full scored citation set.
+
 ## Nov 8, 2026
 - **SERV request boundary.** Route jobs 2, 3, 4 and 7 through one logged client. Insert the attempt before dispatch and disable SDK retries so one request maps to one row. Classify input, configuration, HTTP, refusal, truncation and output-validation failures. A failed live request remains a failed live request.
 - **SERV structured output and trust.** Follow the partner's documented `response_format.json_schema.strict` field and use `serv_prompt_guard` for every job. Jobs 3 and 4 also request Shadow Agent with the specified hints. Validate output types, byte limits, sample counts and supplied citation identities. Apply explanation text through a separate function that preserves score numbers, factors and cited evidence. [Request documentation](https://docs.openserv.ai/serv-reasoning/tutorials/structured-outputs.md)

@@ -189,7 +189,7 @@ export async function runServJob<J extends ServJobId>(
           type: "json_schema",
           json_schema: { name: definition.name, strict: true, schema },
         },
-        max_completion_tokens: 1024,
+        max_completion_tokens: job === 4 ? 8192 : 1024,
         stream: false,
       };
     options.db
@@ -233,7 +233,7 @@ export async function runServJob<J extends ServJobId>(
         apiKey: key,
         baseURL,
         maxRetries: 0,
-        timeout: 60_000,
+        timeout: job === 4 ? 180_000 : 60_000,
         fetch: options.fetch,
       });
       status = "http_error";

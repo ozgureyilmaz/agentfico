@@ -1,5 +1,7 @@
 import { afterEach, beforeEach, describe, expect, test } from "bun:test";
+import { scoreAgent } from "@agentfico/core";
 import { type AgentFicoDb, migrateDb, openDb } from "@agentfico/db";
+import { generateSimulation, SIMULATION_ANCHOR } from "../../sim/src";
 import { runServJob, ServCallError } from "../src/client";
 
 const key = ["local", "test", "credential"].join("-");
@@ -64,6 +66,42 @@ describe("logged SERV client", () => {
   });
   afterEach(() => {
     db.$client.close();
+  });
+
+  test("explanations have room to preserve the full scored event citation set", async () => {
+    const score = scoreAgent(
+      generateSimulation({ seed: 42, personas: ["atlas"] }),
+      "afc:sim:atlas",
+      SIMULATION_ANCHOR,
+    );
+    expect(
+      score.reason_codes.flatMap((reason) => reason.events).length,
+    ).toBeGreaterThan(200);
+    const explanation = {
+      trust_memo: "Review the supplied evidence.",
+      reason_codes: score.reason_codes,
+    };
+    const result = await runServJob(
+      4,
+      {
+        afc_id: score.afc_id,
+        score: score.score,
+        factors: score.factors,
+        reason_codes: score.reason_codes,
+        reader: "agent_owner",
+      },
+      {
+        db,
+        env: { ...env, AFC_MODEL_EXPLAIN: "configured-explanation" },
+        fetch: async (_url, init) => {
+          const body = JSON.parse(String(init?.body));
+          expect(body.max_completion_tokens).toBe(8192);
+          return completion(JSON.stringify(explanation));
+        },
+      },
+    );
+    expect(result.data.reason_codes).toEqual(score.reason_codes);
+    expect(logs()[0].status).toBe("success");
   });
 
   test("persists pending intent before dispatch and uses strict schema, system prompt, guard and env configuration", async () => {
