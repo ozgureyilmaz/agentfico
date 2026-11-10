@@ -70,11 +70,23 @@ bun run afc -- explain afc:sim:blaze
 bun run afc -- evaluate --samples examples/samples.jsonl --category shopping
 bun run afc -- serv-log --afc-id afc:sim:atlas
 bun run reppo:worker
-bun run serv:smoke
 ```
 
 ## SERV Reasoning usage
-Full table (features on and off, with reasons) in [docs/SPEC.md](docs/SPEC.md#5-serv-reasoning-usage). Every call is stored with model, features, latency and tokens, shown in the dashboard's SERV trace and at `GET /v1/serv-log`.
+
+Run the four implemented jobs, covering rubric creation, critique summaries, explanations and simulated work samples
+
+```bash
+bun run serv:smoke
+# With SERV_API_KEY and AFC_MODEL_* configured locally
+AFC_OFFLINE=0 bun run serv:smoke
+```
+
+Without a key, or with `AFC_OFFLINE=1`, the command loads templates from `fixtures/serv/` and marks every row `offline=true`. Live errors are logged and terminate the smoke run. Calls use Prompt Guard, strict JSON schemas and runtime validation. Explanation output can change wording while preserving deterministic score fields.
+
+Each attempt is stored in `serv_calls` at `AFC_DB_PATH`, including failures. Previews are redacted before truncation. Usage is recorded only when returned. Cost and feature outcomes remain null while their response fields are undocumented. The dashboard and `GET /v1/serv-log` views are scheduled for M5/M6.
+
+The full feature table is in [docs/SPEC.md](docs/SPEC.md#5-serv-reasoning-usage). Current verification and live-call availability are recorded in [STATUS.md](STATUS.md).
 
 ## Docs
 - [docs/SPEC.md](docs/SPEC.md): score model, reason codes, event schema, SERV, Reppo, Kite, personas, API

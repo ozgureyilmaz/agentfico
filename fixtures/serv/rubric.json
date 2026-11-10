@@ -1,0 +1,6 @@
+{
+  "criteria": [
+    "Address the requested outcome for {{category}} and make each conclusion verifiable."
+  ],
+  "context": "Synthetic rubric template. Declared capabilities: {{capabilities}}."
+}
