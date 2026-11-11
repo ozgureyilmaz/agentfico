@@ -59,17 +59,21 @@ bun run dev
 
 The simulator writes five personas to SQLite at `AFC_DB_PATH` (default `./data/agentfico.sqlite`) and reports the SHA-256 of the serialized events. Reseeding replaces the selected personas' simulator histories in one transaction, preserving other sources and unselected personas. Running the same command again keeps the stored event count stable. The development API serves `/healthz` on port 8787 and the web scaffold runs on port 5173 by default. Use `cp .env.example .env` to set local configuration.
 
-Planned commands for later milestones
+Score agents and inspect evidence locally.
 
 ```bash
-bun run demo
 bun run afc -- score --id afc:sim:atlas
 bun run afc -- score --log examples/my-agent.jsonl
-bun run afc -- score --kite 0xYourAgentAddress
 bun run afc -- explain afc:sim:blaze
-bun run afc -- evaluate --samples examples/samples.jsonl --category shopping
 bun run afc -- serv-log --afc-id afc:sim:atlas
+bun run afc -- evaluate --samples examples/samples.jsonl --category shopping --simulated
 ```
+
+The API and CLI share the same scoring service. Uploads are provisional by default. The API accepts a multipart `file` of up to 1 MiB and supports `?save=1` to initialize a new history. Uploaded claims use self-reported attestation. Unknown log formats receive a line-specific error. The local evaluation endpoint requires `AFC_ENABLE_EVALUATE=1` and a Reppo key; the command above queues work for the separate worker.
+
+`bun run afc -- score --kite 0xYourAgentAddress` reads USDC.e transfers from the configured KiteScan endpoint in online mode. Use `--kite-fixture <file>` to score recorded data offline. The result includes coverage and provenance. Live mainnet evidence remains part of M7.
+
+The one-command demo is scheduled for M9.
 
 ## Reppo evaluations
 

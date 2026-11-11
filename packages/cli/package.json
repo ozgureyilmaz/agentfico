@@ -2,11 +2,16 @@
   "name": "@agentfico/cli",
   "private": true,
   "type": "module",
+  "bin": {
+    "afc": "./src/afc.ts"
+  },
   "dependencies": {
+    "@agentfico/api": "workspace:*",
     "@agentfico/adapters": "workspace:*",
     "@agentfico/core": "workspace:*",
     "@agentfico/serv": "workspace:*",
     "@agentfico/db": "workspace:*",
-    "@agentfico/sim": "workspace:*"
+    "@agentfico/sim": "workspace:*",
+    "zod": "^4.6.7"
   }
 }

@@ -267,3 +267,5 @@ CLI (`packages/cli`, run as `bun run afc ...`):
 - Reppo post naming "FICO for agents": https://x.com/reppo/status/2117739480987930688
 - Kite: https://docs.gokite.ai/kite-chain/1-getting-started/network-information.md, https://docs.gokite.ai/kite-chain/3-developing/smart-contracts-list.md, https://docs.gokite.ai/reference/kpass-cli.md, https://docs.gokite.ai/reference/error-codes.md, https://docs.gokite.ai/about/core-concepts-and-terminology
 - ERC-8004: https://eips.ethereum.org/EIPS/eip-8004
+
+- KiteScan-compatible response schema references: https://github.com/blockscout/blockscout/blob/master/apps/block_scout_web/lib/block_scout_web/schemas/api/v2/token_transfer.ex, https://github.com/blockscout/blockscout/blob/master/apps/block_scout_web/lib/block_scout_web/schemas/api/v2/token.ex, https://github.com/blockscout/blockscout/blob/master/apps/block_scout_web/lib/block_scout_web/schemas/api/v2/address.ex

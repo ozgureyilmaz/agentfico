@@ -14,7 +14,8 @@
     "typecheck": "tsc --noEmit",
     "lint": "biome ci .",
     "check": "bun run typecheck && bun run lint && bun test",
-    "reppo:worker": "bun run packages/cli/src/reppo-worker.ts"
+    "reppo:worker": "bun run packages/cli/src/reppo-worker.ts",
+    "afc": "bun run packages/cli/src/afc.ts"
   },
   "devDependencies": {
     "@biomejs/biome": "2.6.5",

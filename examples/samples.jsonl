@@ -1,0 +1,3 @@
+{"id":"compare","task":"Choose the lower total price. Store A charges $18 plus $3 shipping. Store B charges $22 with free shipping.","output":"Store A costs $21 total, which is $1 less than Store B at $22."}
+{"id":"budget","task":"Can a $30 budget cover a $24 item and a $5 delivery fee?","output":"Yes. The total is $29, leaving $1 in the budget."}
+{"id":"receipt","task":"A receipt lists two $6 items and $1 in tax. Report the total.","output":"The items total $12. With $1 tax, the receipt total is $13."}
