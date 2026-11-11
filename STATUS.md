@@ -3,14 +3,14 @@
 Tick only with proof: time (Istanbul) + one-line proof (command output, PR or commit link). No proof, no tick.
 Deadline: Nov 16 02:59 Istanbul (Nov 15 23:59 UTC). Code complete: Nov 13.
 
-Last updated: Nov 11 11:07 Istanbul
+Last updated: Nov 11 11:17 Istanbul
 
 ## Now
-M0–M6 are verified. M3 is merged with green main CI. The Reppo queue, API and CLI, and dashboard are ready for stacked PR review. The owner approved publishing M4, M5 and M6 as stacked PRs.
+M0–M6 are verified and merged. M4, M5 and M6 each passed CI on main after their merge. M7 fraud detection and Kite verification are in progress.
 
 ## Next
-1. Review the stacked milestone PRs and their CI results. Wait for owner confirmation before merging.
-2. M7 fraud detection and the real Kite mainnet demonstration.
+1. Verify M7 fraud detection and the real Kite address end to end.
+2. Build the M8 probe and assistant log workflows.
 3. Ozgur: add the OpenServ screenshot to [docs/evidence](docs/evidence/) and choose hosting.
 
 ## Setup (Ozgur)
@@ -26,9 +26,9 @@ M0–M6 are verified. M3 is merged with green main CI. The Reppo queue, API and 
 - [x] M1 Events + DB + simulator (Nov 05 20:05 Istanbul) — seed 42 generated 1,401 simulated events for 5 personas. Replay matched byte for byte and retained 1,401 stored rows. See the verification log.
 - [x] M2 Scorer + reason codes (Nov 08 10:29 Istanbul) — 92 tests passed, and CI passed on the merged main commit `2e92a86`. [Run proof](https://github.com/ozgureyilmaz/agentfico/actions/runs/42458956765)
 - [x] M3 SERV client + call log + jobs 2, 3, 4, 7 (Nov 10 12:15 Istanbul) — four live jobs succeeded; 135 tests passed; merged main CI passed at `d2d355d`. [Main run proof](https://github.com/ozgureyilmaz/agentfico/actions/runs/42788871372)
-- [x] M4 Reppo worker + real evals per persona (Nov 11 10:51 Istanbul) — five live completions, 2,200 credits, five scored events and 152 passing tests. [Recorded responses](fixtures/reppo/real/)
-- [x] M5 API + CLI (Nov 11 10:53 Istanbul) — five exact score, factor and reason-code matches, an offline provisional upload, and 174 passing tests.
-- [x] M6 Dashboard (Nov 11 10:55 Istanbul) — browser flows passed at desktop and 390 px, with 186 passing tests.
+- [x] M4 Reppo worker + real evals per persona (Nov 11 10:51 Istanbul) — five live completions, 2,200 credits, five scored events and 152 passing tests. [Recorded responses](fixtures/reppo/real/) [Main CI](https://github.com/ozgureyilmaz/agentfico/actions/runs/42985638789)
+- [x] M5 API + CLI (Nov 11 10:53 Istanbul) — five exact score, factor and reason-code matches, an offline provisional upload, and 174 passing tests. [Main CI](https://github.com/ozgureyilmaz/agentfico/actions/runs/42985745755)
+- [x] M6 Dashboard (Nov 11 10:55 Istanbul) — browser flows passed at desktop and 390 px, with 186 passing tests. [Main CI](https://github.com/ozgureyilmaz/agentfico/actions/runs/42985808699)
 - [ ] M7 Fraud detectors + SERV fraud review + real Kite address
 - [ ] M8 Probe plans + assistant log mapping
 - [ ] M9 Ship: one-command demo on fresh clone, hosted URL, README GIF/screenshots, AUC, 20+ Reppo evals
@@ -166,3 +166,9 @@ M0–M6 are verified. M3 is merged with green main CI. The Reppo queue, API and 
 
 - Nov 11 10:55 Istanbul · M6 · `bun run --filter @agentfico/web build` exited 0. Browser verification against the locally served production build returned `leaders=5`, `factor_bars=6`, `event_dialog=pass`, `real_eval_id=pass`, `trace=pass`, `phoenix_early=518`, `phoenix_latest=691`, `upload_score=604`, `saved=false`, `mobile_width=390`, `page_width=390`, `console_errors=0`. The browser console reported zero warnings. Replay uses simulated histories with recorded scores computed by the API.
 - Nov 11 10:55 Istanbul · M6 · `bun install --frozen-lockfile` and `bun run check` passed with `186 pass`, `0 fail`.
+
+- Nov 11 11:17 Istanbul · M4 · PR #4 merged into main at `e6d5248266cce16a58c7f46d96f8d3609f5fdcb5`. The push workflow completed with `success`. [GitHub Actions run](https://github.com/ozgureyilmaz/agentfico/actions/runs/42985638789)
+
+- Nov 11 11:17 Istanbul · M5 · PR #5 merged into main at `92a300eacb930f1a652392d5d8584daefb4a7ef9`. The push workflow completed with `success`. [GitHub Actions run](https://github.com/ozgureyilmaz/agentfico/actions/runs/42985745755)
+
+- Nov 11 11:17 Istanbul · M6 · PR #6 merged into main at `8ce50e0ea732ebf6230edefbc9fe8e05d4cab141`. The push workflow completed with `success`. [GitHub Actions run](https://github.com/ozgureyilmaz/agentfico/actions/runs/42985808699)
