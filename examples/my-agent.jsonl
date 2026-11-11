@@ -1,0 +1,3 @@
+{"event_id":"01ARZ3NDEKTSV4RRFFQ69G5FAV","subject":{"afc_id":"afc:assistant:example-agent"},"source":"assistant","simulated":true,"attestation":"self_reported","type":"identity.registered","occurred_at":"2026-11-08T08:00:00.000Z"}
+{"event_id":"01ARZ3NDEKTSV4RRFFQ69G5FAW","subject":{"afc_id":"afc:assistant:example-agent"},"source":"assistant","simulated":true,"attestation":"self_reported","type":"task.completed","occurred_at":"2026-11-09T12:30:00.000Z","outcome":"success"}
+{"event_id":"01ARZ3NDEKTSV4RRFFQ69G5FAX","subject":{"afc_id":"afc:assistant:example-agent"},"source":"assistant","simulated":true,"attestation":"self_reported","type":"action.performed","occurred_at":"2026-11-10T09:15:00.000Z"}

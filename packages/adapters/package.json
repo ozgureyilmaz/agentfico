@@ -6,12 +6,14 @@
   "exports": {
     ".": "./src/index.ts",
     "./simulator": "./src/simulator.ts",
-    "./reppo": "./src/reppo/index.ts"
+    "./reppo": "./src/reppo/index.ts",
+    "./kite-chain": "./src/kite-chain.ts"
   },
   "dependencies": {
     "@agentfico/core": "workspace:*",
     "@agentfico/db": "workspace:*",
     "@agentfico/serv": "workspace:*",
-    "@agentfico/sim": "workspace:*"
+    "@agentfico/sim": "workspace:*",
+    "zod": "^4.6.7"
   }
 }
