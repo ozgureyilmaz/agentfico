@@ -57,7 +57,7 @@ describe("AgentFICO SQLite database", () => {
     ).toBe(false);
   });
 
-  test("migrates the five tables idempotently", () => {
+  test("migrates the database schema idempotently", () => {
     migrateDb(db);
 
     const rows = db.$client
@@ -68,6 +68,7 @@ describe("AgentFICO SQLite database", () => {
 
     expect(rows.map((row) => row.name)).toEqual([
       "events",
+      "reppo_calls",
       "reppo_queue",
       "scores",
       "serv_calls",
@@ -113,7 +114,7 @@ describe("AgentFICO SQLite database", () => {
     expect(countAfterInvalidBatch.count).toBe(5);
   });
 
-  test("allows multiple queued jobs per account but only one pending job", () => {
+  test("allows multiple queued jobs per account but only one active eval", () => {
     const timestamp = "2026-11-05T12:00:00.000Z";
     const queuedJob = {
       afcId: "afc:sim:atlas",
@@ -131,9 +132,15 @@ describe("AgentFICO SQLite database", () => {
       .values({ ...queuedJob, status: "pending", evalId: "eval-1" })
       .run();
 
+    expect(
+      db.$client
+        .query("SELECT api_contract FROM reppo_queue WHERE id = 1")
+        .get(),
+    ).toEqual({ api_contract: "eval-requests" });
+
     expect(() => {
       db.insert(reppoQueue)
-        .values({ ...queuedJob, status: "pending", evalId: "eval-2" })
+        .values({ ...queuedJob, status: "submitting", evalId: "eval-2" })
         .run();
     }).toThrow();
 

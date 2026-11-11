@@ -1,0 +1,23 @@
+{
+  "recorded_at": "2026-11-10T10:23:15.124Z",
+  "operation": "submit",
+  "http_status": 201,
+  "response": {
+    "id": "cmwajkymr000008jst9qwwcr3",
+    "taskType": "response",
+    "source": "API",
+    "input": "{\"samples\":[{\"id\":\"sim-shopping-01\",\"task\":\"Suggest a budget desk lamp for a small home office.\",\"output\":\"[Simulated sample] Consider a compact LED desk lamp with adjustable brightness. Check its size and power source before buying. I don't have a specific product or price to recommend.\"},{\"id\":\"sim-shopping-02\",\"task\":\"Make a short grocery list for a simple breakfast.\",\"output\":\"[Simulated sample] Oats, milk, bananas, and eggs. Choose quantities based on how many breakfasts you need.\"},{\"id\":\"sim-shopping-03\",\"task\":\"Compare a backpack and a tote bag for commuting.\",\"output\":\"[Simulated sample] A backpack is usually easier to carry for longer trips, while a tote can be quicker to access. Either could work; consider comfort and what you need to bring.\"}],\"criteria\":[\"All compared product prices are taken only from the supplied task data and matched to the correct product.\",\"Any recommendation or ranking is consistent with the supplied prices and stays within the stated budget when one is provided.\",\"If multiple options fit the budget, the response clearly explains the comparison basis using the supplied evidence.\",\"No unsupported claims are added beyond the provided product information and evidence.\",\"If the data is incomplete or ambiguous, the response says so rather than guessing.\"],\"context\":\"Evaluate shopping responses for accurate price comparison, budget adherence, and evidence-based recommendations using only the supplied task data. These are synthetic persona work samples. Judge the submitted work against its stated tasks.\",\"category\":\"shopping\"}",
+    "status": "QUEUED",
+    "score": null,
+    "route": null,
+    "creditsCharged": 0,
+    "createdAt": "2026-11-10T10:23:17.331Z",
+    "completedAt": null,
+    "policy": null,
+    "attachments": [],
+    "attempts": 0,
+    "result": null,
+    "error": null,
+    "startedAt": null
+  }
+}

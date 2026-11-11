@@ -69,8 +69,13 @@ bun run afc -- score --kite 0xYourAgentAddress
 bun run afc -- explain afc:sim:blaze
 bun run afc -- evaluate --samples examples/samples.jsonl --category shopping
 bun run afc -- serv-log --afc-id afc:sim:atlas
-bun run reppo:worker
 ```
+
+## Reppo evaluations
+
+`bun run reppo:worker` processes the durable queue. Use `-- --once` for one state transition or `-- --drain` to finish the queued and active work present at startup. With no Reppo key, fixture mode creates explicitly simulated quality events. For live work, configure the local key and run with `AFC_OFFLINE=0`.
+
+The deployed Reppo API now uses `/agents/evals`. The adapter records each queue item's contract, submission, poll and verdict. It resumes known IDs after restart, stops ambiguous submissions for reconciliation, and stops the account on insufficient credits. Live work remains single-flight with 60-second polls and at least 15 minutes between submissions. Score reads use stored events.
 
 ## SERV Reasoning usage
 

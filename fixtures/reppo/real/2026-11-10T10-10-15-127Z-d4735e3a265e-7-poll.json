@@ -1,0 +1,92 @@
+{
+  "recorded_at": "2026-11-10T10:10:15.127Z",
+  "operation": "poll",
+  "http_status": 200,
+  "response": {
+    "id": "cmwaj1ng9000107i564rgokox",
+    "taskType": "response",
+    "source": "API",
+    "input": "{\"samples\":[{\"id\":\"sample-1\",\"task\":\"Simulated shopping task: Find a practical insulated water bottle under $30.\",\"output\":\"Simulated recommendation: Consider a 20–24 oz stainless-steel bottle with a leak-resistant lid. Compare current prices and reviews before buying; a straightforward model around $20–$30 should meet the budget.\"},{\"id\":\"sample-2\",\"task\":\"Simulated shopping task: Choose a basic desk lamp for a small home workspace.\",\"output\":\"Simulated recommendation: Look for an LED lamp with adjustable brightness, a compact base, and a neutral color. A model in the $15–$35 range is a reasonable starting point; check dimensions and return terms before purchase.\"},{\"id\":\"sample-3\",\"task\":\"Simulated shopping task: Make a short grocery list for simple weekday breakfasts.\",\"output\":\"Simulated list: Oats, bananas, yogurt, eggs, and whole-grain bread. This covers a few easy breakfast options; adjust quantities to household size and check what you already have.\"}],\"criteria\":[\"All compared product prices are taken only from the supplied task data and matched to the correct product.\",\"Any recommendation or ranking is consistent with the supplied prices and stays within the stated budget when one is provided.\",\"If multiple options fit the budget, the response clearly explains the comparison basis using the supplied evidence.\",\"No unsupported claims are added beyond the provided product information and evidence.\",\"If the data is incomplete or ambiguous, the response says so rather than guessing.\"],\"context\":\"Evaluate shopping responses for accurate price comparison, budget adherence, and evidence-based recommendations using only the supplied task data. These are synthetic persona work samples. Judge the submitted work against its stated tasks.\",\"category\":\"shopping\"}",
+    "status": "COMPLETED",
+    "score": 65,
+    "route": "review",
+    "creditsCharged": 440,
+    "createdAt": "2026-11-10T10:08:16.377Z",
+    "completedAt": "2026-11-10T10:09:28.439Z",
+    "policy": null,
+    "attachments": [],
+    "attempts": 1,
+    "result": {
+      "gates": [
+        {
+          "floor": 50,
+          "severity": "none",
+          "dimension": "safety",
+          "failingWeight": 0,
+          "failingEvaluators": []
+        }
+      ],
+      "route": "review",
+      "score": 65,
+      "reason": "The submission failed to meet the minimum passing score of 70, landing at 65, primarily because none of the responses actually use or reference the supplied task data for product prices and evidence as required by the criteria. The responses provide only generic shopping advice without demonstrating price comparison from provided sources, causing particularly low scores in instruction adherence (46) and triggering the review route due to the borderline score.",
+      "explain": {
+        "route_reasons": [
+          "score 65 < passAt 70 -> decision reject",
+          "score between rejectBelow 60 and acceptAt 85 -> review"
+        ],
+        "confidence_checks": [
+          {
+            "ok": true,
+            "check": "enough evaluators",
+            "detail": "4 independent evaluators (want >= 3)"
+          },
+          {
+            "ok": false,
+            "check": "evaluators agree",
+            "detail": "std-dev of evaluator overall scores = 16.9 (want <= 10, > 20 is severe)"
+          },
+          {
+            "ok": true,
+            "check": "node holders agree",
+            "detail": "0% of stake was contested (want <= 30%)"
+          },
+          {
+            "ok": false,
+            "check": "weighting doesn't change the answer",
+            "detail": "economic 65 vs equal-weight 76 (gap 10, want <= 10)"
+          },
+          {
+            "ok": true,
+            "check": "not near a threshold",
+            "detail": "5.4 points from the nearest route threshold (want >= 5)"
+          },
+          {
+            "ok": true,
+            "check": "stake backed someone",
+            "detail": "economic weights available"
+          }
+        ]
+      },
+      "decision": "reject",
+      "trace_id": "f2af75b3-bb11-41d0-9633-2f8d68a9aeeb",
+      "consensus": {
+        "weighting": "economic (net veREPPO)",
+        "score_spread": 16.9,
+        "economic_score": 65,
+        "stake_contention": 0,
+        "winning_evaluator": "orq_lite_willow",
+        "equal_weight_score": 76
+      },
+      "task_type": "response",
+      "confidence": "low",
+      "rubric_scores": {
+        "safety": 100,
+        "completeness": 56,
+        "factual_accuracy": 65,
+        "instruction_adherence": 46
+      }
+    },
+    "error": null,
+    "startedAt": "2026-11-10T10:08:18.318Z"
+  }
+}

@@ -13,7 +13,8 @@
     "serv:smoke": "bun run packages/cli/src/serv-smoke.ts",
     "typecheck": "tsc --noEmit",
     "lint": "biome ci .",
-    "check": "bun run typecheck && bun run lint && bun test"
+    "check": "bun run typecheck && bun run lint && bun test",
+    "reppo:worker": "bun run packages/cli/src/reppo-worker.ts"
   },
   "devDependencies": {
     "@biomejs/biome": "2.6.5",

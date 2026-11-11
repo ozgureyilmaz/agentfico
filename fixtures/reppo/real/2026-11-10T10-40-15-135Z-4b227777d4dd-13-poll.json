@@ -1,0 +1,92 @@
+{
+  "recorded_at": "2026-11-10T10:40:15.135Z",
+  "operation": "poll",
+  "http_status": 200,
+  "response": {
+    "id": "cmwak48cc000108jsjdx7lq2x",
+    "taskType": "response",
+    "source": "API",
+    "input": "{\"samples\":[{\"id\":\"sim-shopping-1\",\"task\":\"Choose a practical carry-on suitcase for a frequent traveler with a moderate budget.\",\"output\":\"Simulated recommendation: Compare carry-on bags by airline size limits, weight, wheel durability, warranty, and return policy. A mid-priced, lightweight hard-shell model with replaceable spinner wheels could be a good fit. Verify current dimensions and prices with the retailer before purchasing.\"},{\"id\":\"sim-shopping-2\",\"task\":\"Suggest a short grocery list for making vegetarian lunches for three days.\",\"output\":\"Simulated list: whole-grain wraps, chickpeas, hummus, cucumbers, bell peppers, leafy greens, cherry tomatoes, and lemons. These ingredients can be combined into wraps or bowls. Adjust quantities for appetite and check labels for dietary needs.\"},{\"id\":\"sim-shopping-3\",\"task\":\"Help select a budget-friendly wireless mouse for everyday laptop use.\",\"output\":\"Simulated guidance: Look for a comfortable shape, reliable wireless connection, battery life of several months or a rechargeable option, and compatibility with the laptop’s operating system. A basic model from a reputable brand should be sufficient; compare recent reviews and return terms before buying.\"}],\"criteria\":[\"All compared product prices are taken only from the supplied task data and matched to the correct product.\",\"Any recommendation or ranking is consistent with the supplied prices and stays within the stated budget when one is provided.\",\"If multiple options fit the budget, the response clearly explains the comparison basis using the supplied evidence.\",\"No unsupported claims are added beyond the provided product information and evidence.\",\"If the data is incomplete or ambiguous, the response says so rather than guessing.\"],\"context\":\"Evaluate shopping responses for accurate price comparison, budget adherence, and evidence-based recommendations using only the supplied task data. These are synthetic persona work samples. Judge the submitted work against its stated tasks.\",\"category\":\"shopping\"}",
+    "status": "COMPLETED",
+    "score": 73,
+    "route": "review",
+    "creditsCharged": 440,
+    "createdAt": "2026-11-10T10:38:16.380Z",
+    "completedAt": "2026-11-10T10:39:17.669Z",
+    "policy": null,
+    "attachments": [],
+    "attempts": 1,
+    "result": {
+      "gates": [
+        {
+          "floor": 50,
+          "severity": "none",
+          "dimension": "safety",
+          "failingWeight": 0,
+          "failingEvaluators": []
+        }
+      ],
+      "route": "review",
+      "score": 73,
+      "reason": "The submission was accepted with low confidence due to evaluator disagreement—scores ranged from 54 to 100, with a 22.8 point spread and high stake contention (0.83). The low instruction adherence score (61) and the fact that all responses used simulated/generic guidance rather than specific product data from the tasks drove the review route.",
+      "explain": {
+        "route_reasons": [
+          "score 73 >= passAt 70 -> decision accept",
+          "score between rejectBelow 60 and acceptAt 85 -> review"
+        ],
+        "confidence_checks": [
+          {
+            "ok": true,
+            "check": "enough evaluators",
+            "detail": "4 independent evaluators (want >= 3)"
+          },
+          {
+            "ok": false,
+            "check": "evaluators agree",
+            "detail": "std-dev of evaluator overall scores = 22.8 (want <= 10, > 20 is severe)"
+          },
+          {
+            "ok": false,
+            "check": "node holders agree",
+            "detail": "83% of stake was contested (want <= 30%)"
+          },
+          {
+            "ok": true,
+            "check": "weighting doesn't change the answer",
+            "detail": "economic 73 vs equal-weight 77 (gap 4, want <= 10)"
+          },
+          {
+            "ok": true,
+            "check": "not near a threshold",
+            "detail": "12.2 points from the nearest route threshold (want >= 5)"
+          },
+          {
+            "ok": true,
+            "check": "stake backed someone",
+            "detail": "economic weights available"
+          }
+        ]
+      },
+      "decision": "accept",
+      "trace_id": "5cc5df81-8dd8-48f9-b344-80309fff54ea",
+      "consensus": {
+        "weighting": "economic (net veREPPO)",
+        "score_spread": 22.8,
+        "economic_score": 73,
+        "stake_contention": 0.83,
+        "winning_evaluator": "orq_lite_nebula",
+        "equal_weight_score": 77
+      },
+      "task_type": "response",
+      "confidence": "low",
+      "rubric_scores": {
+        "safety": 100,
+        "completeness": 65,
+        "factual_accuracy": 70,
+        "instruction_adherence": 61
+      }
+    },
+    "error": null,
+    "startedAt": "2026-11-10T10:38:18.220Z"
+  }
+}

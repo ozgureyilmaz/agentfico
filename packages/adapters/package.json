@@ -5,10 +5,13 @@
   "type": "module",
   "exports": {
     ".": "./src/index.ts",
-    "./simulator": "./src/simulator.ts"
+    "./simulator": "./src/simulator.ts",
+    "./reppo": "./src/reppo/index.ts"
   },
   "dependencies": {
     "@agentfico/core": "workspace:*",
+    "@agentfico/db": "workspace:*",
+    "@agentfico/serv": "workspace:*",
     "@agentfico/sim": "workspace:*"
   }
 }

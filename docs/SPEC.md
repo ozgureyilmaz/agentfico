@@ -185,14 +185,20 @@ Visible in three places:
 Data collection must be enabled at console.openserv.ai/settings/organization before the evidence run (form question 12).
 
 ## 6. Reppo Eval API (track partner; central to the product)
-- Base `https://eval.reppo.xyz/api/v1`; `Authorization: Bearer $REPPO_API_KEY` (key created in the console, shown once).
-- Submit: `POST /agents/eval-requests/submit` with `{ type: "answer"|"plan"|"trace"|"artifact", payload (max 50 KB), criteria[] (0-10, max 2 KB each), context? (max 32 KB), attachments? (max 1, max 2 MB), settlementMinutes? (10|15|30|60|120|360|720|1440, default 15) }` -> `201 { id, evalId, status: "PENDING" }`. Errors: 400, 401, 402 (no credits), 409 (a pending eval already exists).
-- Read: `GET /agents/eval-requests/{evalId}` -> `status PENDING|SETTLED|FAILED`; on SETTLED `result.verdict { score 0-100, decision accept|revise|reject, confidence }`, `result.verdicts[{ criterion, score 0-10, critique }]`, `action.route auto-ship|review|block`, `evidence`, `peerAssessments`.
-- **One pending evaluation per account.** Results come about 5 minutes after the window closes, so about 4 evaluations per hour. Design: batch 3-5 samples of one agent per `trace` payload with per-sample criteria; a single-flight worker (submit, poll every 60 s, store, next); precompute and cache verdicts; score reads never wait on Reppo; handle 409 by resuming the stored pending eval.
-- Cost: 100 credits (1 cent) per settled eval, failed is free. Sign-up credits exist; partner credits for the hackathon are offered through the OpenServ Telegram (Nov 4 email).
-- Peer judging (`GET /agents/eval-requests/pending`, `POST /agents/eval-requests/{evalId}/assessments`) is free; optional stretch: AgentFICO as a peer judge.
-- Reppo also downgrades `accept` to `review` when a submission tries to manipulate its verdict; we map that to Q04.
-- Track brief: "reliable agents that turn real-time feedback into measurable improvements". Our fit: Reppo feedback becomes a measurable score, and the Phoenix persona shows an agent improving after feedback (re-evaluated, score rises).
+
+Deployment contract verified Nov 10, 2026 against `https://eval.reppo.xyz/agents.md`. The older `docs.reppo.ai/api/eval/` pages describe removed endpoints; the deployed guide explicitly lists those removals. The adapter retains a contract marker for restart safety with older queued records.
+
+- Base `https://eval.reppo.xyz/api/v1`; `Authorization: Bearer $REPPO_API_KEY`.
+- Current submit `POST /agents/evals` with `{ taskType: "response", input: string }`. Encode a trace of 3–5 samples, its criteria and context inside `input`, below 50 KB. Local rubric limits remain at most 10 criteria of 2 KB each and context at most 32 KB. The current API chooses its own evaluation rubric rather than accepting separate criteria fields.
+- Current submission returns `201` with `id` and `status: "QUEUED"`. Read `GET /agents/evals/{id}` until status is `COMPLETED` or `FAILED`; intermediate status can be `QUEUED` or `PROCESSING`.
+- On completion, `result` carries `score` 0–100, `decision` accept/reject, `confidence` low/medium/high, `route` ship/review/block, `reason`, and `rubric_scores`. Preserve returned fields as evidence; derive score features only from validated numeric and enum fields. `completedAt` is the event timestamp when available.
+- Normalize current `COMPLETED` to the local settled state. The current route `review` alone does not establish manipulation. The legacy accept/review manipulation downgrade remains specific to the legacy contract.
+- Current text evaluations use 440 credits each. The current guide lists 22,000 initial credits and 2,000 credits per USD equivalent. Five text evaluations use at most 2,200 credits at this rate. No credit purchase or wallet flow is part of this project.
+- Keep the local single-flight policy even though the current provider supports more than one evaluation in flight. Persist intent before submission, poll no faster than every 60 seconds, and keep live submissions at least 15 minutes apart. A restart resumes a known ID; an ambiguous submission halts for reconciliation. HTTP 402 stops work for that account.
+- Every actual submit and poll is persisted in the call journal. Record sanitized real responses under `fixtures/reppo/real/`; strip contributor identities and private traces. Offline synthetic fixtures are separately labeled and never create real evaluation IDs.
+- Legacy records use `/agents/eval-requests/submit` and `/agents/eval-requests/{evalId}` with PENDING/SETTLED/FAILED semantics. Those routes now return 404 on the deployment. Keep legacy parsing and HTTP-mocked 409/402 recovery tests to cover stored histories and explicit compatibility cases.
+- Score reads never wait for the evaluation service. Reppo feedback enters the event pipeline as `work.evaluated`, with cited evaluation IDs and recorded verdict evidence.
+- Track fit remains reliable agents turning feedback into measurable improvement. Phoenix demonstrates recovery; further feedback cycles and the 20-evaluation submission gate remain later delivery work.
 
 ## 7. Kite (data source; fallback track)
 - Mainnet chain 2366, RPC `https://rpc.gokite.ai`, explorer `https://kitescan.ai`. Testnet 2368, `https://rpc-testnet.gokite.ai`, `https://testnet.kitescan.ai`, faucet `https://faucet.gokite.ai`.

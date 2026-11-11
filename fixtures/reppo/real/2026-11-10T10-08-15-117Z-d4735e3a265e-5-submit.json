@@ -1,0 +1,23 @@
+{
+  "recorded_at": "2026-11-10T10:08:15.117Z",
+  "operation": "submit",
+  "http_status": 201,
+  "response": {
+    "id": "cmwaj1ng9000107i564rgokox",
+    "taskType": "response",
+    "source": "API",
+    "input": "{\"samples\":[{\"id\":\"sample-1\",\"task\":\"Simulated shopping task: Find a practical insulated water bottle under $30.\",\"output\":\"Simulated recommendation: Consider a 20–24 oz stainless-steel bottle with a leak-resistant lid. Compare current prices and reviews before buying; a straightforward model around $20–$30 should meet the budget.\"},{\"id\":\"sample-2\",\"task\":\"Simulated shopping task: Choose a basic desk lamp for a small home workspace.\",\"output\":\"Simulated recommendation: Look for an LED lamp with adjustable brightness, a compact base, and a neutral color. A model in the $15–$35 range is a reasonable starting point; check dimensions and return terms before purchase.\"},{\"id\":\"sample-3\",\"task\":\"Simulated shopping task: Make a short grocery list for simple weekday breakfasts.\",\"output\":\"Simulated list: Oats, bananas, yogurt, eggs, and whole-grain bread. This covers a few easy breakfast options; adjust quantities to household size and check what you already have.\"}],\"criteria\":[\"All compared product prices are taken only from the supplied task data and matched to the correct product.\",\"Any recommendation or ranking is consistent with the supplied prices and stays within the stated budget when one is provided.\",\"If multiple options fit the budget, the response clearly explains the comparison basis using the supplied evidence.\",\"No unsupported claims are added beyond the provided product information and evidence.\",\"If the data is incomplete or ambiguous, the response says so rather than guessing.\"],\"context\":\"Evaluate shopping responses for accurate price comparison, budget adherence, and evidence-based recommendations using only the supplied task data. These are synthetic persona work samples. Judge the submitted work against its stated tasks.\",\"category\":\"shopping\"}",
+    "status": "QUEUED",
+    "score": null,
+    "route": null,
+    "creditsCharged": 0,
+    "createdAt": "2026-11-10T10:08:16.377Z",
+    "completedAt": null,
+    "policy": null,
+    "attachments": [],
+    "attempts": 0,
+    "result": null,
+    "error": null,
+    "startedAt": null
+  }
+}
