@@ -3,6 +3,9 @@
 Newest first. Each entry: date (Istanbul), decision, reason. Changing a decision needs a new entry.
 
 ## Nov 10, 2026
+- **Reppo deployment compatibility.** The documented legacy submission returned HTTP 404. The deployed guide at `eval.reppo.xyz/agents.md` explicitly replaces `eval-requests` with `agents/evals`. Persist the API contract on each queue row; migrated rows retain legacy parsing, and new requests use the deployed contract. Encode the 3–5-sample trace, local criteria and context inside the documented `input` field. Current `COMPLETED` results normalize to settled numeric verdicts. The current review route alone does not establish manipulation.
+- **Reppo validation budget and cadence.** The deployed rate is 440 credits per text evaluation. This validation is limited to five persona evaluations using at most 2,200 existing credits. Keep one active evaluation per account, a 60-second minimum poll interval and 15 minutes between live submissions despite the provider's newer concurrency support. HTTP 402 stops the account.
+- **Durable evaluation operations.** Persist submit intent before dispatch, claim poll due times atomically, and recover a returned evaluation ID from the journal after interruption. Unknown submission outcomes halt for reconciliation. Persist a settled verdict and its validated event in one transaction. Sanitize contributor identities, private traces and credentials before recording responses.
 - **Explanation response budget.** The first live smoke reached the 1,024-token output cap while copying Atlas's full citation set. Give job 4 an 8,192-token ceiling and a 180-second timeout so its required citations fit. The successful rerun returned 4,544 completion tokens for that job. A regression test exercises the full scored citation set.
 
 ## Nov 8, 2026

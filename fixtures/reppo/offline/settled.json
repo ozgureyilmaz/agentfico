@@ -1,0 +1,29 @@
+{
+  "fixture": "synthetic-offline-v1",
+  "status": "SETTLED",
+  "result": {
+    "verdict": {
+      "score": 76,
+      "scale": "0-100",
+      "decision": "revise",
+      "confidence": "medium"
+    },
+    "verdicts": [
+      {
+        "criterion": "Task completion",
+        "score": 8,
+        "critique": "Synthetic offline fixture: the sample completed its stated task."
+      },
+      {
+        "criterion": "Evidence and clarity",
+        "score": 7,
+        "critique": "Synthetic offline fixture: the sample could make its evidence clearer."
+      }
+    ],
+    "action": { "route": "review" },
+    "evidence": {
+      "evidenceBasis": "synthetic-fixture",
+      "peerAssessmentCount": 0
+    }
+  }
+}

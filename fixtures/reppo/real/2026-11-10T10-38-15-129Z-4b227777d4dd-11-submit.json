@@ -1,0 +1,23 @@
+{
+  "recorded_at": "2026-11-10T10:38:15.129Z",
+  "operation": "submit",
+  "http_status": 201,
+  "response": {
+    "id": "cmwak48cc000108jsjdx7lq2x",
+    "taskType": "response",
+    "source": "API",
+    "input": "{\"samples\":[{\"id\":\"sim-shopping-1\",\"task\":\"Choose a practical carry-on suitcase for a frequent traveler with a moderate budget.\",\"output\":\"Simulated recommendation: Compare carry-on bags by airline size limits, weight, wheel durability, warranty, and return policy. A mid-priced, lightweight hard-shell model with replaceable spinner wheels could be a good fit. Verify current dimensions and prices with the retailer before purchasing.\"},{\"id\":\"sim-shopping-2\",\"task\":\"Suggest a short grocery list for making vegetarian lunches for three days.\",\"output\":\"Simulated list: whole-grain wraps, chickpeas, hummus, cucumbers, bell peppers, leafy greens, cherry tomatoes, and lemons. These ingredients can be combined into wraps or bowls. Adjust quantities for appetite and check labels for dietary needs.\"},{\"id\":\"sim-shopping-3\",\"task\":\"Help select a budget-friendly wireless mouse for everyday laptop use.\",\"output\":\"Simulated guidance: Look for a comfortable shape, reliable wireless connection, battery life of several months or a rechargeable option, and compatibility with the laptop’s operating system. A basic model from a reputable brand should be sufficient; compare recent reviews and return terms before buying.\"}],\"criteria\":[\"All compared product prices are taken only from the supplied task data and matched to the correct product.\",\"Any recommendation or ranking is consistent with the supplied prices and stays within the stated budget when one is provided.\",\"If multiple options fit the budget, the response clearly explains the comparison basis using the supplied evidence.\",\"No unsupported claims are added beyond the provided product information and evidence.\",\"If the data is incomplete or ambiguous, the response says so rather than guessing.\"],\"context\":\"Evaluate shopping responses for accurate price comparison, budget adherence, and evidence-based recommendations using only the supplied task data. These are synthetic persona work samples. Judge the submitted work against its stated tasks.\",\"category\":\"shopping\"}",
+    "status": "QUEUED",
+    "score": null,
+    "route": null,
+    "creditsCharged": 0,
+    "createdAt": "2026-11-10T10:38:16.380Z",
+    "completedAt": null,
+    "policy": null,
+    "attachments": [],
+    "attempts": 0,
+    "result": null,
+    "error": null,
+    "startedAt": null
+  }
+}

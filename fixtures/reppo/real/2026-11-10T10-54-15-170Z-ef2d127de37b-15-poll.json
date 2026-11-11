@@ -1,0 +1,23 @@
+{
+  "recorded_at": "2026-11-10T10:54:15.170Z",
+  "operation": "poll",
+  "http_status": 200,
+  "response": {
+    "id": "cmwaknixh000208jshh2w0av1",
+    "taskType": "response",
+    "source": "API",
+    "input": "{\"samples\":[{\"id\":\"sample-1\",\"task\":\"Compare options for a compact travel umbrella under $30.\",\"output\":\"Simulated sample: A useful comparison would weigh folded length, wind resistance, weight, and warranty. For example, prioritize a model under 12 inches folded with a reinforced frame and a stated warranty; check current prices and reviews before buying.\"},{\"id\":\"sample-2\",\"task\":\"Suggest a practical grocery list for three vegetarian dinners on a $40 budget.\",\"output\":\"Simulated sample: Possible list—1 lb lentils, 2 cans diced tomatoes, 1 bag rice, 1 lb pasta, 1 jar pasta sauce, 2 cans chickpeas, 1 onion, 1 head garlic, 2 bell peppers, 1 bag spinach, and seasonal vegetables. This could support lentil curry with rice, chickpea-and-vegetable pasta, and lentil tomato stew. Prices vary by location, so adjust based on local store costs.\"},{\"id\":\"sample-3\",\"task\":\"Recommend criteria for choosing an everyday backpack for commuting.\",\"output\":\"Simulated sample: Look for a comfortable padded back panel, adjustable straps, a separate laptop sleeve sized for your device, water-resistant fabric, and a capacity around 18–25 liters. If you commute in rain, consider covered zippers or a removable rain cover; compare dimensions and return policies before choosing.\"}],\"criteria\":[\"All compared product prices are taken only from the supplied task data and matched to the correct product.\",\"Any recommendation or ranking is consistent with the supplied prices and stays within the stated budget when one is provided.\",\"If multiple options fit the budget, the response clearly explains the comparison basis using the supplied evidence.\",\"No unsupported claims are added beyond the provided product information and evidence.\",\"If the data is incomplete or ambiguous, the response says so rather than guessing.\"],\"context\":\"Evaluate shopping responses for accurate price comparison, budget adherence, and evidence-based recommendations using only the supplied task data. These are synthetic persona work samples. Judge the submitted work against its stated tasks.\",\"category\":\"shopping\"}",
+    "status": "PROCESSING",
+    "score": null,
+    "route": null,
+    "creditsCharged": 0,
+    "createdAt": "2026-11-10T10:53:16.565Z",
+    "completedAt": null,
+    "policy": null,
+    "attachments": [],
+    "attempts": 1,
+    "result": null,
+    "error": null,
+    "startedAt": "2026-11-10T10:53:18.539Z"
+  }
+}

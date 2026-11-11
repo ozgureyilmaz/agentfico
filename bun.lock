@@ -36,6 +36,8 @@
       "version": "0.1.0",
       "dependencies": {
         "@agentfico/core": "workspace:*",
+        "@agentfico/db": "workspace:*",
+        "@agentfico/serv": "workspace:*",
         "@agentfico/sim": "workspace:*",
       },
     },

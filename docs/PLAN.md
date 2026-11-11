@@ -24,7 +24,7 @@ All times Istanbul (UTC+3). Milestone IDs (M0-M10) match AGENTS.md and STATUS.md
 | Sun Nov 15 | Ozgur posts on X, submits form by 20:00 Istanbul (buffer) | M10 | confirmation saved; STATUS updated |
 
 ## Reppo evaluation budget
-About 4 evals/hour, one at a time. Target: 5 personas x 4 cycles = 20 evals for the demo, plus 10 for Phoenix "improvement after feedback", plus 10 spare. About 40 evals in total (well under 1 USD in credits). Ask for partner credits through the OpenServ Telegram (see Nov 4 email) only if the sign-up credits run out.
+Keep the local policy at about 4 evals/hour, one at a time. The deployed API guide changed by Nov 10 and now lists 440 credits per text evaluation, with 22,000 initial credits. The current M4 validation is authorized for at most 2,200 existing credits across five personas. The longer-term target remains 20 demo evals, 10 Phoenix feedback cycles and 10 spare; 40 text evaluations would use 17,600 credits, about USD 8.80 equivalent at the guide's current conversion. Further spending remains an owner decision. Ask for partner credits through the OpenServ Telegram (see Nov 4 email) only if the sign-up credits run out.
 
 ## Fallbacks
 | Risk | Trigger | Fallback |

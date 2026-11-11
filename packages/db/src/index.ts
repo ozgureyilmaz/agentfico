@@ -3,6 +3,7 @@ export { openDb } from "./client";
 export { migrateDb } from "./migrate";
 export {
   events,
+  reppoCalls,
   reppoQueue,
   schema,
   scores,

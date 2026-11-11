@@ -112,15 +112,54 @@ export const reppoQueue = sqliteTable(
     attempts: integer("attempts").notNull().default(0),
     nextPollAt: text("next_poll_at"),
     lastError: text("last_error"),
+    simulated: integer("simulated", { mode: "boolean" })
+      .notNull()
+      .default(false),
+    offline: integer("offline", { mode: "boolean" }).notNull().default(false),
+    category: text("category"),
+    apiContract: text("api_contract").notNull().default("eval-requests"),
+    settlementMinutes: integer("settlement_minutes").notNull().default(15),
+    submitStartedAt: text("submit_started_at"),
+    settledAt: text("settled_at"),
+    resultJson: text("result_json"),
     createdAt: text("created_at").notNull(),
     updatedAt: text("updated_at").notNull(),
   },
   (table) => [
     index("reppo_queue_status_created_idx").on(table.status, table.createdAt),
-    uniqueIndex("reppo_queue_one_pending_account_unique")
+    uniqueIndex("reppo_queue_one_active_account_unique")
       .on(table.accountId)
-      .where(sql`${table.status} = 'pending'`),
+      .where(
+        sql`${table.status} in ('submitting', 'pending', 'reconciliation_required', 'blocked')`,
+      ),
   ],
 );
 
-export const schema = { events, scores, verdicts, servCalls, reppoQueue };
+export const reppoCalls = sqliteTable(
+  "reppo_calls",
+  {
+    id: integer("id").primaryKey({ autoIncrement: true }),
+    queueId: integer("queue_id")
+      .notNull()
+      .references(() => reppoQueue.id, { onDelete: "cascade" }),
+    operation: text("operation").notNull(),
+    requestJson: text("request_json").notNull(),
+    responseJson: text("response_json"),
+    httpStatus: integer("http_status"),
+    error: text("error"),
+    startedAt: text("started_at").notNull(),
+    completedAt: text("completed_at"),
+  },
+  (table) => [
+    index("reppo_calls_queue_started_idx").on(table.queueId, table.startedAt),
+  ],
+);
+
+export const schema = {
+  events,
+  scores,
+  verdicts,
+  servCalls,
+  reppoQueue,
+  reppoCalls,
+};

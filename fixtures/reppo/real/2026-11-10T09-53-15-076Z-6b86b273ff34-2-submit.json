@@ -1,0 +1,23 @@
+{
+  "recorded_at": "2026-11-10T09:53:15.076Z",
+  "operation": "submit",
+  "http_status": 201,
+  "response": {
+    "id": "cmwaiidfz000007i5qihmvy63",
+    "taskType": "response",
+    "source": "API",
+    "input": "{\"samples\":[{\"id\":\"sim-shopping-001\",\"task\":\"Simulated shopping task: compare options for a lightweight everyday backpack under $60.\",\"output\":\"Simulated recommendation: Look for a 20–25 L backpack with padded shoulder straps, a water-resistant outer fabric, and a laptop sleeve if needed. Compare total price including shipping and check the return policy. A hypothetical option priced at $45 with a one-year warranty would be a strong value if it meets those requirements.\"},{\"id\":\"sim-shopping-002\",\"task\":\"Simulated shopping task: plan a budget grocery list for three simple vegetarian dinners for two.\",\"output\":\"Simulated list: 1 can chickpeas, 1 can diced tomatoes, 1 onion, 1 bell pepper, 1 zucchini, 1 bag spinach, 1 cup rice, 1 pack pasta, 1 jar pasta sauce, and basic spices. These could support chickpea tomato curry with rice, vegetable pasta, and a spinach-and-chickpea skillet. Check pantry supplies first and adjust quantities to local package sizes and prices.\"},{\"id\":\"sim-shopping-003\",\"task\":\"Simulated shopping task: identify useful criteria when choosing wireless earbuds for commuting.\",\"output\":\"Simulated buying guide: Prioritize a comfortable fit, reliable noise reduction, clear call microphones, and battery life that covers your commute with some reserve. Check whether the charging case supports your preferred charging method, and compare return terms because fit is personal. If you use public transit, consider whether the model offers a quick way to hear announcements without removing the earbuds.\"}],\"criteria\":[\"All compared product prices are taken only from the supplied task data and matched to the correct product.\",\"Any recommendation or ranking is consistent with the supplied prices and stays within the stated budget when one is provided.\",\"If multiple options fit the budget, the response clearly explains the comparison basis using the supplied evidence.\",\"No unsupported claims are added beyond the provided product information and evidence.\",\"If the data is incomplete or ambiguous, the response says so rather than guessing.\"],\"context\":\"Evaluate shopping responses for accurate price comparison, budget adherence, and evidence-based recommendations using only the supplied task data. These are synthetic persona work samples. Judge the submitted work against its stated tasks.\",\"category\":\"shopping\"}",
+    "status": "QUEUED",
+    "score": null,
+    "route": null,
+    "creditsCharged": 0,
+    "createdAt": "2026-11-10T09:53:16.943Z",
+    "completedAt": null,
+    "policy": null,
+    "attachments": [],
+    "attempts": 0,
+    "result": null,
+    "error": null,
+    "startedAt": null
+  }
+}

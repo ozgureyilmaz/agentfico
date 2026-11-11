@@ -3,21 +3,21 @@
 Tick only with proof: time (Istanbul) + one-line proof (command output, PR or commit link). No proof, no tick.
 Deadline: Nov 16 02:59 Istanbul (Nov 15 23:59 UTC). Code complete: Nov 13.
 
-Last updated: Nov 10 12:15 Istanbul
+Last updated: Nov 11 11:07 Istanbul
 
 ## Now
-M0–M3 are verified and merged. [PR #3](https://github.com/ozgureyilmaz/agentfico/pull/3) is merged, and CI passed on main at `d2d355d`. M4, M5 and M6 are next.
+M0–M3 are verified and merged. M4 has five completed live persona evaluations and validated scoring events. The owner approved publishing M4, M5 and M6 as stacked PRs.
 
 ## Next
-1. M4 single-flight Reppo queue with persisted evaluation evidence.
-2. M5 API and CLI, followed by M6 dashboard.
-3. Ozgur: enable data collection in the OpenServ console and choose hosting.
+1. Review the stacked milestone PRs and their CI results. Wait for owner confirmation before merging.
+2. M7 fraud detection and the real Kite mainnet demonstration.
+3. Ozgur: add the OpenServ screenshot to [docs/evidence](docs/evidence/) and choose hosting.
 
 ## Setup (Ozgur)
 - [x] Repo created, public, MIT (Nov 05)
 - [x] `SERV_API_KEY` in local `.env`; one SERV call succeeds (Nov 10 11:49 Istanbul) — live call `67c48c14-7cb1-4467-a5dd-052b957c6843` succeeded with provider response ID and usage. See the verification log.
-- [ ] Data collection enabled at console.openserv.ai/settings/organization (screenshot in `docs/evidence/`)
-- [ ] Reppo account + API key in local `.env`; credits checked
+- [ ] OpenServ data collection — owner reports it is enabled. TODO add the console screenshot to [docs/evidence](docs/evidence/) before ticking.
+- [x] Reppo account + API key in local `.env` (Nov 11 10:51 Istanbul) — five authenticated evaluations completed and used 2,200 credits.
 - [ ] Partner credits requested via the OpenServ Telegram if needed (Nov 4 email)
 - [ ] Hosting choice made
 
@@ -26,7 +26,7 @@ M0–M3 are verified and merged. [PR #3](https://github.com/ozgureyilmaz/agentfi
 - [x] M1 Events + DB + simulator (Nov 05 20:05 Istanbul) — seed 42 generated 1,401 simulated events for 5 personas. Replay matched byte for byte and retained 1,401 stored rows. See the verification log.
 - [x] M2 Scorer + reason codes (Nov 08 10:29 Istanbul) — 92 tests passed, and CI passed on the merged main commit `2e92a86`. [Run proof](https://github.com/ozgureyilmaz/agentfico/actions/runs/42458956765)
 - [x] M3 SERV client + call log + jobs 2, 3, 4, 7 (Nov 10 12:15 Istanbul) — four live jobs succeeded; 135 tests passed; merged main CI passed at `d2d355d`. [Main run proof](https://github.com/ozgureyilmaz/agentfico/actions/runs/42788871372)
-- [ ] M4 Reppo worker + real evals per persona
+- [x] M4 Reppo worker + real evals per persona (Nov 11 10:51 Istanbul) — five live completions, 2,200 credits, five scored events and 152 passing tests. [Recorded responses](fixtures/reppo/real/)
 - [ ] M5 API + CLI
 - [ ] M6 Dashboard (leaderboard, agent page, SERV trace, upload, Phoenix replay)
 - [ ] M7 Fraud detectors + SERV fraud review + real Kite address
@@ -52,6 +52,7 @@ M0–M3 are verified and merged. [PR #3](https://github.com/ozgureyilmaz/agentfi
 - [ ] Form submitted, confirmation saved
 
 ## Blockers / open questions
+- KiteScan live lookup availability remains UNSURE for the later real-address proof; response mapping is covered with primary-schema fixtures.
 - Hosting provider (Ozgur).
 - Reppo credits: enough for about 40 evals?
 
@@ -143,3 +144,18 @@ M0–M3 are verified and merged. [PR #3](https://github.com/ozgureyilmaz/agentfi
 - Nov 10 11:49 Istanbul · M3 · `bun run check` → `tsc --noEmit` passed, Biome `Checked 63 files`, `135 pass`, `0 fail`, `1494 expect() calls`. `.env` remains gitignored.
 - Nov 10 11:54 Istanbul · M3 · `gh pr view feat/m3-serv --json state,headRefOid,statusCheckRollup` → PR #3 `OPEN`, commit `69e465f9643169a3da44f1e6e8f09fd66823f931`, job `check` → `SUCCESS`. The publication hygiene and credential scans passed before push. [GitHub Actions run](https://github.com/ozgureyilmaz/agentfico/actions/runs/42786273795)
 - Nov 10 12:15 Istanbul · M3 · `gh pr view 3 --json state,mergedAt,mergeCommit` → `MERGED`, commit `d2d355d8911838be66621f6e9ca0199c07ac1fd4`. `gh run watch 42788871372 --exit-status` → `completed with 'success'` on main. [GitHub Actions run](https://github.com/ozgureyilmaz/agentfico/actions/runs/42788871372)
+- Nov 10 13:05 Istanbul · M4 · The removed `/agents/eval-requests/submit` route returned HTTP 404; the call journal and fixture retain that attempt. The deployed `agents.md` guide documents the replacement route and 440-credit rate. Validation was approved for up to 2,200 existing credits.
+- Nov 10 13:05 Istanbul · M4 · `AFC_OFFLINE=0 bun run reppo:worker -- --drain` is processing the five approved queue IDs. Atlas completed with evaluation `cmwaiidfz000007i5qihmvy63`, provider status `COMPLETED`, score `80`, credits charged `440`, and one validated `source=reppo` event persisted. Four personas remain queued, so M4 stays unchecked.
+
+- Nov 11 10:51 Istanbul · M4 · Read-only SQLite verification returned `settled=5`, `scoredEvents=5`, `credits=2200`. The journal contains five HTTP 201 submissions, ten HTTP 200 polls, and one earlier HTTP 404 on the retired endpoint. All 16 responses have sanitized fixtures.
+
+  | Persona | Evaluation ID | Provider status | Score | Completed at (UTC) | Credits |
+  |---|---|---|---:|---|---:|
+  | afc:sim:atlas | `cmwaiidfz000007i5qihmvy63` | COMPLETED | 80 | 2026-11-10T09:54:33.828Z | 440 |
+  | afc:sim:blaze | `cmwaj1ng9000107i564rgokox` | COMPLETED | 65 | 2026-11-10T10:09:28.439Z | 440 |
+  | afc:sim:murk | `cmwajkymr000008jst9qwwcr3` | COMPLETED | 98 | 2026-11-10T10:24:40.472Z | 440 |
+  | afc:sim:nova-7 | `cmwak48cc000108jsjdx7lq2x` | COMPLETED | 73 | 2026-11-10T10:39:17.669Z | 440 |
+  | afc:sim:phoenix | `cmwaknixh000208jshh2w0av1` | COMPLETED | 70 | 2026-11-10T10:54:45.395Z | 440 |
+
+- Nov 11 10:51 Istanbul · M4 · `REPPO_API_KEY="" AFC_OFFLINE=1 bun run reppo:worker -- --drain` settled a fixture job with `offline=true`, `eval_id=null`. The validated event had `source=simulator`, `simulated=true`, and quality 76.
+- Nov 11 10:51 Istanbul · M4 · Exact milestone snapshot `bun install --frozen-lockfile` and `bun run check` passed with `152 pass`, `0 fail`, `1639 expect() calls`. Tests include 409/402 handling, concurrent claims, restart recovery, offline mode and response correlation.

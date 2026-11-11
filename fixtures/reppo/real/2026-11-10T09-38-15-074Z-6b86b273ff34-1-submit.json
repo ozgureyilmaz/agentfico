@@ -1,0 +1,10 @@
+{
+  "recorded_at": "2026-11-10T09:38:15.074Z",
+  "operation": "submit",
+  "http_status": 404,
+  "response": {
+    "non_json": true,
+    "content_type": "text/html",
+    "body_sha256": "18cd758850f1cf35813b21b0e1da12fe1dcc6e6059bf41cc80a118e08fbdee86"
+  }
+}
