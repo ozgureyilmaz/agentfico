@@ -3,6 +3,7 @@
 Newest first. Each entry: date (Istanbul), decision, reason. Changing a decision needs a new entry.
 
 ## Nov 11, 2026
+- **Dashboard evidence and replay.** Fetch validated API responses for each view. Link citations to stored events and Reppo verdicts, label offline annotations, and sample historical score reads across the full Phoenix observation window. The replay represents simulated recovery.
 - **Shared API and CLI scoring.** Both entry points use the same stored events and deterministic scorer. An explicit timestamp overrides the default, which is the later of UTC day start and the latest eligible recorded event. Reports generate offline annotations through the logged SERV client. Public requests use socket IP rate limits. Uploads carry self-reported attestation, reject colliding IDs on save, and preserve trusted histories.
 - **Read-only Kite scoring.** Map the documented Blockscout v2 transfer schema into validated events. Paginate with a fixed bound and report partial coverage. Fixture provenance is explicit. The live mainnet demonstration remains M7 evidence.
 

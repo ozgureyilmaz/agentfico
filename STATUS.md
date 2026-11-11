@@ -6,7 +6,7 @@ Deadline: Nov 16 02:59 Istanbul (Nov 15 23:59 UTC). Code complete: Nov 13.
 Last updated: Nov 11 11:07 Istanbul
 
 ## Now
-M0–M5 are verified. The API and CLI return matching score, factors and reason codes for all five personas. The owner approved publishing M4, M5 and M6 as stacked PRs.
+M0–M6 are verified. M3 is merged with green main CI. The Reppo queue, API and CLI, and dashboard are ready for stacked PR review. The owner approved publishing M4, M5 and M6 as stacked PRs.
 
 ## Next
 1. Review the stacked milestone PRs and their CI results. Wait for owner confirmation before merging.
@@ -28,7 +28,7 @@ M0–M5 are verified. The API and CLI return matching score, factors and reason 
 - [x] M3 SERV client + call log + jobs 2, 3, 4, 7 (Nov 10 12:15 Istanbul) — four live jobs succeeded; 135 tests passed; merged main CI passed at `d2d355d`. [Main run proof](https://github.com/ozgureyilmaz/agentfico/actions/runs/42788871372)
 - [x] M4 Reppo worker + real evals per persona (Nov 11 10:51 Istanbul) — five live completions, 2,200 credits, five scored events and 152 passing tests. [Recorded responses](fixtures/reppo/real/)
 - [x] M5 API + CLI (Nov 11 10:53 Istanbul) — five exact score, factor and reason-code matches, an offline provisional upload, and 174 passing tests.
-- [ ] M6 Dashboard (leaderboard, agent page, SERV trace, upload, Phoenix replay)
+- [x] M6 Dashboard (Nov 11 10:55 Istanbul) — browser flows passed at desktop and 390 px, with 186 passing tests.
 - [ ] M7 Fraud detectors + SERV fraud review + real Kite address
 - [ ] M8 Probe plans + assistant log mapping
 - [ ] M9 Ship: one-command demo on fresh clone, hosted URL, README GIF/screenshots, AUC, 20+ Reppo evals
@@ -163,3 +163,6 @@ M0–M5 are verified. The API and CLI return matching score, factors and reason 
 - Nov 11 10:53 Istanbul · M5 · Named `bun run afc -- score --id` and HTTP `GET /v1/score/:afcId` against the same isolated database matched score, factors and reason codes for all five agents. Atlas `776`, Blaze `645`, Murk `657`, Nova-7 `549`, Phoenix `691`. This snapshot includes the five recorded live verdicts.
 - Nov 11 10:53 Istanbul · M5 · Offline `bun run afc -- score --log examples/my-agent.jsonl` returned `score=604`, `saved=false`, `simulated_share=1`. `bun run afc -- evaluate --samples examples/samples.jsonl --category shopping --simulated` in offline mode returned `queued`, `offline=true`, `eval_id=null`.
 - Nov 11 10:53 Istanbul · M5 · Exact milestone snapshot `bun install --frozen-lockfile` and `bun run check` passed with `174 pass`, `0 fail`, `1901 expect() calls`. Kite parsing and CLI fixture scoring are verified. The real-address mainnet demonstration remains UNSURE for M7.
+
+- Nov 11 10:55 Istanbul · M6 · `bun run --filter @agentfico/web build` exited 0. Browser verification against the locally served production build returned `leaders=5`, `factor_bars=6`, `event_dialog=pass`, `real_eval_id=pass`, `trace=pass`, `phoenix_early=518`, `phoenix_latest=691`, `upload_score=604`, `saved=false`, `mobile_width=390`, `page_width=390`, `console_errors=0`. The browser console reported zero warnings. Replay uses simulated histories with recorded scores computed by the API.
+- Nov 11 10:55 Istanbul · M6 · `bun install --frozen-lockfile` and `bun run check` passed with `186 pass`, `0 fail`.

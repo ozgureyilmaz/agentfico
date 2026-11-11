@@ -97,6 +97,12 @@ Each attempt is stored in `serv_calls` at `AFC_DB_PATH`, including failures. Pre
 
 The full feature table is in [docs/SPEC.md](docs/SPEC.md#5-serv-reasoning-usage). Current verification and live-call availability are recorded in [STATUS.md](STATUS.md).
 
+## Dashboard
+
+Seed the five personas with `bun run sim -- --seed 42`, then start `bun run dev`. The dashboard provides the leaderboard, agent reports, SERV trace, provisional JSONL upload and Phoenix replay. Simulated histories and offline annotations have visible labels.
+
+For a local production build, run `bun run --filter @agentfico/web build`, then `bun apps/api/src/index.ts`. The API serves the built dashboard and its routes.
+
 ## Docs
 - [docs/SPEC.md](docs/SPEC.md): score model, reason codes, event schema, SERV, Reppo, Kite, personas, API
 - [docs/PLAN.md](docs/PLAN.md): build plan and demo script
