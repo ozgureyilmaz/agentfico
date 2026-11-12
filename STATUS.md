@@ -3,15 +3,15 @@
 Tick only with proof: time (Istanbul) + one-line proof (command output, PR or commit link). No proof, no tick.
 Deadline: Nov 16 02:59 Istanbul (Nov 15 23:59 UTC). Code complete: Nov 13.
 
-Last updated: Nov 12 09:10 Istanbul
+Last updated: Nov 12 14:00 Istanbul
 
 ## Now
-M0–M6 are verified and merged. M4, M5 and M6 each passed CI on main after their merge. M7 is in PR #7 with green CI. M8 is verified locally, and M9 shipping work is in progress.
+M0–M8 are merged and verified on main. M9 demo verification and the approved Reppo batch are in progress.
 
 ## Next
-1. Review PR #7 and approve publication of the M8 branch.
-2. Prepare the M9 demo, evidence and deployment configuration.
-3. Ozgur: add the OpenServ screenshot to [docs/evidence](docs/evidence/) and choose hosting.
+1. Complete the approved Reppo batch and verify the demo from a fresh clone.
+2. Prepare the read-only Render Free service and request deployment approval.
+3. Finalize local M10 submission drafts.
 
 ## Setup (Ozgur)
 - [x] Repo created, public, MIT (Nov 05)
@@ -29,8 +29,8 @@ M0–M6 are verified and merged. M4, M5 and M6 each passed CI on main after thei
 - [x] M4 Reppo worker + real evals per persona (Nov 11 10:51 Istanbul) — five live completions, 2,200 credits, five scored events and 152 passing tests. [Recorded responses](fixtures/reppo/real/) [Main CI](https://github.com/ozgureyilmaz/agentfico/actions/runs/42985638789)
 - [x] M5 API + CLI (Nov 11 10:53 Istanbul) — five exact score, factor and reason-code matches, an offline provisional upload, and 174 passing tests. [Main CI](https://github.com/ozgureyilmaz/agentfico/actions/runs/42985745755)
 - [x] M6 Dashboard (Nov 11 10:55 Istanbul) — browser flows passed at desktop and 390 px, with 186 passing tests. [Main CI](https://github.com/ozgureyilmaz/agentfico/actions/runs/42985808699)
-- [x] M7 Fraud detectors + SERV fraud review + real Kite address (Nov 12 09:03 Istanbul) — six detectors tested, Nova-7 642 → 549, and the public Kite mainnet address scored 649 with partial coverage. [Detector and offline review proof](docs/evidence/nova-fraud-review.json) · [Kite capture](fixtures/kite/real/kitescan-mainnet-0xd9bee9d8d294b01f716c77b3c5953035a15ed2d2.meta.json)
-- [x] M8 Probe plans + assistant log mapping (Nov 12 09:10 Istanbul) — persisted three probes, settled one offline evaluation, mapped four assistant events and verified both browser scoring inputs. [Proof](docs/evidence/probe-and-upload.json)
+- [x] M7 Fraud detectors + SERV fraud review + real Kite address (Nov 12 09:03 Istanbul) — six detectors tested, Nova-7 642 → 549, and the public Kite mainnet address scored 649 with partial coverage. [Detector and offline review proof](docs/evidence/nova-fraud-review.json) · [Kite capture](fixtures/kite/real/kitescan-mainnet-0xd9bee9d8d294b01f716c77b3c5953035a15ed2d2.meta.json) [Main CI](https://github.com/ozgureyilmaz/agentfico/actions/runs/43205141595)
+- [x] M8 Probe plans + assistant log mapping (Nov 12 09:10 Istanbul) — persisted three probes, settled one offline evaluation, mapped four assistant events and verified both browser scoring inputs. [Proof](docs/evidence/probe-and-upload.json) [Main CI](https://github.com/ozgureyilmaz/agentfico/actions/runs/43205214626)
 - [ ] M9 Ship: one-command demo on fresh clone, hosted URL, README GIF/screenshots, AUC, 20+ Reppo evals
 - [ ] M10 Submission assets
 
@@ -180,3 +180,7 @@ M0–M6 are verified and merged. M4, M5 and M6 each passed CI on main after thei
 - Nov 12 09:10 Istanbul · M7 · [PR #7](https://github.com/ozgureyilmaz/agentfico/pull/7) opened at `a1ca685`. [PR CI](https://github.com/ozgureyilmaz/agentfico/actions/runs/43165723238) completed successfully. [Main CI proof update](https://github.com/ozgureyilmaz/agentfico/actions/runs/43165568701) passed at `cb7ce5a`.
 - Nov 12 09:10 Istanbul · M8 · `afc probe plan` stored `777a8271-ab45-4c42-adb0-a4984dacac06`, three probes. `afc probe enqueue` queued one batch and `bun run reppo:worker -- --drain` settled it with `offline=true`, `eval_id=null`. `afc map-log` logged four job 6 calls and returned four validated events. [Trace IDs](docs/evidence/probe-and-upload.json)
 - Nov 12 09:10 Istanbul · M8 · Browser at 1280 and 390 px returned log `score=632`, `saved=false`, Kite `score=649`, `PARTIAL_COVERAGE`, `simulated_share=0`, and `console_errors=0`. `bun run check` → `205 pass`, `0 fail`. [Browser proof](docs/evidence/probe-and-upload.json)
+
+- Nov 12 14:00 Istanbul · M7 · PR #7 merged into main at `23407561c4dfae5244d1430c178d391b535d7320`. The push workflow completed with `success`. [GitHub Actions run](https://github.com/ozgureyilmaz/agentfico/actions/runs/43205141595)
+
+- Nov 12 14:00 Istanbul · M8 · PR #8 merged into main at `8789ada0137604375c04158067169df8638a1d24`. The push workflow completed with `success`. [GitHub Actions run](https://github.com/ozgureyilmaz/agentfico/actions/runs/43205214626)
