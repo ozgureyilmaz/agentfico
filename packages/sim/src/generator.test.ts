@@ -9,7 +9,7 @@ import {
 } from "./index";
 
 const DEFAULT_GOLDEN_SHA256 =
-  "a9de2d8448468b5154eadb99b380d4c9300811c145117e43fd5bc4bcd48f9248";
+  "0cce410724a9ca97770462e5ee4e28c3e6f52f9e6158511109a504ae9f2014c3";
 
 function eventsFor(
   events: readonly BehaviorEvent[],
@@ -167,7 +167,6 @@ describe("seeded simulator", () => {
       Date.parse(cycleLegs[1].occurred_at) -
         Date.parse(cycleLegs[0].occurred_at),
     );
-    const flags = nova.filter((event) => event.type === "anomaly.flagged");
     const timestamps = nova.map((event) => Date.parse(event.occurred_at));
     const startOfWindow = SIMULATION_ANCHOR_MS - 24 * 60 * 60 * 1000;
 
@@ -176,15 +175,15 @@ describe("seeded simulator", () => {
     expect(Math.max(...timestamps)).toBeLessThan(SIMULATION_ANCHOR_MS);
     expect(cycleLegs).toHaveLength(2);
     expect(cycleElapsedMs).toBeLessThan(24 * 60 * 60 * 1000);
+    expect(nova.some((event) => event.type === "anomaly.flagged")).toBe(false);
     expect(
-      flags.map((event) => stringAttr(event, "reason_code")).sort(),
-    ).toEqual(["F01", "F02"]);
-    const sharedFunderFlag = flags.find(
-      (event) => stringAttr(event, "reason_code") === "F02",
-    );
-    expect(sharedFunderFlag).toBeDefined();
-    expect(
-      numberAttr(sharedFunderFlag as BehaviorEvent, "linked_wallet_count"),
+      new Set(
+        nova.flatMap((event) =>
+          typeof event.attrs?.linked_wallet === "string"
+            ? [event.attrs.linked_wallet]
+            : [],
+        ),
+      ).size,
     ).toBe(9);
   });
 

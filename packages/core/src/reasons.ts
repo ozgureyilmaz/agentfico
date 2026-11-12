@@ -1,5 +1,6 @@
 import type { BehaviorEvent } from "./events";
 import type { extractFeatures } from "./features";
+import type { FraudFinding } from "./fraud";
 import {
   DAY_MS,
   FACTOR_PARAMETERS,
@@ -117,6 +118,29 @@ export const REASON_CODES = [
     description: "An attested log chain has a gap or invalid signature.",
     trigger: "Hurts when normalized anomaly evidence includes F03.",
   },
+  {
+    key: "F04",
+    description: "Unusual payment velocity",
+    trigger:
+      "Hurts when verified payments exceed the short-window count and value limits.",
+  },
+  {
+    key: "F05",
+    description: "Suspiciously uniform evaluation burst",
+    trigger:
+      "Hurts when several distinct evaluations settle in a short window with nearly identical scores.",
+  },
+  {
+    key: "F06",
+    description: "Rapid identity link changes",
+    trigger: "Hurts when verified identity links churn in a seven-day window.",
+  },
+  {
+    key: "F07",
+    description: "Repeated refunds or disputes",
+    trigger:
+      "Hurts when verified adverse payment outcomes exceed count and rate thresholds.",
+  },
 ] as const;
 
 export type ReasonCodeKey = (typeof REASON_CODES)[number]["key"];
@@ -190,6 +214,8 @@ export function buildReasonCodes(
   ageDays: number,
   asOfMs: number,
   history: readonly BehaviorEvent[],
+  findings: readonly FraudFinding[] = [],
+  detectorEventById: ReadonlyMap<string, BehaviorEvent> = new Map(),
 ): ReasonCode[] {
   // Feature evidence is already validated by extraction; raw history is only
   // context for missing-sample, missing-owner and observed-age reasons.
@@ -288,11 +314,17 @@ export function buildReasonCodes(
           0,
         ),
     ) - manipulationPenalty;
-  const confirmedFraud = evidence.anomalies.some(
-    (event) =>
-      FRAUD_CAP.codes.some((code) => event.attrs?.reason_code === code) &&
-      event.attrs?.severity === FRAUD_CAP.severity,
-  );
+  const confirmedFraud =
+    findings.some(
+      (finding) =>
+        finding.confirmed &&
+        FRAUD_CAP.codes.some((code) => code === finding.code),
+    ) ||
+    evidence.anomalies.some(
+      (event) =>
+        FRAUD_CAP.codes.some((code) => event.attrs?.reason_code === code) &&
+        event.attrs?.severity === FRAUD_CAP.severity,
+    );
   const beforeThinCap = Math.min(
     baseScore,
     confirmedFraud ? FRAUD_CAP.score : SCORE_RANGE.max,
@@ -462,6 +494,31 @@ export function buildReasonCodes(
       0,
     );
     add(code, events.length > 0, factorImpact("F", severity), events);
+  }
+
+  for (const finding of findings) {
+    const sourceEvents = finding.source_event_ids.flatMap((id) => {
+      const event = detectorEventById.get(id);
+      return event ? [event] : [];
+    });
+    const existing = candidates.find(
+      (candidate) => candidate.code === finding.code,
+    );
+    if (existing) {
+      existing.events = [
+        ...new Set([...existing.events, ...finding.source_event_ids]),
+      ].sort(compareText);
+      existing.eval_ids = [
+        ...new Set([...existing.eval_ids, ...finding.eval_ids]),
+      ].sort(compareText);
+    } else {
+      add(
+        finding.code,
+        true,
+        factorImpact("F", finding.severity),
+        sourceEvents,
+      );
+    }
   }
 
   candidates.sort(

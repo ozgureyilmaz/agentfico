@@ -101,6 +101,50 @@ export const CritiqueSummarySchema = z.strictObject({
 });
 export type CritiqueSummary = z.infer<typeof CritiqueSummarySchema>;
 
+const FraudCodeSchema = z.enum([
+  "F01",
+  "F02",
+  "F03",
+  "F04",
+  "F05",
+  "F06",
+  "F07",
+]);
+const SourceEventIdsSchema = z
+  .array(
+    z
+      .ulid()
+      .refine((value) => value === value.toUpperCase(), "Canonical event ID"),
+  )
+  .min(1)
+  .max(50)
+  .refine((ids) => new Set(ids).size === ids.length);
+
+export const FraudReviewSchema = z.strictObject({
+  summary: z.string().min(1),
+  findings: z
+    .array(
+      z.strictObject({
+        code: FraudCodeSchema,
+        text: z.string().min(1),
+        source_event_ids: SourceEventIdsSchema,
+        typology: z.enum([
+          "wash",
+          "sybil_ring",
+          "bust_out",
+          "benign",
+          "unclear",
+        ]),
+        description: z.string().min(1),
+      }),
+    )
+    .min(1)
+    .max(7),
+  serv_call_id: z.string().min(1),
+  offline: z.boolean(),
+});
+export type FraudReview = z.infer<typeof FraudReviewSchema>;
+
 export const AgentReportSchema = z.strictObject({
   score: AgentScoreSchema,
   history: z.strictObject({
@@ -111,7 +155,14 @@ export const AgentReportSchema = z.strictObject({
   verdicts: z.array(VerdictRecordSchema),
   trust_memo: z.string().min(1).nullable(),
   critique_summary: CritiqueSummarySchema.nullable(),
-  fraud_review: z.null(),
+  fraud_review: FraudReviewSchema.nullable(),
+  fraud_transition: z
+    .strictObject({
+      score_before: z.number().int().min(300).max(850),
+      before_as_of: z.iso.datetime(),
+      detector_at: z.iso.datetime(),
+    })
+    .nullable(),
   serv_call_ids: z.array(z.string().min(1)),
   simulated_share: z.number().min(0).max(1),
 });

@@ -1,5 +1,6 @@
 import { describe, expect, test } from "bun:test";
 import { z } from "zod";
+import { applyFraudReview } from "../src/fraud-review";
 import {
   materializeFixture,
   SERV_JOBS,
@@ -46,6 +47,46 @@ const explanationInput = {
   reader: "marketplace" as const,
 };
 
+const fraudInput: ServInputs[5] = {
+  afc_id: "afc:sim:nova-7",
+  findings: [
+    {
+      code: "F01",
+      text: "Circular payment activity was detected.",
+      source_event_ids: ["01JBF5V4R9X4Y5K7Q6M8N2P3AA"],
+    },
+    {
+      code: "F02",
+      text: "A shared funder was detected.",
+      source_event_ids: [
+        "01JBF5V4R9X4Y5K7Q6M8N2P3AB",
+        "01JBF5V4R9X4Y5K7Q6M8N2P3AC",
+      ],
+    },
+  ],
+};
+
+function fraudOutput() {
+  return {
+    summary: "The supplied events support two detector findings.",
+    findings: [
+      {
+        code: "F01" as const,
+        source_event_ids: [...fraudInput.findings[0]!.source_event_ids],
+        typology: "wash" as const,
+        description:
+          "The cited detector events show a circular payment pattern.",
+      },
+      {
+        code: "F02" as const,
+        source_event_ids: [...fraudInput.findings[1]!.source_event_ids],
+        typology: "sybil_ring" as const,
+        description: "The cited detector events share a funding source.",
+      },
+    ],
+  };
+}
+
 function explanationOutput() {
   return {
     trust_memo: "The supplied evidence indicates strong payment conduct.",
@@ -75,7 +116,7 @@ describe("SERV job contracts", () => {
     expect(() => validateJobOutput(4, input, output)).toThrow();
   });
   test("registers only jobs 2, 3, 4, and 7 with prompts and fixture metadata", () => {
-    expect(Object.keys(SERV_JOBS).map(Number).sort()).toEqual([2, 3, 4, 7]);
+    expect(Object.keys(SERV_JOBS).map(Number).sort()).toEqual([2, 3, 4, 5, 7]);
     for (const job of Object.values(SERV_JOBS)) {
       expect(job.name.length).toBeGreaterThan(0);
       expect(job.systemPrompt.length).toBeGreaterThan(0);
@@ -87,10 +128,12 @@ describe("SERV job contracts", () => {
     expect(SERV_JOBS[2].modelEnv).toBe("AFC_MODEL_RUBRIC");
     expect(SERV_JOBS[3].modelEnv).toBe("AFC_MODEL_SUMMARY");
     expect(SERV_JOBS[4].modelEnv).toBe("AFC_MODEL_EXPLAIN");
+    expect(SERV_JOBS[5].modelEnv).toBe("AFC_MODEL_FRAUD");
     expect(SERV_JOBS[7].modelEnv).toBe("AFC_MODEL_SUMMARY");
     expect(SERV_JOBS[2].shadowHint).toBeUndefined();
     expect(SERV_JOBS[3].shadowHint).toContain("critique ID");
     expect(SERV_JOBS[4].shadowHint).toContain("event_id");
+    expect(SERV_JOBS[5].shadowHint).toContain("source_event_ids");
     expect(SERV_JOBS[7].shadowHint).toBeUndefined();
   });
 
@@ -237,6 +280,70 @@ describe("SERV job contracts", () => {
     expect(() =>
       validateJobOutput(4, input, { ...output, score: 849 }),
     ).toThrow();
+  });
+
+  test("fraud reviews preserve only supplied reason codes and source event IDs", () => {
+    const output = fraudOutput();
+    expect(validateJobOutput(5, fraudInput, output)).toEqual(output);
+    expect(() =>
+      validateJobOutput(5, fraudInput, {
+        ...output,
+        findings: output.findings.map((finding, index) =>
+          index === 0
+            ? {
+                ...finding,
+                source_event_ids: ["01JBF5V4R9X4Y5K7Q6M8N2P3ZZ"],
+              }
+            : finding,
+        ),
+      }),
+    ).toThrow("source event IDs do not match");
+    expect(() =>
+      validateJobOutput(5, fraudInput, {
+        ...output,
+        findings: output.findings.slice(0, 1),
+      }),
+    ).toThrow("every supplied finding");
+    expect(() =>
+      validateJobOutput(5, fraudInput, { ...output, score: 300 }),
+    ).toThrow();
+  });
+
+  test("offline fraud fixture materializes the real supplied citation set", async () => {
+    const fixture = await readFixture(5);
+    const output = materializeFixture(5, fraudInput, fixture);
+    expect(
+      output.findings.map(({ code, source_event_ids }) => ({
+        code,
+        source_event_ids,
+      })),
+    ).toEqual(
+      fraudInput.findings.map(({ code, source_event_ids }) => ({
+        code,
+        source_event_ids,
+      })),
+    );
+  });
+
+  test("public fraud review attaches the trace ID without changing its citations", () => {
+    const output = fraudOutput();
+    const review = applyFraudReview(fraudInput, output, {
+      call_id: "serv-trace-5",
+      offline: true,
+    });
+    expect(review.serv_call_id).toBe("serv-trace-5");
+    expect(review.offline).toBe(true);
+    expect(
+      review.findings.map(({ code, source_event_ids }) => ({
+        code,
+        source_event_ids,
+      })),
+    ).toEqual(
+      fraudInput.findings.map(({ code, source_event_ids }) => ({
+        code,
+        source_event_ids,
+      })),
+    );
   });
 
   test("bounds explanation scores and factors to the published ranges", () => {

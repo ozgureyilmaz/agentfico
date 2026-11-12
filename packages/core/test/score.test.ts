@@ -314,14 +314,13 @@ describe("afc-0.2 scoring acceptance", () => {
 
     for (const code of ["F01", "F02"]) {
       const reason = result.reason_codes.find((item) => item.code === code);
-      const sourceFlag = events.find(
-        (event) =>
-          event.type === "anomaly.flagged" && event.attrs?.reason_code === code,
-      );
-      if (!reason || !sourceFlag) {
-        throw new Error(`Missing ${code} reason or its source fraud event.`);
+      if (!reason) throw new Error(`Missing ${code} reason`);
+      expect(reason.events.length).toBeGreaterThanOrEqual(2);
+      for (const id of reason.events) {
+        expect(events.find((event) => event.event_id === id)?.type).not.toBe(
+          "anomaly.flagged",
+        );
       }
-      expect(reason.events).toContain(sourceFlag.event_id);
     }
   });
 

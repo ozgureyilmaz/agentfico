@@ -80,6 +80,6 @@ test("synthetic fixture provenance stays simulated and unavailable providers fai
   ).rejects.toThrow("HTTP 403");
   await expect(
     readKiteEvents(address, { env: { ...env, AFC_OFFLINE: "1" } }),
-  ).rejects.toThrow("fixture");
+  ).rejects.toThrow("No recorded Kite history");
   await expect(readKiteEvents("0xinvalid", { env })).rejects.toThrow("20-byte");
 });

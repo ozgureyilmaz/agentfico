@@ -1,0 +1,91 @@
+{
+  "captured_at_utc": "2026-11-11T08:21:55Z",
+  "network": "KiteAI Mainnet",
+  "chain_id": 2366,
+  "chain_id_rpc_response": "0x93e",
+  "rpc_endpoint": "https://rpc.gokite.ai/",
+  "explorer": "https://kitescan.ai/",
+  "address": "0xD9bee9d8d294b01f716c77B3C5953035A15Ed2d2",
+  "address_type": "EOA",
+  "address_name": null,
+  "address_profile": {
+    "file": "kitescan-mainnet-0xd9bee9d8d294b01f716c77b3c5953035a15ed2d2-address.json",
+    "captured_at_utc": "2026-11-11T08:28:22Z",
+    "http_status": 200,
+    "has_token_transfers": true,
+    "balance_updated_at_block": 2483655
+  },
+  "token": {
+    "symbol": "USDC.e",
+    "address": "0x7aB6f3ed87C42eF0aDb67Ed95090f8bF5240149e",
+    "decimals": 6
+  },
+  "provider": "KiteScan public Blockscout v2 API",
+  "transfer_endpoint": "https://kitescan.ai/api/v2/addresses/{address}/token-transfers?type=ERC-20&token={token}",
+  "transfer_fixture": "kitescan-mainnet-0xd9bee9d8d294b01f716c77b3c5953035a15ed2d2.json",
+  "transfer_fixture_sha256": "7be4443b03747d6252c54427715f2a6fd51a8646986acec27a534cc5ae7399fa",
+  "transfer_responses": {
+    "http_statuses": [200],
+    "page_responses": 20,
+    "raw_item_records": 1000,
+    "unique_transfer_logs": 50,
+    "unique_transactions": 49,
+    "block_range_inclusive": {
+      "min": 122771,
+      "max": 2301185
+    },
+    "timestamp_range_utc": {
+      "earliest": "2026-07-05T09:25:13.000000Z",
+      "latest": "2026-11-06T12:30:52.000000Z"
+    },
+    "next_page_params": {
+      "index": 1,
+      "block_number": 122771
+    },
+    "pagination_advanced": false,
+    "complete": false,
+    "failure": "All 20 transfer requests returned HTTP 200, but the cursor did not advance: repeated responses contained the same 50 unique transfer logs and next_page_params remained {index: 1, block_number: 122771}. The adapter stopped at its 20-page bound and reported partial coverage."
+  },
+  "live_cli_result": {
+    "command": "bun run --no-env-file packages/cli/src/afc.ts score --kite 0xD9bee9d8d294b01f716c77B3C5953035A15Ed2d2",
+    "bun_version": "1.4.4",
+    "exit_code": 0,
+    "score": 649,
+    "band": "Fair",
+    "confidence": "low",
+    "model_version": "afc-0.2",
+    "as_of_utc": "2026-11-11T00:00:00.000Z",
+    "complete": false,
+    "pages": 20,
+    "offline": false,
+    "outcome": "PARTIAL_COVERAGE",
+    "simulated_share": 0,
+    "factors": {
+      "Q": 0.5,
+      "P": 0.9664102895022078,
+      "L": 0.5,
+      "C": 0.25,
+      "I": 0.653940577076668,
+      "F": 1
+    },
+    "reason_codes": ["C01", "I03", "Q03", "P04"]
+  },
+  "fixture_replay": {
+    "score": 649,
+    "band": "Fair",
+    "confidence": "low",
+    "complete": false,
+    "pages": 20,
+    "offline": true,
+    "simulated_share": 0
+  },
+  "read_only_proof": {
+    "rpc_methods": ["eth_chainId", "eth_blockNumber"],
+    "explorer_methods": ["GET address profile", "GET token transfers"],
+    "authorization_headers": false,
+    "wallet_or_partner_keys_loaded": false,
+    "signing_or_transactions": false,
+    "spending": false
+  },
+  "testnet_fallback": "Not used; mainnet RPC and KiteScan both responded, and the CLI produced a score. The pagination issue is recorded as partial coverage."
+}

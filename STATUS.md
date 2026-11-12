@@ -3,14 +3,14 @@
 Tick only with proof: time (Istanbul) + one-line proof (command output, PR or commit link). No proof, no tick.
 Deadline: Nov 16 02:59 Istanbul (Nov 15 23:59 UTC). Code complete: Nov 13.
 
-Last updated: Nov 11 11:17 Istanbul
+Last updated: Nov 12 09:03 Istanbul
 
 ## Now
-M0–M6 are verified and merged. M4, M5 and M6 each passed CI on main after their merge. M7 fraud detection and Kite verification are in progress.
+M0–M6 are verified and merged. M4, M5 and M6 each passed CI on main after their merge. M7 is verified locally. M8 probe plans and assistant logs are in progress.
 
 ## Next
-1. Verify M7 fraud detection and the real Kite address end to end.
-2. Build the M8 probe and assistant log workflows.
+1. Review M7 and approve the branch push.
+2. Verify the M8 probe and assistant log workflows, including both dashboard scoring inputs.
 3. Ozgur: add the OpenServ screenshot to [docs/evidence](docs/evidence/) and choose hosting.
 
 ## Setup (Ozgur)
@@ -29,7 +29,7 @@ M0–M6 are verified and merged. M4, M5 and M6 each passed CI on main after thei
 - [x] M4 Reppo worker + real evals per persona (Nov 11 10:51 Istanbul) — five live completions, 2,200 credits, five scored events and 152 passing tests. [Recorded responses](fixtures/reppo/real/) [Main CI](https://github.com/ozgureyilmaz/agentfico/actions/runs/42985638789)
 - [x] M5 API + CLI (Nov 11 10:53 Istanbul) — five exact score, factor and reason-code matches, an offline provisional upload, and 174 passing tests. [Main CI](https://github.com/ozgureyilmaz/agentfico/actions/runs/42985745755)
 - [x] M6 Dashboard (Nov 11 10:55 Istanbul) — browser flows passed at desktop and 390 px, with 186 passing tests. [Main CI](https://github.com/ozgureyilmaz/agentfico/actions/runs/42985808699)
-- [ ] M7 Fraud detectors + SERV fraud review + real Kite address
+- [x] M7 Fraud detectors + SERV fraud review + real Kite address (Nov 12 09:03 Istanbul) — six detectors tested, Nova-7 642 → 549, and the public Kite mainnet address scored 649 with partial coverage. [Detector and offline review proof](docs/evidence/nova-fraud-review.json) · [Kite capture](fixtures/kite/real/kitescan-mainnet-0xd9bee9d8d294b01f716c77b3c5953035a15ed2d2.meta.json)
 - [ ] M8 Probe plans + assistant log mapping
 - [ ] M9 Ship: one-command demo on fresh clone, hosted URL, README GIF/screenshots, AUC, 20+ Reppo evals
 - [ ] M10 Submission assets
@@ -52,7 +52,7 @@ M0–M6 are verified and merged. M4, M5 and M6 each passed CI on main after thei
 - [ ] Form submitted, confirmation saved
 
 ## Blockers / open questions
-- KiteScan live lookup availability remains UNSURE for the later real-address proof; response mapping is covered with primary-schema fixtures.
+- Kite mainnet transfer coverage remains partial. The explorer repeated its next page key; the provisional score uses 50 distinct transfer logs.
 - Hosting provider (Ozgur).
 - Reppo credits: enough for about 40 evals?
 
@@ -172,3 +172,7 @@ M0–M6 are verified and merged. M4, M5 and M6 each passed CI on main after thei
 - Nov 11 11:17 Istanbul · M5 · PR #5 merged into main at `92a300eacb930f1a652392d5d8584daefb4a7ef9`. The push workflow completed with `success`. [GitHub Actions run](https://github.com/ozgureyilmaz/agentfico/actions/runs/42985745755)
 
 - Nov 11 11:17 Istanbul · M6 · PR #6 merged into main at `8ce50e0ea732ebf6230edefbc9fe8e05d4cab141`. The push workflow completed with `success`. [GitHub Actions run](https://github.com/ozgureyilmaz/agentfico/actions/runs/42985808699)
+
+- Nov 12 09:03 Istanbul · M7 · `bun run check` → `197 pass`, `0 fail`. Seed 42 emitted 1,266 events with SHA-256 `0cce410724a9ca97770462e5ee4e28c3e6f52f9e6158511109a504ae9f2014c3`; Nova-7 uses detector inputs without prewritten flags.
+- Nov 12 09:03 Istanbul · M7 · `GET /v1/report/afc:sim:nova-7` → before `642`, after `549`, `under_review`, F01/F02; `GET /v1/serv-log?job=5` includes `3b42d0e1-c761-4268-a0b7-2406e04d850e` (offline, successful). [Report and trace](docs/evidence/nova-fraud-review.json)
+- Nov 12 09:03 Istanbul · M7 · Kite mainnet chain `2366`, public address `0xD9bee9d8d294b01f716c77B3C5953035A15Ed2d2`, captured Nov 11 at `08:21:55Z`, blocks `122771–2301185`. Live CLI and recorded replay scored `649`, `simulated_share=0`, `PARTIAL_COVERAGE`. The replay stops after two responses when the pagination key repeats. [Capture and raw responses](fixtures/kite/real/)

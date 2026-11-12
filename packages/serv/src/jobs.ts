@@ -1,7 +1,7 @@
 import { METHODOLOGY, type ReasonCode } from "@agentfico/core";
 import { z } from "zod";
 
-export type ServJobId = 2 | 3 | 4 | 7;
+export type ServJobId = 2 | 3 | 4 | 5 | 7;
 
 type ReasonCodeKey = ReasonCode["code"];
 
@@ -21,6 +21,30 @@ const reasonCodeSchema = z.strictObject({
   text: z.string().min(1),
   events: z.array(z.string().min(1)).min(1),
   eval_ids: z.array(z.string().min(1)),
+});
+
+const fraudCodeSchema = z.enum([
+  "F01",
+  "F02",
+  "F03",
+  "F04",
+  "F05",
+  "F06",
+  "F07",
+]);
+const sourceEventIdsSchema = z
+  .array(
+    z
+      .ulid()
+      .refine((value) => value === value.toUpperCase(), "Canonical event ID"),
+  )
+  .min(1)
+  .max(50)
+  .refine((ids) => new Set(ids).size === ids.length);
+const fraudEvidenceSchema = z.strictObject({
+  code: fraudCodeSchema,
+  text: z.string().min(1),
+  source_event_ids: sourceEventIdsSchema,
 });
 
 const inputSchemas = {
@@ -50,6 +74,10 @@ const inputSchemas = {
     }),
     reason_codes: z.array(reasonCodeSchema),
     reader: z.enum(["marketplace", "merchant", "agent_owner", "lender"]),
+  }),
+  5: z.strictObject({
+    afc_id: z.string().regex(/^afc:[a-z][a-z0-9_-]*:[^:\s]+$/),
+    findings: z.array(fraudEvidenceSchema).min(1).max(7),
   }),
   7: z.strictObject({
     afc_id: z.string(),
@@ -82,6 +110,26 @@ const outputSchemas = {
     trust_memo: z.string().min(1),
     reason_codes: z.array(reasonCodeSchema),
   }),
+  5: z.strictObject({
+    summary: z.string().min(1),
+    findings: z
+      .array(
+        z.strictObject({
+          code: fraudCodeSchema,
+          source_event_ids: sourceEventIdsSchema,
+          typology: z.enum([
+            "wash",
+            "sybil_ring",
+            "bust_out",
+            "benign",
+            "unclear",
+          ]),
+          description: z.string().min(1),
+        }),
+      )
+      .min(1)
+      .max(7),
+  }),
   7: z.strictObject({
     simulated: z.literal(true),
     samples: z.array(workSampleSchema).min(3).max(5),
@@ -99,7 +147,8 @@ export type ServOutputs = {
 type ModelEnvironment =
   | "AFC_MODEL_RUBRIC"
   | "AFC_MODEL_SUMMARY"
-  | "AFC_MODEL_EXPLAIN";
+  | "AFC_MODEL_EXPLAIN"
+  | "AFC_MODEL_FRAUD";
 
 type JobDefinition<J extends ServJobId> = {
   name: string;
@@ -146,6 +195,17 @@ export const SERV_JOBS: ServJobRegistry = {
       "Cite at least one event_id per code; state no number that is not in the input.",
     fixtureFile: "explanation.json",
   },
+  5: {
+    name: "fraud_review",
+    inputSchema: inputSchemas[5],
+    outputSchema: outputSchemas[5],
+    systemPrompt:
+      "Describe only the supplied detector findings. Choose a typology only when supported by the supplied reason code and source event IDs; otherwise use unclear. Return every finding in order with its code and source_event_ids copied exactly. Do not invent events, evidence, flags, recommendations, or scores. This review is descriptive and must not affect the deterministic score.",
+    modelEnv: "AFC_MODEL_FRAUD",
+    shadowHint:
+      "Check that every finding keeps the exact input code and source_event_ids; do not add evidence or a flag.",
+    fixtureFile: "fraud-review.json",
+  },
   7: {
     name: "simulated_work",
     inputSchema: inputSchemas[7],
@@ -165,6 +225,25 @@ const fixtureTemplateSchemas = {
   4: z.strictObject({
     trust_memo: z.string().min(1),
     reason_texts: z.array(z.string().min(1)).min(1),
+  }),
+  5: z.strictObject({
+    summary: z.string().min(1),
+    findings: z
+      .array(
+        z.strictObject({
+          code: fraudCodeSchema,
+          typology: z.enum([
+            "wash",
+            "sybil_ring",
+            "bust_out",
+            "benign",
+            "unclear",
+          ]),
+          description: z.string().min(1),
+        }),
+      )
+      .min(1)
+      .max(7),
   }),
   7: z.strictObject({
     samples: z
@@ -271,6 +350,33 @@ export function validateJobOutput<J extends ServJobId>(
     }
   }
 
+  if (job === 5) {
+    const fraudInput = parsedInput as ServInputs[5];
+    const fraudOutput = parsedOutput as ServOutputs[5];
+    const inputCodes = fraudInput.findings.map((finding) => finding.code);
+    if (new Set(inputCodes).size !== inputCodes.length) {
+      throw new Error("Fraud findings must use unique reason codes");
+    }
+    if (fraudOutput.findings.length !== fraudInput.findings.length) {
+      throw new Error("Fraud review must return every supplied finding");
+    }
+    for (const [index, finding] of fraudOutput.findings.entries()) {
+      const source = fraudInput.findings[index];
+      if (
+        !source ||
+        finding.code !== source.code ||
+        JSON.stringify(finding.source_event_ids) !==
+          JSON.stringify(source.source_event_ids)
+      ) {
+        throw new Error(
+          "Fraud review reason code or source event IDs do not match the input",
+        );
+      }
+      requireNonblank(finding.description, "Fraud review description");
+    }
+    requireNonblank(fraudOutput.summary, "Fraud review summary");
+  }
+
   if (job === 7) {
     const workInput = parsedInput as ServInputs[7];
     const workOutput = parsedOutput as ServOutputs[7];
@@ -338,6 +444,28 @@ export function materializeFixture<J extends ServJobId>(
         ...reason,
         text: template.reason_texts[index] ?? reason.text,
       })),
+    };
+  } else if (job === 5) {
+    const template = fixtureTemplateSchemas[5].parse(raw);
+    const fraudInput = parsedInput as ServInputs[5];
+    output = {
+      summary: template.summary,
+      findings: fraudInput.findings.map((finding) => {
+        const match = template.findings.find(
+          (item) => item.code === finding.code,
+        );
+        if (!match) {
+          throw new Error(
+            `Fraud review fixture is missing template for ${finding.code}`,
+          );
+        }
+        return {
+          code: finding.code,
+          source_event_ids: [...finding.source_event_ids],
+          typology: match.typology,
+          description: match.description,
+        };
+      }),
     };
   } else {
     const template = fixtureTemplateSchemas[7].parse(raw);

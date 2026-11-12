@@ -1,0 +1,40 @@
+{
+  "summary": "This fixture-backed review describes only the detector evidence supplied with the request.",
+  "findings": [
+    {
+      "code": "F01",
+      "typology": "unclear",
+      "description": "The supplied event references support a circular-flow review, but this fixture does not add a new finding."
+    },
+    {
+      "code": "F02",
+      "typology": "unclear",
+      "description": "The supplied event references support a shared-funder review, but this fixture does not add a new finding."
+    },
+    {
+      "code": "F03",
+      "typology": "unclear",
+      "description": "The supplied event references support an integrity review, but this fixture does not add a new finding."
+    },
+    {
+      "code": "F04",
+      "typology": "unclear",
+      "description": "The cited events warrant checking payment velocity."
+    },
+    {
+      "code": "F05",
+      "typology": "unclear",
+      "description": "The cited events warrant checking an evaluation burst."
+    },
+    {
+      "code": "F06",
+      "typology": "unclear",
+      "description": "The cited events warrant checking identity link changes."
+    },
+    {
+      "code": "F07",
+      "typology": "unclear",
+      "description": "The cited events warrant checking refunds or disputes."
+    }
+  ]
+}

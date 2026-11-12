@@ -101,9 +101,13 @@ Each score returns the top 4 codes that lowered it and the top 2 that helped, ea
 | I01 | New or short history | age < 30 d |
 | I02 | Funding concentrated in one source | funding_diversity < 0.3 |
 | I03 | No verified owner link | owner_linked = 0 |
-| F01 | Circular or wash payments | cycle A->B->A within 24 h above threshold |
+| F01 | Circular or wash payments | a verified self-transfer or matching opposite legs within 24 hours, at least 10 units of the same currency and within 1% or one cent of each other |
 | F02 | Linked to a sybil cluster or flagged wallet | shared funder with >= 5 fresh wallets |
 | F03 | Broken or unsigned log chain | hash-chain gap on an attested source |
+| F04 | Unusual payment velocity | at least eight verified transfers and 250 units of one currency within ten minutes |
+| F05 | Suspiciously uniform evaluation burst | at least five distinct verified evaluations with the same decision and a score range of at most one point within 30 minutes |
+| F06 | Rapid identity link changes | at least three distinct verified links of the same type within seven days |
+| F07 | Repeated refunds or disputes | at least three distinct adverse records and five settled payments within 30 days, with an adverse-to-settled ratio of at least 40% |
 
 Positive codes reuse the same IDs with `direction: "helps"` (for example Q01 helps = consistently high judged quality).
 

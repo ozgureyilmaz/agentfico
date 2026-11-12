@@ -1,7 +1,9 @@
 import { createHash } from "node:crypto";
+import { resolve } from "node:path";
 import { type BehaviorEvent, BehaviorEventSchema } from "@agentfico/core";
 import { z } from "zod";
 
+const MAINNET_USDC = "0x7aB6f3ed87C42eF0aDb67Ed95090f8bF5240149e";
 const AddressSchema = z.string().regex(/^0x[0-9a-fA-F]{40}$/);
 const TransferSchema = z.object({
   transaction_hash: z.string().regex(/^0x[0-9a-fA-F]{64}$/),
@@ -86,13 +88,21 @@ export async function readKiteEvents(
     );
   const subjectAddress = parsedAddress.data.toLowerCase();
   const env = options.env ?? process.env;
-  const token = AddressSchema.safeParse(env.KITE_USDC_ADDRESS);
+  const base = new URL(env.KITESCAN_API_BASE ?? "https://kitescan.ai/api/v2");
+  const network =
+    base.hostname === "kitescan.ai"
+      ? "mainnet"
+      : base.hostname === "testnet.kitescan.ai"
+        ? "testnet"
+        : "unknown";
+  const token = AddressSchema.safeParse(
+    env.KITE_USDC_ADDRESS ?? (network === "mainnet" ? MAINNET_USDC : undefined),
+  );
   if (!token.success)
     throw new KiteDataError(
       "kite_configuration",
       "KITE_USDC_ADDRESS must identify the configured USDC.e contract",
     );
-  const base = new URL(env.KITESCAN_API_BASE ?? "https://kitescan.ai/api/v2");
   if (
     !["https:", "http:"].includes(base.protocol) ||
     base.username ||
@@ -105,17 +115,33 @@ export async function readKiteEvents(
       "KiteScan base URL failed validation",
     );
   }
-  if (env.AFC_OFFLINE === "1" && !options.fixture) {
-    // TODO(confirm): https://docs.gokite.ai/kite-chain/1-getting-started/network-information.md
-    throw new KiteDataError(
-      "kite_fixture_unavailable",
-      "A recorded Kite fixture is required in offline mode; live mainnet proof is pending M7",
+  let fixture = options.fixture;
+  if (env.AFC_OFFLINE === "1" && !fixture) {
+    const file = Bun.file(
+      resolve(
+        import.meta.dir,
+        "../../../fixtures/kite/real",
+        `kitescan-${network}-${subjectAddress}.json`,
+      ),
     );
+    if (!(await file.exists())) {
+      throw new KiteDataError(
+        "kite_fixture_unavailable",
+        "No recorded Kite history for this address in offline mode",
+      );
+    }
+    fixture = z
+      .strictObject({
+        simulated: z.literal(false),
+        pages: z.array(z.unknown()).min(1).max(20),
+      })
+      .parse(await file.json());
   }
   const afc_id = `afc:kite:${subjectAddress}`;
-  const simulated = options.fixture?.simulated ?? false;
+  const simulated = fixture?.simulated ?? false;
   const events: BehaviorEvent[] = [];
   const seen = new Set<string>();
+  const pagination = new Set<string>();
   let cursor: Record<string, string | number | null> | null = null;
   let complete = false;
   let skipped = false;
@@ -131,8 +157,10 @@ export async function readKiteEvents(
         url.searchParams.set(key, String(value));
     }
     let raw: unknown;
-    if (options.fixture) raw = options.fixture.pages[pageIndex];
-    else {
+    if (fixture) {
+      if (pageIndex >= fixture.pages.length) break;
+      raw = fixture.pages[pageIndex];
+    } else {
       let response: Response;
       try {
         response = await (options.fetch ?? globalThis.fetch)(url, {
@@ -213,7 +241,10 @@ export async function readKiteEvents(
             tx_hash: transfer.transaction_hash,
             url: `${url.origin}${url.pathname}#${transfer.transaction_hash}-${transfer.log_index}`,
           },
-          attrs: { log_index: transfer.log_index },
+          attrs: {
+            log_index: transfer.log_index,
+            ...(simulated ? {} : { kite_network: network }),
+          },
         }),
       );
     }
@@ -227,6 +258,13 @@ export async function readKiteEvents(
         "kite_invalid_response",
         "KiteScan pagination fields are unsupported",
       );
+    const paginationKey = JSON.stringify(
+      Object.entries(cursor).sort(([left], [right]) =>
+        left.localeCompare(right),
+      ),
+    );
+    if (pagination.has(paginationKey)) break;
+    pagination.add(paginationKey);
   }
   events.sort((a, b) =>
     a.occurred_at < b.occurred_at
@@ -250,6 +288,7 @@ export async function readKiteEvents(
         occurred_at: earliest.occurred_at,
         attrs: {
           age_basis: "earliest_observed_usdc_transfer",
+          ...(simulated ? {} : { kite_network: network }),
           incomplete_history: !complete || skipped,
         },
       }),
@@ -260,6 +299,6 @@ export async function readKiteEvents(
     complete: complete && !skipped,
     pages,
     simulated_share: simulated ? 1 : 0,
-    offline: Boolean(options.fixture),
+    offline: Boolean(fixture),
   };
 }

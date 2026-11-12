@@ -203,11 +203,15 @@ const triggerCases: {
 ];
 
 describe("canonical reason codes", () => {
-  test("publishes all 19 unique code keys and serializable descriptions and triggers", () => {
-    expect(REASON_CODES.map(({ key }) => key)).toEqual(
-      triggerCases.map(({ code }) => code),
-    );
-    expect(new Set(REASON_CODES.map(({ key }) => key)).size).toBe(19);
+  test("publishes all 23 unique code keys and serializable descriptions and triggers", () => {
+    expect(REASON_CODES.map(({ key }) => key)).toEqual([
+      ...triggerCases.map(({ code }) => code),
+      "F04",
+      "F05",
+      "F06",
+      "F07",
+    ]);
+    expect(new Set(REASON_CODES.map(({ key }) => key)).size).toBe(23);
     expect(JSON.parse(JSON.stringify(REASON_CODES))).toEqual(REASON_CODES);
     for (const metadata of REASON_CODES) {
       expect(metadata.description.length).toBeGreaterThan(0);

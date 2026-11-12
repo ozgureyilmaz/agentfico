@@ -623,8 +623,7 @@ describe("M5 API contract", () => {
       expect(await unavailable.json()).toEqual({
         error: {
           code: "kite_fixture_unavailable",
-          message:
-            "A recorded Kite fixture is required in offline mode; live mainnet proof is pending M7",
+          message: "No recorded Kite history for this address in offline mode",
         },
         simulated_share: 0,
       });
@@ -771,4 +770,36 @@ describe("M5 API contract", () => {
       rmSync(directory, { recursive: true, force: true });
     }
   });
+});
+
+test("Nova-7 report cites detected transfers and logs descriptive SERV review without changing its score", async () => {
+  const { db, generated } = seededDb();
+  try {
+    const app = appFor(db);
+    const res = await app.request("/v1/report/afc:sim:nova-7");
+    expect(res.status).toBe(200);
+    const report = AgentReportSchema.parse(await res.json());
+    expect(report.score.score).toBe(549);
+    expect(report.fraud_transition?.score_before).toBe(642);
+    expect(report.fraud_review?.offline).toBe(true);
+    expect(report.fraud_review?.findings.map((item) => item.code)).toEqual([
+      "F01",
+      "F02",
+    ]);
+    const ids = new Set(generated.map((event) => event.event_id));
+    for (const finding of report.fraud_review?.findings ?? []) {
+      expect(finding.source_event_ids.every((id) => ids.has(id))).toBe(true);
+    }
+    const trace = ServLogResponseSchema.parse(
+      await (await app.request("/v1/serv-log?job=5")).json(),
+    );
+    expect(trace.calls[0]?.id).toBe(
+      report.fraud_review?.serv_call_id ?? "missing trace",
+    );
+    expect(
+      (await (await app.request("/v1/score/afc:sim:nova-7")).json()).score,
+    ).toBe(549);
+  } finally {
+    db.$client.close();
+  }
 });
