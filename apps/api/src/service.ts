@@ -4,7 +4,10 @@ import {
   type AgentScore,
   type BehaviorEvent,
   BehaviorEventSchema,
+  detectFraud,
+  FRAUD_DETECTOR_THRESHOLDS,
   METHODOLOGY,
+  REASON_CODES,
   scoreAgent,
 } from "@agentfico/core";
 import {
@@ -32,9 +35,14 @@ import {
   storeEvents,
   verdicts,
 } from "@agentfico/db";
-import { applyExplanation, runServJob } from "@agentfico/serv";
+import {
+  applyExplanation,
+  applyFraudReview,
+  runServJob,
+  type ServInputs,
+} from "@agentfico/serv";
 import { redactText, redactValue } from "@agentfico/serv/redact";
-import { and, desc, eq, lte } from "drizzle-orm";
+import { and, desc, eq, gte, inArray, lte, ne, or } from "drizzle-orm";
 import { z } from "zod";
 
 const AFC_ID_SCHEMA = z.string().regex(/^afc:[a-z][a-z0-9_-]*:[^:\s]+$/);
@@ -118,11 +126,38 @@ function compareEvents(left: BehaviorEvent, right: BehaviorEvent): number {
   );
 }
 
-function readEventRows(db: AgentFicoDb, afcId: string): BehaviorEvent[] {
+function readEventRows(
+  db: AgentFicoDb,
+  afcId: string,
+  fundingAsOf?: string,
+): BehaviorEvent[] {
   const rows = db
     .select({ eventJson: events.eventJson })
     .from(events)
-    .where(eq(events.subjectAfcId, afcId))
+    .where(
+      fundingAsOf
+        ? and(
+            ne(events.subjectAfcId, afcId),
+            ne(events.attestation, "self_reported"),
+            eq(events.simulated, false),
+            lte(events.occurredAt, fundingAsOf),
+            or(
+              eq(events.eventType, "identity.registered"),
+              and(
+                inArray(events.eventType, ["payment.sent", "payment.received"]),
+                gte(
+                  events.occurredAt,
+                  new Date(
+                    Date.parse(fundingAsOf) -
+                      FRAUD_DETECTOR_THRESHOLDS.F02.freshWalletDays *
+                        86_400_000,
+                  ).toISOString(),
+                ),
+              ),
+            ),
+          )
+        : eq(events.subjectAfcId, afcId),
+    )
     .all();
   return rows.map(({ eventJson }) => {
     let value: unknown;
@@ -447,7 +482,13 @@ export function createApiService(options: ApiServiceOptions) {
         `No events found for ${afcId}`,
       );
     }
-    const score = scoreAgent(history, afcId, resolveAsOf(afcId, asOf));
+    const resolvedAsOf = resolveAsOf(afcId, asOf);
+    const score = scoreAgent(
+      history,
+      afcId,
+      resolvedAsOf,
+      readEventRows(db, afcId, resolvedAsOf),
+    );
     return validateAgentScore(score);
   }
 
@@ -563,7 +604,12 @@ export function createApiService(options: ApiServiceOptions) {
       const history = allEvents(afcId);
       const resolvedAsOf = resolveAsOf(afcId, asOf);
       const result = validateAgentScore(
-        scoreAgent(history, afcId, resolvedAsOf),
+        scoreAgent(
+          history,
+          afcId,
+          resolvedAsOf,
+          readEventRows(db, afcId, resolvedAsOf),
+        ),
       );
       const latestEvent = history
         .filter(
@@ -611,7 +657,12 @@ export function createApiService(options: ApiServiceOptions) {
       (event) => Date.parse(event.occurred_at) <= Date.parse(resolvedAsOf),
     );
     const rawScore = validateAgentScore(
-      scoreAgent(history, afcId, resolvedAsOf),
+      scoreAgent(
+        history,
+        afcId,
+        resolvedAsOf,
+        readEventRows(db, afcId, resolvedAsOf),
+      ),
     );
     const visibleEvents = visibleHistory.slice(-50);
     const firstEventAt = visibleHistory[0]?.occurred_at ?? null;
@@ -680,6 +731,66 @@ export function createApiService(options: ApiServiceOptions) {
       }
     }
 
+    const fraudGraph = readEventRows(db, afcId, resolvedAsOf);
+    const fraudEvents = [...visibleHistory, ...fraudGraph];
+    const fraudFindings = detectFraud(fraudEvents, {
+      afcId,
+      asOfMs: Date.parse(resolvedAsOf),
+    });
+    const timestampsById = new Map(
+      fraudEvents.map((event) => [
+        event.event_id,
+        Date.parse(event.occurred_at),
+      ]),
+    );
+    const firstCapAt = Math.min(
+      ...fraudFindings
+        .filter((finding) => finding.confirmed)
+        .map((finding) =>
+          Math.max(
+            ...finding.source_event_ids.map(
+              (id) => timestampsById.get(id) ?? Infinity,
+            ),
+          ),
+        ),
+    );
+    const beforeAsOf = Number.isFinite(firstCapAt)
+      ? new Date(firstCapAt - 1).toISOString()
+      : null;
+    const previous = beforeAsOf
+      ? scoreAgent(history, afcId, beforeAsOf, fraudGraph)
+      : null;
+    const fraudTransition =
+      beforeAsOf && previous?.status === "active" && previous.score !== null
+        ? {
+            score_before: previous.score,
+            before_as_of: beforeAsOf,
+            detector_at: new Date(firstCapAt).toISOString(),
+          }
+        : null;
+    const fraudInput: ServInputs[5] = {
+      afc_id: afcId,
+      findings: fraudFindings.map((finding) => ({
+        code: finding.code,
+        text:
+          REASON_CODES.find((reason) => reason.key === finding.code)
+            ?.description ?? finding.code,
+        source_event_ids: finding.source_event_ids.slice(0, 50),
+      })),
+    };
+    let fraudReview: ReturnType<typeof applyFraudReview> | null = null;
+    if (fraudInput.findings.length > 0) {
+      try {
+        const review = await runServJob(5, fraudInput, serviceCalls);
+        fraudReview = applyFraudReview(fraudInput, review.data, {
+          call_id: review.call_id,
+          offline: review.offline,
+        });
+      } catch {
+        fraudReview = null;
+      }
+    }
+
     const callRows = db
       .select()
       .from(servCalls)
@@ -693,7 +804,8 @@ export function createApiService(options: ApiServiceOptions) {
       verdicts: verdictValues,
       trust_memo: trustMemo,
       critique_summary: critiqueSummary,
-      fraud_review: null,
+      fraud_review: fraudReview,
+      fraud_transition: fraudTransition,
       serv_call_ids: [...new Set(callRows.map((row) => redact(row.id)))],
       simulated_share: explainedScore.simulated_share,
     };

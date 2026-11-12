@@ -1,5 +1,12 @@
 # DECISIONS
 
+## Nov 12, 2026
+
+- **Deterministic anomaly evidence.** Use the original source-event IDs for wash or self-dealing, shared funding, payment velocity, uniform evaluation bursts, identity churn, and adverse payment outcomes. The integrity formula and afc-0.2 weights remain in place. Only confirmed F01 and F02 signals trigger the existing 549 cap. F04–F07 are risk indicators that need review. The Nova-7 seed now supplies matching transfers and shared-funder evidence instead of prewritten anomaly flags.
+- **Review is descriptive.** Job 5 takes detector evidence, requires the same citations in its validated output, and links to its trace row. The public report uses an offline fixture. The calculation and historical comparison both run before the review.
+- **Kite coverage.** The recorded public mainnet address is unaffiliated. The explorer repeated the first 50 transfer logs across pages, so the score is provisional. The adapter detects repeated pagination and can replay the recorded address with no key or network.
+
+
 Newest first. Each entry: date (Istanbul), decision, reason. Changing a decision needs a new entry.
 
 ## Nov 11, 2026

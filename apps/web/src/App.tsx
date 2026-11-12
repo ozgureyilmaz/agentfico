@@ -658,6 +658,67 @@ function AgentPage({
         )}
       </section>
 
+      {report.fraud_review && (
+        <section className="card section-block fraud-review-card">
+          <div className="section-heading section-heading-card">
+            <div>
+              <span className="eyebrow">
+                DETECTOR EVIDENCE · DESCRIPTIVE REVIEW
+              </span>
+              <h2>Fraud review</h2>
+            </div>
+            <span className="status-badge status-offline">
+              {report.fraud_review.offline
+                ? "Offline fixture"
+                : "Recorded review"}
+            </span>
+          </div>
+          {report.fraud_transition && (
+            <p className="fraud-review-summary">
+              Score before detection{" "}
+              <strong>{report.fraud_transition.score_before}</strong>
+              {" → "}
+              <strong>{report.score.score}</strong> after detection.
+            </p>
+          )}
+          <p className="fraud-review-summary">{report.fraud_review.summary}</p>
+          <div className="fraud-review-findings">
+            {report.fraud_review.findings.map((finding) => (
+              <article
+                className="reason-card reason-card-hurts"
+                key={`${finding.code}:${finding.source_event_ids.join("|")}`}
+              >
+                <div className="reason-card-top">
+                  <span className="reason-code">{finding.code}</span>
+                  <span className="fraud-review-typology">
+                    {finding.typology.replaceAll("_", " ")}
+                  </span>
+                </div>
+                <p>{finding.text}</p>
+                <p>{finding.description}</p>
+                <div className="citation-row">
+                  {finding.source_event_ids.map((eventId) => (
+                    <EventCitation
+                      key={eventId}
+                      eventId={eventId}
+                      onOpen={openEvent}
+                    />
+                  ))}
+                </div>
+              </article>
+            ))}
+          </div>
+          <div className="fraud-review-trace">
+            <span>SERV trace ID</span>
+            <code>{report.fraud_review.serv_call_id}</code>
+            <AppLink to="/serv-trace">Open SERV trace ↗</AppLink>
+          </div>
+          <p className="fraud-review-note">
+            This description does not change the deterministic score.
+          </p>
+        </section>
+      )}
+
       <section className="card memo-card section-block">
         <div className="memo-mark" aria-hidden="true">
           “

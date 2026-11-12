@@ -1,6 +1,7 @@
 import { z } from "zod";
 import type { BehaviorEvent } from "./events";
 import { extractFeatures } from "./features";
+import { detectFraud, fraudEvidenceWeight } from "./fraud";
 import { buildReasonCodes, type ReasonCode } from "./reasons";
 import {
   DAY_MS,
@@ -37,6 +38,7 @@ export function scoreAgent(
   input: readonly BehaviorEvent[],
   afcId: string,
   asOf: string,
+  fraudContext: readonly BehaviorEvent[] = [],
 ): AgentScore {
   const asOfMs = Date.parse(asOfSchema.parse(asOf));
 
@@ -72,6 +74,28 @@ export function scoreAgent(
     ? (asOfMs - Date.parse(earliest.occurred_at)) / DAY_MS
     : 0;
   const features = extractFeatures(history, asOfMs, ageDays);
+  const detectorEvents = [...history, ...fraudContext];
+  const detectorEventById = new Map(
+    detectorEvents.map((event) => [event.event_id, event]),
+  );
+  const findings = detectFraud(detectorEvents, { afcId, asOfMs });
+  const existingCodes = new Set(
+    features.evidence.anomalies.map((event) => event.attrs?.reason_code),
+  );
+  for (const finding of findings) {
+    if (existingCodes.has(finding.code)) continue;
+    const weight = Math.max(
+      0,
+      ...finding.source_event_ids.map((id) => {
+        const event = detectorEventById.get(id);
+        return event ? fraudEvidenceWeight(event, asOfMs) : 0;
+      }),
+    );
+    features.factors.F = Math.max(
+      0,
+      features.factors.F - finding.severity * weight,
+    );
+  }
   const { verdictCount } = features.metrics;
   const { medium, high, insufficient } = FILE_THRESHOLDS;
 
@@ -88,11 +112,17 @@ export function scoreAgent(
       ? "high"
       : "medium";
 
-  const underReview = features.evidence.anomalies.some(
-    (event) =>
-      FRAUD_CAP.codes.some((code) => event.attrs?.reason_code === code) &&
-      event.attrs?.severity === FRAUD_CAP.severity,
-  );
+  const underReview =
+    findings.some(
+      (finding) =>
+        finding.confirmed &&
+        FRAUD_CAP.codes.some((code) => code === finding.code),
+    ) ||
+    features.evidence.anomalies.some(
+      (event) =>
+        FRAUD_CAP.codes.some((code) => event.attrs?.reason_code === code) &&
+        event.attrs?.severity === FRAUD_CAP.severity,
+    );
 
   const status = isInsufficient
     ? "insufficient_history"
@@ -145,6 +175,13 @@ export function scoreAgent(
     as_of: new Date(asOfMs).toISOString(),
     simulated_share: features.simulatedShare,
     factors: features.factors,
-    reason_codes: buildReasonCodes(features, ageDays, asOfMs, history),
+    reason_codes: buildReasonCodes(
+      features,
+      ageDays,
+      asOfMs,
+      history,
+      findings,
+      detectorEventById,
+    ),
   };
 }

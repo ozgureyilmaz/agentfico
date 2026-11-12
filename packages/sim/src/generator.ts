@@ -354,6 +354,7 @@ function generateNova(context: SimulationContext): void {
       kind: "agent",
       received: true,
       attrs: {
+        synthetic_case: "nova-7",
         linked_wallet: siblingIds[index],
         linked_wallet_count: siblingIds.length,
         shared_funder_id: "afc:sim:shared-funder",
@@ -367,34 +368,14 @@ function generateNova(context: SimulationContext): void {
     cents: 2500,
     counterpartyId: cycleCounterparty,
     kind: "agent",
-    attrs: { synthetic_cycle_leg: 1 },
+    attrs: { synthetic_case: "nova-7", synthetic_cycle_leg: 1 },
   });
   emitPayment(context, 0, {
-    cents: 2400,
+    cents: 2500,
     counterpartyId: cycleCounterparty,
     kind: "agent",
     received: true,
-    attrs: { synthetic_cycle_leg: 2 },
-  });
-  emitEvent(context, 0, {
-    type: "anomaly.flagged",
-    attrs: {
-      reason_code: "F01",
-      severity: 1,
-      detector: "synthetic_cycle",
-      confirmed: true,
-    },
-  });
-  emitEvent(context, 0, {
-    type: "anomaly.flagged",
-    attrs: {
-      reason_code: "F02",
-      severity: 1,
-      detector: "synthetic_shared_funder",
-      confirmed: true,
-      linked_wallets: siblingIds,
-      linked_wallet_count: siblingIds.length,
-    },
+    attrs: { synthetic_case: "nova-7", synthetic_cycle_leg: 2 },
   });
 }
 

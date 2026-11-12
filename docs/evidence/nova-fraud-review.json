@@ -1,0 +1,76 @@
+{
+  "score": 549,
+  "status": "under_review",
+  "before": {
+    "score_before": 642,
+    "before_as_of": "2026-11-03T14:48:36.999Z",
+    "detector_at": "2026-11-03T14:48:37.000Z"
+  },
+  "findings": [
+    {
+      "code": "F01",
+      "text": "A circular or wash-payment signal was detected.",
+      "source_event_ids": [
+        "01M6GJPECRK1YFRTZ7YEP7JZ6N",
+        "01M6GY4BC88XWKB9M8EGBCR61K"
+      ],
+      "typology": "unclear",
+      "description": "The supplied event references support a circular-flow review, but this fixture does not add a new finding."
+    },
+    {
+      "code": "F02",
+      "text": "The agent is linked to a sybil cluster or flagged wallet.",
+      "source_event_ids": [
+        "01M6GMJH80F0Z2CGYBVV5YTG08",
+        "01M6GVDC5R76ZA81V2Y2PJ74DX",
+        "01M6H6WF807YJGWVSHRMY0AZZ6",
+        "01M6HHCYTGN0KB590EE4AS2BW9",
+        "01M6K759KG4RH1QQ2EYKGFA9AG",
+        "01M6KX1XH0Q0A2E0TKVM2VAWBQ"
+      ],
+      "typology": "unclear",
+      "description": "The supplied event references support a shared-funder review, but this fixture does not add a new finding."
+    }
+  ],
+  "trace": {
+    "id": "3b42d0e1-c761-4268-a0b7-2406e04d850e",
+    "created_at": "2026-11-12T06:02:50.342Z",
+    "job": 5,
+    "afc_id": "afc:sim:nova-7",
+    "model": "offline-fixture",
+    "features": [],
+    "tools": [
+      {
+        "type": "function",
+        "function": {
+          "name": "serv_prompt_guard"
+        }
+      },
+      {
+        "type": "function",
+        "function": {
+          "name": "serv_shadow_agent",
+          "parameters": {
+            "type": "object",
+            "properties": {
+              "hint": {
+                "type": "string",
+                "default": "Check that every finding keeps the exact input code and source_event_ids; do not add evidence or a flag."
+              },
+              "max_iterations": {
+                "type": "integer",
+                "default": 3
+              }
+            }
+          }
+        }
+      }
+    ],
+    "response_id": null,
+    "status": "success",
+    "offline": true,
+    "latency_ms": 3,
+    "usage": null,
+    "cost": null
+  }
+}

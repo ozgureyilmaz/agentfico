@@ -13,5 +13,5 @@ test("exports the scorer's version, formulas, weights and reasons as JSON data",
   ).toBe(100);
   expect(json.formulas.factors).toEqual(FACTOR_FORMULAS);
   expect(json.reason_codes).toEqual(REASON_CODES);
-  expect(Object.keys(REASON_CODES)).toHaveLength(19);
+  expect(Object.keys(REASON_CODES)).toHaveLength(23);
 });

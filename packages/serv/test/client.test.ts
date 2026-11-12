@@ -158,6 +158,43 @@ describe("logged SERV client", () => {
     expect(JSON.stringify(row)).not.toContain(key);
   });
 
+  test("job 5 uses the offline fixture and logs its guard, citations, and trace", async () => {
+    const input = {
+      afc_id: "afc:sim:nova-7",
+      findings: [
+        {
+          code: "F01" as const,
+          text: "Circular payment activity was detected.",
+          source_event_ids: ["01JBF5V4R9X4Y5K7Q6M8N2P3AA"],
+        },
+      ],
+    };
+    let dispatched = false;
+    const result = await runServJob(5, input, {
+      db,
+      env: { AFC_OFFLINE: "1", AFC_MODEL_FRAUD: "configured-fraud" },
+      fetch: async () => {
+        dispatched = true;
+        throw new Error("Offline fraud review must not dispatch");
+      },
+    });
+    const [row] = logs();
+    expect(dispatched).toBe(false);
+    expect(result.offline).toBe(true);
+    expect(row.id).toBe(result.call_id);
+    expect(row.afc_id).toBe(input.afc_id);
+    expect(row.status).toBe("success");
+    expect(row.offline).toBe(1);
+    expect(
+      JSON.parse(row.tools_json).map(
+        (tool: { function: { name: string } }) => tool.function.name,
+      ),
+    ).toEqual(["serv_prompt_guard", "serv_shadow_agent"]);
+    expect(result.data.findings[0]?.source_event_ids).toEqual(
+      input.findings[0]?.source_event_ids,
+    );
+  });
+
   test("no key uses an offline fixture without constructing a network call or inventing usage", async () => {
     const result = await runServJob(2, input, {
       db,

@@ -1138,6 +1138,39 @@ code {
 .reason-card-helps .reason-arrow {
   color: #1b8a7b;
 }
+.fraud-review-summary {
+  margin: 0 0 12px;
+  color: #52655f;
+  font-size: 11px;
+  line-height: 1.6;
+}
+.fraud-review-findings {
+  display: grid;
+  gap: 8px;
+}
+.fraud-review-typology {
+  color: #52655f;
+  font-size: 10px;
+  font-weight: 650;
+  text-transform: capitalize;
+}
+.fraud-review-trace {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 9px;
+  margin-top: 12px;
+  color: #52655f;
+  font-size: 10px;
+}
+.fraud-review-trace code {
+  overflow-wrap: anywhere;
+}
+.fraud-review-note {
+  margin: 8px 0 0;
+  color: #788982;
+  font-size: 9px;
+}
 .reason-card p {
   margin: 7px 0 10px;
   color: #52655f;
