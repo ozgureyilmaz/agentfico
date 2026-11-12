@@ -3,14 +3,14 @@
 Tick only with proof: time (Istanbul) + one-line proof (command output, PR or commit link). No proof, no tick.
 Deadline: Nov 16 02:59 Istanbul (Nov 15 23:59 UTC). Code complete: Nov 13.
 
-Last updated: Nov 12 09:03 Istanbul
+Last updated: Nov 12 09:10 Istanbul
 
 ## Now
-M0–M6 are verified and merged. M4, M5 and M6 each passed CI on main after their merge. M7 is verified locally. M8 probe plans and assistant logs are in progress.
+M0–M6 are verified and merged. M4, M5 and M6 each passed CI on main after their merge. M7 is in PR #7 with green CI. M8 is verified locally, and M9 shipping work is in progress.
 
 ## Next
-1. Review M7 and approve the branch push.
-2. Verify the M8 probe and assistant log workflows, including both dashboard scoring inputs.
+1. Review PR #7 and approve publication of the M8 branch.
+2. Prepare the M9 demo, evidence and deployment configuration.
 3. Ozgur: add the OpenServ screenshot to [docs/evidence](docs/evidence/) and choose hosting.
 
 ## Setup (Ozgur)
@@ -30,7 +30,7 @@ M0–M6 are verified and merged. M4, M5 and M6 each passed CI on main after thei
 - [x] M5 API + CLI (Nov 11 10:53 Istanbul) — five exact score, factor and reason-code matches, an offline provisional upload, and 174 passing tests. [Main CI](https://github.com/ozgureyilmaz/agentfico/actions/runs/42985745755)
 - [x] M6 Dashboard (Nov 11 10:55 Istanbul) — browser flows passed at desktop and 390 px, with 186 passing tests. [Main CI](https://github.com/ozgureyilmaz/agentfico/actions/runs/42985808699)
 - [x] M7 Fraud detectors + SERV fraud review + real Kite address (Nov 12 09:03 Istanbul) — six detectors tested, Nova-7 642 → 549, and the public Kite mainnet address scored 649 with partial coverage. [Detector and offline review proof](docs/evidence/nova-fraud-review.json) · [Kite capture](fixtures/kite/real/kitescan-mainnet-0xd9bee9d8d294b01f716c77b3c5953035a15ed2d2.meta.json)
-- [ ] M8 Probe plans + assistant log mapping
+- [x] M8 Probe plans + assistant log mapping (Nov 12 09:10 Istanbul) — persisted three probes, settled one offline evaluation, mapped four assistant events and verified both browser scoring inputs. [Proof](docs/evidence/probe-and-upload.json)
 - [ ] M9 Ship: one-command demo on fresh clone, hosted URL, README GIF/screenshots, AUC, 20+ Reppo evals
 - [ ] M10 Submission assets
 
@@ -39,8 +39,8 @@ M0–M6 are verified and merged. M4, M5 and M6 each passed CI on main after thei
 - [ ] 20+ real settled Reppo evals, eval IDs clickable
 - [ ] Fresh clone to dashboard < 3 min (time: __)
 - [ ] Hosted URL live: __
-- [ ] Score-your-own-agent works (log, Kite address, upload)
-- [ ] Real Kite address scored and shown
+- [x] Score-your-own-agent works (log, Kite address, upload) (Nov 12 09:10 Istanbul) — browser and CLI scores match for the assistant log (632) and recorded Kite address (649). [Proof](docs/evidence/probe-and-upload.json)
+- [x] Real Kite address scored and shown (Nov 12 09:10 Istanbul) — mainnet public address displayed at desktop and 390 px with partial coverage and a provisional score of 649. [Browser proof](docs/evidence/probe-and-upload.json) · [Live capture](fixtures/kite/real/)
 - [ ] README: screenshots, GIF, SERV feature on/off table, sustainability
 - [ ] Video 2-3 min, link: __
 - [ ] Logo PNG + SVG
@@ -176,3 +176,7 @@ M0–M6 are verified and merged. M4, M5 and M6 each passed CI on main after thei
 - Nov 12 09:03 Istanbul · M7 · `bun run check` → `197 pass`, `0 fail`. Seed 42 emitted 1,266 events with SHA-256 `0cce410724a9ca97770462e5ee4e28c3e6f52f9e6158511109a504ae9f2014c3`; Nova-7 uses detector inputs without prewritten flags.
 - Nov 12 09:03 Istanbul · M7 · `GET /v1/report/afc:sim:nova-7` → before `642`, after `549`, `under_review`, F01/F02; `GET /v1/serv-log?job=5` includes `3b42d0e1-c761-4268-a0b7-2406e04d850e` (offline, successful). [Report and trace](docs/evidence/nova-fraud-review.json)
 - Nov 12 09:03 Istanbul · M7 · Kite mainnet chain `2366`, public address `0xD9bee9d8d294b01f716c77B3C5953035A15Ed2d2`, captured Nov 11 at `08:21:55Z`, blocks `122771–2301185`. Live CLI and recorded replay scored `649`, `simulated_share=0`, `PARTIAL_COVERAGE`. The replay stops after two responses when the pagination key repeats. [Capture and raw responses](fixtures/kite/real/)
+
+- Nov 12 09:10 Istanbul · M7 · [PR #7](https://github.com/ozgureyilmaz/agentfico/pull/7) opened at `a1ca685`. [PR CI](https://github.com/ozgureyilmaz/agentfico/actions/runs/43165723238) completed successfully. [Main CI proof update](https://github.com/ozgureyilmaz/agentfico/actions/runs/43165568701) passed at `cb7ce5a`.
+- Nov 12 09:10 Istanbul · M8 · `afc probe plan` stored `777a8271-ab45-4c42-adb0-a4984dacac06`, three probes. `afc probe enqueue` queued one batch and `bun run reppo:worker -- --drain` settled it with `offline=true`, `eval_id=null`. `afc map-log` logged four job 6 calls and returned four validated events. [Trace IDs](docs/evidence/probe-and-upload.json)
+- Nov 12 09:10 Istanbul · M8 · Browser at 1280 and 390 px returned log `score=632`, `saved=false`, Kite `score=649`, `PARTIAL_COVERAGE`, `simulated_share=0`, and `console_errors=0`. `bun run check` → `205 pass`, `0 fail`. [Browser proof](docs/evidence/probe-and-upload.json)

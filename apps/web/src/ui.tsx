@@ -20,8 +20,10 @@ import {
   ApiRequestError,
   type EventResponse,
   getScore,
+  type KiteScoreResponse,
   type ScoreLogResponse,
   type ServLog,
+  scoreKiteAddress,
   uploadEventLog,
 } from "./api";
 import {
@@ -358,6 +360,17 @@ export function TimelineEvent({ event }: { event: BehaviorEvent }) {
             <span>Counterparty · {event.counterparty.kind}</span>
           )}
           {event.simulated && <SimulatedBadge />}
+          {event.source === "reppo" && evalId && (
+            <span className="provisional-chip">REAL EVAL</span>
+          )}
+          {event.source === "kite_chain" &&
+            event.attrs?.kite_network === "mainnet" && (
+              <span className="provisional-chip">MAINNET</span>
+            )}
+          {event.source === "kite_chain" &&
+            event.attrs?.kite_network === "testnet" && (
+              <span className="provisional-chip">TESTNET</span>
+            )}
           {evalId && (
             <a
               className="citation-link eval-link"
@@ -917,6 +930,7 @@ export function ScoreUploadPage() {
   const [save, setSave] = useState(false);
   const [validationError, setValidationError] = useState<string | null>(null);
   const [result, setResult] = useState<ScoreLogResponse | null>(null);
+  const [kiteResult, setKiteResult] = useState<KiteScoreResponse | null>(null);
   const [submitError, setSubmitError] = useState<string | null>(null);
   const [submitting, setSubmitting] = useState(false);
   const chooseFile = (next: File | null) => {
@@ -950,9 +964,9 @@ export function ScoreUploadPage() {
   return (
     <>
       <PageIntro
-        eyebrow="BRING YOUR OWN EVENT LOG"
+        eyebrow="BRING YOUR OWN DATA"
         title="Score your agent."
-        description="Upload a JSONL file of supported behavior events to get a provisional score against the published methodology."
+        description="Upload a JSONL behavior or assistant log, or look up a Kite address for a provisional score."
       />
       <div className="upload-layout">
         <form className="card upload-card" onSubmit={submit}>
@@ -1036,12 +1050,13 @@ export function ScoreUploadPage() {
           )}
         </form>
         <aside className="upload-side">
+          <KiteScoreForm onResult={setKiteResult} />
           <div className="card format-card">
             <span className="eyebrow">EXPECTED FORMAT</span>
             <h3>One event per line</h3>
             <p>
-              Each line must be a complete BehaviorEvent record with an AFC
-              agent ID and timestamp.
+              Use one supported assistant log or BehaviorEvent record per line.
+              Include the agent ID and timestamp.
             </p>
             <pre>
               {
@@ -1067,7 +1082,93 @@ export function ScoreUploadPage() {
         </aside>
       </div>
       {result && <UploadResult result={result} />}
+      {kiteResult && <KiteScoreResult result={kiteResult} />}
     </>
+  );
+}
+
+function KiteScoreForm({
+  onResult,
+}: {
+  onResult: (value: KiteScoreResponse | null) => void;
+}) {
+  const [address, setAddress] = useState("");
+  const [error, setError] = useState<string | null>(null);
+  const [loading, setLoading] = useState(false);
+
+  async function submit(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    onResult(null);
+    setError(null);
+    setLoading(true);
+    try {
+      onResult(await scoreKiteAddress(address.trim()));
+    } catch (reason) {
+      setError(errorMessage(reason));
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  return (
+    <section className="card format-card">
+      <h3>Score a Kite address</h3>
+      <form className="kite-score-form" onSubmit={submit}>
+        <label htmlFor="kite-score-address">Public address</label>
+        <input
+          id="kite-score-address"
+          value={address}
+          onChange={(event) => setAddress(event.currentTarget.value)}
+          placeholder="0x…"
+          autoComplete="off"
+          spellCheck={false}
+          required
+        />
+        <button
+          className="button button-primary"
+          type="submit"
+          disabled={loading}
+        >
+          {loading ? "Reading Kite history…" : "Score Kite address"}
+        </button>
+      </form>
+      {error && (
+        <InlineNotice
+          tone="warning"
+          title="Could not score this address"
+          detail={error}
+        />
+      )}
+    </section>
+  );
+}
+
+function KiteScoreResult({ result }: { result: KiteScoreResponse }) {
+  const network = result.events.find(
+    (event) => typeof event.attrs?.kite_network === "string",
+  )?.attrs?.kite_network;
+  return (
+    <div className="kite-result section-block" aria-live="polite">
+      {network === "mainnet" && (
+        <span className="provisional-chip">MAINNET</span>
+      )}
+      {network === "testnet" && (
+        <span className="provisional-chip">TESTNET</span>
+      )}
+      {result.offline && (
+        <span className="provisional-chip">RECORDED FIXTURE</span>
+      )}
+      {!result.complete && (
+        <span className="provisional-chip">PARTIAL COVERAGE</span>
+      )}
+      <UploadResult
+        result={{
+          score: result.score,
+          saved: false,
+          simulated_share: result.simulated_share,
+        }}
+      />
+    </div>
   );
 }
 

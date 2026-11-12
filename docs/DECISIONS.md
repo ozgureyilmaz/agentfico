@@ -2,6 +2,9 @@
 
 ## Nov 12, 2026
 
+- **Probe answer provenance.** Store the validated plan and its SERV call ID in SQLite. Queue at most one evaluation for its exact probe IDs, with owner-supplied answers and an offline option. Live submissions wait until the plan's latest scheduled time. The plan itself cannot run tasks or add score events.
+- **Assistant log provenance.** The public upload recognizes supported formats deterministically and treats their events as self-reported. The local job 6 mapping command logs validated candidates. It rejects disagreements with the typed source fields, so model text cannot replace score inputs.
+
 - **Deterministic anomaly evidence.** Use the original source-event IDs for wash or self-dealing, shared funding, payment velocity, uniform evaluation bursts, identity churn, and adverse payment outcomes. The integrity formula and afc-0.2 weights remain in place. Only confirmed F01 and F02 signals trigger the existing 549 cap. F04–F07 are risk indicators that need review. The Nova-7 seed now supplies matching transfers and shared-funder evidence instead of prewritten anomaly flags.
 - **Review is descriptive.** Job 5 takes detector evidence, requires the same citations in its validated output, and links to its trace row. The public report uses an offline fixture. The calculation and historical comparison both run before the review.
 - **Kite coverage.** The recorded public mainnet address is unaffiliated. The explorer repeated the first 50 transfer logs across pages, so the score is provisional. The adapter detects repeated pagination and can replay the recorded address with no key or network.

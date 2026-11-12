@@ -68,6 +68,7 @@ describe("AgentFICO SQLite database", () => {
 
     expect(rows.map((row) => row.name)).toEqual([
       "events",
+      "probe_plans",
       "reppo_calls",
       "reppo_queue",
       "scores",

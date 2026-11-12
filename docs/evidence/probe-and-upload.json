@@ -1,0 +1,59 @@
+{
+  "browser": {
+    "checks": [
+      {
+        "width": 1280,
+        "page_width": 1280,
+        "assistant_score": 632,
+        "saved": false,
+        "kite_score": 649,
+        "kite_outcome": "PARTIAL_COVERAGE",
+        "kite_simulated_share": 0
+      },
+      {
+        "width": 390,
+        "page_width": 390,
+        "assistant_score": 632,
+        "saved": false,
+        "kite_score": 649,
+        "kite_outcome": "PARTIAL_COVERAGE",
+        "kite_simulated_share": 0
+      }
+    ],
+    "console_errors": 0
+  },
+  "probe_plan": {
+    "plan_id": "777a8271-ab45-4c42-adb0-a4984dacac06",
+    "probe_count": 3,
+    "offline": true,
+    "queue_id": 1,
+    "settled_status": "settled",
+    "eval_id": null
+  },
+  "log_mapping": [
+    {
+      "call_id": "2ec115da-a54b-4ff3-8953-731afe962422",
+      "event_id": "01M2J5J8H05BZ592HMAXTGGMYM",
+      "type": "task.completed",
+      "offline": true
+    },
+    {
+      "call_id": "bb0a1e42-be1f-435d-ade5-f2fc70c3ab9f",
+      "event_id": "01M4ZDHN40ZXH2Z3Z2PCMF2SZV",
+      "type": "payment.sent",
+      "offline": true
+    },
+    {
+      "call_id": "2d97b6d0-8925-4805-a020-1459644b6110",
+      "event_id": "01M6NG0DA01QPWW44G6GG8HNPR",
+      "type": "task.completed",
+      "offline": true
+    },
+    {
+      "call_id": "27be2391-76a9-469d-a7f6-cf1e9d36d52d",
+      "event_id": "01M72C00A0ATG2DT7Y0HE74HZ7",
+      "type": "task.failed",
+      "offline": true
+    }
+  ]
+}

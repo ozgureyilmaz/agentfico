@@ -1,7 +1,18 @@
 import { METHODOLOGY, type ReasonCode } from "@agentfico/core";
 import { z } from "zod";
 
-export type ServJobId = 2 | 3 | 4 | 5 | 7;
+import {
+  LogMappingInputSchema,
+  LogMappingSchema,
+  validateLogMapping,
+} from "./log-mapping";
+import {
+  ProbePlanInputSchema,
+  ProbePlanSchema,
+  validateProbePlan,
+} from "./probe-plan";
+
+export type ServJobId = 1 | 2 | 3 | 4 | 5 | 6 | 7;
 
 type ReasonCodeKey = ReasonCode["code"];
 
@@ -48,6 +59,8 @@ const fraudEvidenceSchema = z.strictObject({
 });
 
 const inputSchemas = {
+  1: ProbePlanInputSchema,
+  6: LogMappingInputSchema,
   2: z.strictObject({
     category: z.string(),
     capabilities: z.array(z.string()),
@@ -94,6 +107,8 @@ const workSampleSchema = z.strictObject({
 });
 
 const outputSchemas = {
+  1: ProbePlanSchema,
+  6: LogMappingSchema,
   2: z.strictObject({
     criteria: z.array(z.string().min(1).max(2048)).min(1).max(10),
     context: z.string().min(1).max(32768),
@@ -145,6 +160,8 @@ export type ServOutputs = {
 };
 
 type ModelEnvironment =
+  | "AFC_MODEL_PLANNER"
+  | "AFC_MODEL_MAPPER"
   | "AFC_MODEL_RUBRIC"
   | "AFC_MODEL_SUMMARY"
   | "AFC_MODEL_EXPLAIN"
@@ -158,6 +175,7 @@ type JobDefinition<J extends ServJobId> = {
   modelEnv: ModelEnvironment;
   shadowHint?: string;
   fixtureFile: string;
+  promptInput?: (input: ServInputs[J]) => unknown;
 };
 
 type ServJobRegistry = {
@@ -165,6 +183,27 @@ type ServJobRegistry = {
 };
 
 export const SERV_JOBS: ServJobRegistry = {
+  1: {
+    name: "probe_plan",
+    inputSchema: inputSchemas[1],
+    outputSchema: outputSchemas[1],
+    systemPrompt:
+      "Propose three to five distinct, self-contained work samples that measure the specified gaps. Give objective acceptance criteria and a delay of zero to sixty minutes for each. The plans must require no external action, credentials, or spending.",
+    modelEnv: "AFC_MODEL_PLANNER",
+    shadowHint:
+      "Each work sample must be objectively checkable from its supplied data.",
+    fixtureFile: "probe-plan.json",
+  },
+  6: {
+    name: "assistant_log_mapping",
+    inputSchema: inputSchemas[6],
+    outputSchema: outputSchemas[6],
+    systemPrompt:
+      "Map the supplied structured assistant log into a candidate event type, UTC timestamp and outcome. Copy the source facts and do not invent amounts, timestamps, or outcomes. A complaint has a null outcome.",
+    modelEnv: "AFC_MODEL_MAPPER",
+    fixtureFile: "log-mapping.json",
+    promptInput: ({ afc_id, line }) => ({ afc_id, line }),
+  },
   2: {
     name: "rubric",
     inputSchema: inputSchemas[2],
@@ -218,6 +257,8 @@ export const SERV_JOBS: ServJobRegistry = {
 } satisfies ServJobRegistry;
 
 const fixtureTemplateSchemas = {
+  1: ProbePlanSchema,
+  6: z.strictObject({ strategy: z.literal("validated_input_fields") }),
   2: outputSchemas[2],
   3: z.strictObject({
     weaknesses: z.array(z.strictObject({ summary: z.string().min(1) })),
@@ -290,6 +331,8 @@ export function validateJobOutput<J extends ServJobId>(
 ): ServOutputs[J] {
   const parsedInput = SERV_JOBS[job].inputSchema.parse(input);
   const parsedOutput = SERV_JOBS[job].outputSchema.parse(output);
+  if (job === 1) validateProbePlan(parsedOutput);
+  if (job === 6) validateLogMapping(parsedInput as ServInputs[6], parsedOutput);
 
   if (job === 2) {
     const rubric = parsedOutput as ServOutputs[2];
@@ -404,7 +447,12 @@ export function materializeFixture<J extends ServJobId>(
   const parsedInput = SERV_JOBS[job].inputSchema.parse(input);
   let output: unknown;
 
-  if (job === 2) {
+  if (job === 1) {
+    output = fixtureTemplateSchemas[1].parse(raw);
+  } else if (job === 6) {
+    fixtureTemplateSchemas[6].parse(raw);
+    output = { candidate: (parsedInput as ServInputs[6]).expected };
+  } else if (job === 2) {
     const template = fixtureTemplateSchemas[2].parse(raw);
     const rubricInput = parsedInput as ServInputs[2];
     const replacements = {

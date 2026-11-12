@@ -2629,3 +2629,36 @@ code {
     transition-duration: 0.01ms !important;
   }
 }
+
+.kite-score-form {
+  display: grid;
+  gap: 0.6rem;
+  margin-block: 0.9rem 1rem;
+}
+
+.kite-score-form input {
+  min-width: 0;
+  padding: 0.7rem 0.75rem;
+  border: 1px solid var(--line, #d5dbd9);
+  border-radius: 0.45rem;
+  color: inherit;
+  font: inherit;
+}
+
+.kite-score-form .button {
+  width: fit-content;
+}
+
+.upload-result-title {
+  flex-wrap: wrap;
+}
+
+.upload-result-title > div {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+.kite-result > .provisional-chip {
+  margin-inline-end: 0.35rem;
+  margin-bottom: 0.35rem;
+}

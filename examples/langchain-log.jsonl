@@ -1,0 +1,4 @@
+{"format":"langchain-stream-v2","agent_id":"afc:asst:chain-demo","timestamp":"2026-11-01T10:00:00Z","event":"on_chain_end","run_id":"a7bca88f-900d-4c73-9919-d05d02173685","parent_ids":[],"simulated":true}
+{"format":"langchain-stream-v2","agent_id":"afc:asst:chain-demo","timestamp":"2026-11-05T10:00:00Z","event":"on_chain_end","run_id":"a7bca88f-900d-4c73-9919-d05d02173686","parent_ids":[],"simulated":true}
+{"format":"langchain-stream-v2","agent_id":"afc:asst:chain-demo","timestamp":"2026-11-10T09:00:00Z","event":"on_tool_end","run_id":"a7bca88f-900d-4c73-9919-d05d02173687","parent_ids":["a7bca88f-900d-4c73-9919-d05d02173688"],"simulated":true}
+{"format":"langchain-stream-v2","agent_id":"afc:asst:chain-demo","timestamp":"2026-11-10T10:00:00Z","event":"on_chain_end","run_id":"a7bca88f-900d-4c73-9919-d05d02173688","parent_ids":[],"simulated":true}

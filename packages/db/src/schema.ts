@@ -155,7 +155,22 @@ export const reppoCalls = sqliteTable(
   ],
 );
 
+export const probePlans = sqliteTable("probe_plans", {
+  id: text("id")
+    .primaryKey()
+    .notNull()
+    .references(() => servCalls.id),
+  afcId: text("afc_id").notNull(),
+  category: text("category").notNull(),
+  createdAt: text("created_at").notNull(),
+  readyAt: text("ready_at").notNull(),
+  planJson: text("plan_json").notNull(),
+  simulated: integer("simulated", { mode: "boolean" }).notNull(),
+  queueId: integer("queue_id").references(() => reppoQueue.id),
+});
+
 export const schema = {
+  probePlans,
   events,
   scores,
   verdicts,

@@ -1,0 +1,19 @@
+{
+  "probes": [
+    {
+      "task": "Compare a $25 backpack with $6 shipping to a $29 backpack with free shipping and recommend the cheaper option.",
+      "acceptance": "List both totals and identify $29 as the lower total.",
+      "delay_minutes": 3
+    },
+    {
+      "task": "Identify the missing evidence in a store listing with a price but no return policy.",
+      "acceptance": "State that the return policy is unknown and identify where to verify it.",
+      "delay_minutes": 11
+    },
+    {
+      "task": "Check whether two $18 items and $5 shipping fit in a $40 budget.",
+      "acceptance": "Calculate $41 and flag the $1 budget overage.",
+      "delay_minutes": 19
+    }
+  ]
+}
