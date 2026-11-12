@@ -7,7 +7,7 @@ import { fileURLToPath } from "node:url";
 
 const root = fileURLToPath(new URL("../../../", import.meta.url));
 
-test("serv:smoke works without credentials and logs all four implemented jobs", () => {
+test("serv:smoke works without credentials and logs all seven implemented jobs", () => {
   const directory = mkdtempSync(join(tmpdir(), "agentfico-serv-smoke-"));
   const path = join(directory, "smoke.sqlite");
   try {
@@ -26,7 +26,7 @@ test("serv:smoke works without credentials and logs all four implemented jobs", 
       .trim()
       .split("\n")
       .map((line) => JSON.parse(line));
-    expect(output.map((row) => row.job)).toEqual([2, 3, 4, 7]);
+    expect(output.map((row) => row.job)).toEqual([1, 2, 3, 4, 5, 6, 7]);
     expect(output.every((row) => row.offline && row.status === "success")).toBe(
       true,
     );
@@ -37,7 +37,7 @@ test("serv:smoke works without credentials and logs all four implemented jobs", 
           "SELECT id,offline,status FROM serv_calls ORDER BY job",
         )
         .all();
-      expect(rows).toHaveLength(4);
+      expect(rows).toHaveLength(7);
       expect(rows.map((row) => row.id)).toEqual(
         output.map((row) => row.call_id),
       );

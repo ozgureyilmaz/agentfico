@@ -4,6 +4,7 @@ import {
   AgentsResponseSchema,
   ApiErrorSchema,
   EventResponseSchema,
+  KiteScoreResponseSchema,
   MethodologySchema,
   ScoreLogResponseSchema,
   ServLogResponseSchema,
@@ -15,6 +16,9 @@ export type AgentScore = ReturnType<typeof AgentScoreSchema.parse>;
 export type Methodology = ReturnType<typeof MethodologySchema.parse>;
 export type ServLog = ReturnType<typeof ServLogResponseSchema.parse>;
 export type ScoreLogResponse = ReturnType<typeof ScoreLogResponseSchema.parse>;
+export type KiteScoreResponse = ReturnType<
+  typeof KiteScoreResponseSchema.parse
+>;
 export type EventResponse = ReturnType<typeof EventResponseSchema.parse>;
 
 export class ApiRequestError extends Error {
@@ -112,9 +116,17 @@ export async function uploadEventLog(
   );
 }
 
+export function scoreKiteAddress(address: string): Promise<KiteScoreResponse> {
+  return postJson(
+    "/v1/score/kite",
+    JSON.stringify({ address }),
+    KiteScoreResponseSchema,
+  );
+}
+
 async function postJson<T>(
   path: string,
-  body: FormData,
+  body: FormData | string,
   schema: RuntimeSchema<T>,
 ): Promise<T> {
   let response: Response;
@@ -122,7 +134,10 @@ async function postJson<T>(
     response = await fetch(path, {
       method: "POST",
       body,
-      headers: { Accept: "application/json" },
+      headers:
+        typeof body === "string"
+          ? { Accept: "application/json", "Content-Type": "application/json" }
+          : { Accept: "application/json" },
     });
   } catch {
     throw new ApiRequestError("Could not reach the local AgentFICO service.");

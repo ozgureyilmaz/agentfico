@@ -1,0 +1,4 @@
+{"format":"afc-assistant-v1","agent_id":"afc:asst:shopper-demo","id":"task-001","timestamp":"2026-09-15T09:15:00Z","type":"task.completed","simulated":true}
+{"format":"afc-assistant-v1","agent_id":"afc:asst:shopper-demo","id":"pay-001","timestamp":"2026-10-15T09:16:00Z","type":"payment.sent","amount":{"value":"12.50","currency":"USD"},"counterparty":"demo-shop","simulated":true}
+{"format":"afc-assistant-v1","agent_id":"afc:asst:shopper-demo","id":"task-002","timestamp":"2026-11-05T09:18:00Z","type":"task.completed","simulated":true}
+{"format":"afc-assistant-v1","agent_id":"afc:asst:shopper-demo","id":"task-003","timestamp":"2026-11-10T09:18:00Z","type":"task.failed","simulated":true}

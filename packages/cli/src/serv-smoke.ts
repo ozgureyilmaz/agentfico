@@ -1,4 +1,4 @@
-import { scoreAgent } from "@agentfico/core";
+import { detectFraud, scoreAgent } from "@agentfico/core";
 import { migrateDb, openDb } from "@agentfico/db";
 import { runServJob } from "@agentfico/serv";
 import { generateSimulation, SIMULATION_ANCHOR } from "@agentfico/sim";
@@ -27,6 +27,19 @@ async function main() {
         }),
       );
     };
+    print(
+      1,
+      await runServJob(
+        1,
+        {
+          afc_id: afcId,
+          category: "shopping",
+          capabilities: ["Compare prices"],
+          missing_signals: ["work_quality"],
+        },
+        options,
+      ),
+    );
     print(
       2,
       await runServJob(
@@ -66,6 +79,49 @@ async function main() {
           reader: "agent_owner",
         },
         options,
+      ),
+    );
+    const nova = "afc:sim:nova-7";
+    const findings = detectFraud(
+      generateSimulation({ seed: 42, personas: ["nova-7"] }),
+      {
+        afcId: nova,
+        asOfMs: Date.parse(SIMULATION_ANCHOR),
+      },
+    );
+    print(
+      5,
+      await runServJob(
+        5,
+        {
+          afc_id: nova,
+          findings: findings.map(({ code, source_event_ids }) => ({
+            code,
+            source_event_ids,
+            text: "Review the cited detector evidence.",
+          })),
+        },
+        { db, afcId: nova },
+      ),
+    );
+    const occurred_at = "2026-11-01T10:00:00.000Z";
+    const logId = "afc:asst:smoke";
+    print(
+      6,
+      await runServJob(
+        6,
+        {
+          afc_id: logId,
+          line: JSON.stringify({
+            format: "afc-assistant-v1",
+            agent_id: logId,
+            id: "smoke-task",
+            timestamp: occurred_at,
+            type: "task.completed",
+          }),
+          expected: { type: "task.completed", occurred_at, outcome: "success" },
+        },
+        { db, afcId: logId },
       ),
     );
     print(

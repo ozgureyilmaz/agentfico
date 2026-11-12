@@ -1,3 +1,4 @@
+import { mapAssistantLog } from "@agentfico/adapters/assistant-log";
 import { KiteDataError, readKiteEvents } from "@agentfico/adapters/kite-chain";
 import { enqueueEvaluation as enqueueReppoEvaluation } from "@agentfico/adapters/reppo";
 import {
@@ -364,6 +365,7 @@ export function parseBehaviorEventJsonl(content: string): BehaviorEvent[] {
   }
   const lines = content.split(/\r?\n/);
   const parsed: BehaviorEvent[] = [];
+  const mappedEvidence = new Map<string, string>();
   for (const [index, line] of lines.entries()) {
     if (line.trim() === "") continue;
     let value: unknown;
@@ -377,14 +379,31 @@ export function parseBehaviorEventJsonl(content: string): BehaviorEvent[] {
       );
     }
     const event = BehaviorEventSchema.safeParse(value);
-    if (!event.success) {
+    if (event.success) {
+      parsed.push(event.data);
+      continue;
+    }
+    const mapped = mapAssistantLog(value);
+    const evidenceHash = mapped?.evidence?.log_hash;
+    if (!mapped || !evidenceHash) {
       throw new ApiServiceError(
         422,
         "unsupported_log_line",
-        `Line ${index + 1} is not a supported BehaviorEvent; assistant-log mapping is not enabled here`,
+        `Line ${index + 1} is not a supported event or assistant-log record`,
       );
     }
-    parsed.push(event.data);
+    const serialized = JSON.stringify(mapped);
+    const previous = mappedEvidence.get(evidenceHash);
+    if (previous === serialized) continue;
+    if (previous !== undefined) {
+      throw new ApiServiceError(
+        422,
+        "conflicting_log_record",
+        `Line ${index + 1} conflicts with an earlier assistant-log record ID`,
+      );
+    }
+    mappedEvidence.set(evidenceHash, serialized);
+    parsed.push(mapped);
   }
   if (parsed.length === 0) {
     throw new ApiServiceError(

@@ -171,7 +171,8 @@ export async function runServJob<J extends ServJobId>(
       throw new ServCallError(id, "invalid_input");
     }
     const afcId = options.afcId || inputAfcId;
-    const safeInput = redactValue(parsedInput, secrets);
+    const promptInput = definition.promptInput?.(parsedInput) ?? parsedInput;
+    const safeInput = redactValue(promptInput, secrets);
     const jsonSchema = z.toJSONSchema(definition.outputSchema);
     const { $schema: _dialect, ...schema } = jsonSchema;
     const request: OpenAI.Chat.Completions.ChatCompletionCreateParamsNonStreaming =

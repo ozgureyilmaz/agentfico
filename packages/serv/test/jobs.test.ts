@@ -115,8 +115,10 @@ describe("SERV job contracts", () => {
     const output = { trust_memo: "A memo.", reason_codes: input.reason_codes };
     expect(() => validateJobOutput(4, input, output)).toThrow();
   });
-  test("registers only jobs 2, 3, 4, and 7 with prompts and fixture metadata", () => {
-    expect(Object.keys(SERV_JOBS).map(Number).sort()).toEqual([2, 3, 4, 5, 7]);
+  test("registers all seven jobs with prompts and fixture metadata", () => {
+    expect(Object.keys(SERV_JOBS).map(Number).sort()).toEqual([
+      1, 2, 3, 4, 5, 6, 7,
+    ]);
     for (const job of Object.values(SERV_JOBS)) {
       expect(job.name.length).toBeGreaterThan(0);
       expect(job.systemPrompt.length).toBeGreaterThan(0);

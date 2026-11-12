@@ -7,7 +7,8 @@
     ".": "./src/index.ts",
     "./simulator": "./src/simulator.ts",
     "./reppo": "./src/reppo/index.ts",
-    "./kite-chain": "./src/kite-chain.ts"
+    "./kite-chain": "./src/kite-chain.ts",
+    "./assistant-log": "./src/assistant-log.ts"
   },
   "dependencies": {
     "@agentfico/core": "workspace:*",

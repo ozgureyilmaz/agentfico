@@ -14,6 +14,8 @@ import {
   type PersonaId,
 } from "@agentfico/sim";
 import { z } from "zod";
+import { runMapCommand } from "./map-log";
+import { runProbeCommand } from "./probe";
 
 class CliError extends Error {
   constructor(
@@ -152,6 +154,8 @@ function parseJsonl<T>(
 }
 
 async function main(args: string[]) {
+  if (args[0] === "probe") return runProbeCommand(args.slice(1));
+  if (args[0] === "map-log") return runMapCommand(args.slice(1));
   const [command, ...rest] = args;
   if (!command)
     throw new CliError(
