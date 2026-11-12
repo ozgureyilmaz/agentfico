@@ -191,3 +191,5 @@ M0–M8 are merged and verified on main. M9 has a verified local demo, simulated
 
 - Nov 12 14:05 Istanbul · M7–M8 proof commit `a71df4c` passed 205 tests and [main CI](https://github.com/ozgureyilmaz/agentfico/actions/runs/43205755903).
 - Nov 12 14:00 Istanbul · M9 · Reconciled 11 settled evaluations, `4,840` credits charged and `14,960` available. Reppo showed 16 completed evaluations overall and no in-flight evaluation, so the interrupted attempt had no provider ID or charge. The worker resumed the four remaining evaluations at the existing pace. [Journal proof](docs/evidence/reppo-batch.json)
+
+- Nov 12 14:09 Istanbul · M9 · Render image from `6ae6d74` passed at 512 MiB with no keys or disk mount. On recreation, the same fixture agents loaded. `/healthz` returned OK; assistant log 632, Kite 649, Nova-7 549, saved upload HTTP 403 and evaluation HTTP 503. [Local container proof](docs/evidence/render-container.json)
