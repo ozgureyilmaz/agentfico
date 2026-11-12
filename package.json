@@ -8,6 +8,8 @@
     "packages/*"
   ],
   "scripts": {
+    "demo": "bun run packages/cli/src/demo.ts",
+    "backtest": "bun run packages/cli/src/backtest.ts",
     "dev": "bun run --parallel --filter @agentfico/api --filter @agentfico/web dev",
     "sim": "bun run packages/cli/src/sim.ts",
     "serv:smoke": "bun run packages/cli/src/serv-smoke.ts",

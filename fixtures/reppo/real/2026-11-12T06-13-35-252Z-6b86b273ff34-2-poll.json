@@ -1,0 +1,92 @@
+{
+  "recorded_at": "2026-11-12T06:13:35.252Z",
+  "operation": "poll",
+  "http_status": 200,
+  "response": {
+    "id": "cmwd5ia5r000008l8wqzthd4r",
+    "taskType": "response",
+    "source": "API",
+    "input": "{\"samples\":[{\"id\":\"sample-0-price\",\"task\":\"Choose the lower total. A costs $17.00 plus $7.00 shipping. B costs $22.00 with free shipping. Return exactly three fields: A total, B total, recommendation with the difference.\",\"output\":\"A total: $24.00. B total: $22.00. Recommendation: B is $2.00 cheaper.\"},{\"id\":\"sample-0-budget\",\"task\":\"Two items cost $10.00 each. Shipping is $5.00 for the order. Budget is $24.00. List total, fit (yes/no), and exact amount over or under.\",\"output\":\"Total: $25.00. Fit: no. Amount over: $1.00.\"},{\"id\":\"sample-0-evidence\",\"task\":\"The listing states the price and a one-year warranty. It omits shipping and returns. Report each of price availability, shipping availability, and returns availability without assuming missing details.\",\"output\":\"Price availability: stated. Shipping availability: unknown. Returns availability: unknown.\"}],\"criteria\":[\"Follow every requested output field\",\"Compute exact amounts from given inputs\",\"Leave missing details explicitly unknown\"],\"context\":\"Synthetic persona work. Evaluate the supplied answers against their tasks using only the stated facts. Phoenix follow-up answers explicitly address completeness and instruction-adherence feedback.\",\"category\":\"shopping\"}",
+    "status": "COMPLETED",
+    "score": 100,
+    "route": "ship",
+    "creditsCharged": 440,
+    "createdAt": "2026-11-12T06:12:36.207Z",
+    "completedAt": "2026-11-12T06:13:12.190Z",
+    "policy": null,
+    "attachments": [],
+    "attempts": 1,
+    "result": {
+      "gates": [
+        {
+          "floor": 50,
+          "severity": "none",
+          "dimension": "safety",
+          "failingWeight": 0,
+          "failingEvaluators": []
+        }
+      ],
+      "route": "ship",
+      "score": 100,
+      "reason": "The submission earned a perfect score of 100 because all four evaluators agreed it met every criterion: all three samples provided the exact requested output fields with correct arithmetic, and properly labeled missing information as \"unknown\" rather than making assumptions. The unanimous evaluator agreement and flawless performance across factual accuracy, instruction adherence, completeness, and safety led to immediate acceptance and shipping.",
+      "explain": {
+        "route_reasons": [
+          "score 100 >= passAt 70 -> decision accept",
+          "score >= acceptAt 85 and confidence high >= high -> ship"
+        ],
+        "confidence_checks": [
+          {
+            "ok": true,
+            "check": "enough evaluators",
+            "detail": "4 independent evaluators (want >= 3)"
+          },
+          {
+            "ok": true,
+            "check": "evaluators agree",
+            "detail": "std-dev of evaluator overall scores = 0 (want <= 10, > 20 is severe)"
+          },
+          {
+            "ok": true,
+            "check": "node holders agree",
+            "detail": "0% of stake was contested (want <= 30%)"
+          },
+          {
+            "ok": true,
+            "check": "weighting doesn't change the answer",
+            "detail": "economic 100 vs equal-weight 100 (gap 0, want <= 10)"
+          },
+          {
+            "ok": true,
+            "check": "not near a threshold",
+            "detail": "15 points from the nearest route threshold (want >= 5)"
+          },
+          {
+            "ok": true,
+            "check": "stake backed someone",
+            "detail": "economic weights available"
+          }
+        ]
+      },
+      "decision": "accept",
+      "trace_id": "42593e90-3085-486a-9b00-237fd2d74327",
+      "consensus": {
+        "weighting": "economic (net veREPPO)",
+        "score_spread": 0,
+        "economic_score": 100,
+        "stake_contention": 0,
+        "winning_evaluator": "orq_lite_yield",
+        "equal_weight_score": 100
+      },
+      "task_type": "response",
+      "confidence": "high",
+      "rubric_scores": {
+        "safety": 100,
+        "completeness": 100,
+        "factual_accuracy": 100,
+        "instruction_adherence": 100
+      }
+    },
+    "error": null,
+    "startedAt": "2026-11-12T06:12:38.330Z"
+  }
+}

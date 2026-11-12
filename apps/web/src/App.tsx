@@ -136,15 +136,13 @@ export default function App() {
             <NavGlyph name="leaderboard" />
             Leaderboard
           </AppLink>
-          {phoenix && (
-            <AppLink
-              to="/phoenix-replay"
-              className={`nav-item nav-sub ${route.page === "phoenix" || (route.page === "agent" && route.afcId === phoenix.afc_id) ? "is-active" : ""}`}
-            >
-              <NavGlyph name="replay" />
-              Phoenix replay
-            </AppLink>
-          )}
+          <AppLink
+            to="/phoenix-replay"
+            className={`nav-item nav-sub ${route.page === "phoenix" || (route.page === "agent" && route.afcId === phoenix?.afc_id) ? "is-active" : ""}`}
+          >
+            <NavGlyph name="replay" />
+            Phoenix replay
+          </AppLink>
           <AppLink
             to="/serv-trace"
             className={`nav-item ${route.page === "serv-trace" ? "is-active" : ""}`}
@@ -361,18 +359,20 @@ function LeaderboardPage({
           </div>
         )}
       </section>
-      <div className="methodology-note">
-        <span className="methodology-icon" aria-hidden="true">
-          i
-        </span>
-        <span>
-          Scores summarize observed behavior. Each factor and cited event is
-          available in the agent report.
-        </span>
-        <span className="method-version">
-          {agents[0]?.model_version ?? "afc-0.2"}
-        </span>
-      </div>
+      {(!loading || response) && (
+        <div className="methodology-note">
+          <span className="methodology-icon" aria-hidden="true">
+            i
+          </span>
+          <span>
+            Scores summarize observed behavior. Each factor and cited event is
+            available in the agent report.
+          </span>
+          <span className="method-version">
+            {agents[0]?.model_version ?? "afc-0.2"}
+          </span>
+        </div>
+      )}
     </>
   );
 }

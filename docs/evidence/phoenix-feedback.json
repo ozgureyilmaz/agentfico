@@ -1,0 +1,14 @@
+{
+  "as_of": "2026-11-12T06:30:00.000Z",
+  "baseline": {
+    "id": "cmwaknixh000208jshh2w0av1",
+    "score": 691,
+    "Q": 0.5567337791726172
+  },
+  "follow_up": {
+    "id": "cmwd5ia5r000008l8wqzthd4r",
+    "score": 696,
+    "Q": 0.5855544596714487
+  },
+  "simulated_share": 1
+}

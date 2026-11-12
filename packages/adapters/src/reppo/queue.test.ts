@@ -3,7 +3,12 @@ import { mkdtempSync, readdirSync, readFileSync, rmSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { type AgentFicoDb, migrateDb, openDb } from "@agentfico/db";
-import { enqueueEvaluation, getReppoQueueStatus, runReppoTick } from "./queue";
+import {
+  enqueueEvaluation,
+  getReppoQueueStatus,
+  importRecordedReppoEvaluation,
+  runReppoTick,
+} from "./queue";
 import type { EnqueueEvaluationInput, ReppoFetch } from "./types";
 
 const apiKey = crypto.randomUUID();
@@ -834,4 +839,50 @@ describe("Reppo durable worker", () => {
       count: 0,
     });
   });
+});
+
+test("recorded live verdicts seed scores idempotently with their original subject and evidence", async () => {
+  const db = openDb(":memory:");
+  try {
+    migrateDb(db);
+    const captured = await Bun.file(
+      new URL(
+        "../../../../fixtures/reppo/real/2026-11-10T09-55-15-085Z-6b86b273ff34-4-poll.json",
+        import.meta.url,
+      ),
+    ).json();
+    const subject = "afc:sim:atlas";
+    const first = importRecordedReppoEvaluation(
+      db,
+      subject,
+      captured.response,
+      true,
+    );
+    expect(
+      importRecordedReppoEvaluation(db, subject, captured.response, true),
+    ).toEqual(first);
+    expect(first).toMatchObject({
+      source: "reppo",
+      simulated: true,
+      subject: { afc_id: subject },
+      evidence: { eval_id: "cmwaiidfz000007i5qihmvy63" },
+      occurred_at: captured.response.completedAt,
+    });
+    expect(
+      db.$client.query("SELECT count(*) AS total FROM events").get(),
+    ).toEqual({ total: 1 });
+    expect(
+      db.$client.query("SELECT count(*) AS total FROM verdicts").get(),
+    ).toEqual({ total: 1 });
+    expect(() =>
+      importRecordedReppoEvaluation(
+        db,
+        "afc:sim:phoenix",
+        captured.response,
+        true,
+      ),
+    ).toThrow("different subject");
+  } finally {
+    db.$client.close();
+  }
 });

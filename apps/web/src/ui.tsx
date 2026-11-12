@@ -501,7 +501,12 @@ export function ReppoEvidence({ report }: { report: AgentReport }) {
                 <div>
                   <span className="eyebrow">REPPO EVALUATION</span>
                   <h3>
-                    <span className="mono-label">{evalId}</span>
+                    <a
+                      className="mono-label eval-link"
+                      href={`#${citationId("eval", evalId)}`}
+                    >
+                      {evalId}
+                    </a>
                   </h3>
                 </div>
                 <div className="eval-score">
@@ -926,6 +931,7 @@ export function ServCallCard({ call }: { call: ServCall }) {
 }
 
 export function ScoreUploadPage() {
+  const readOnly = import.meta.env.VITE_AFC_HOSTED === "1";
   const [file, setFile] = useState<File | null>(null);
   const [save, setSave] = useState(false);
   const [validationError, setValidationError] = useState<string | null>(null);
@@ -1009,20 +1015,22 @@ export function ScoreUploadPage() {
               detail={validationError}
             />
           )}
-          <label className="save-option">
-            <input
-              type="checkbox"
-              checked={save}
-              onChange={(event) => setSave(event.currentTarget.checked)}
-            />
-            <span>
-              <strong>Save events to this local dataset</strong>
-              <small>
-                Off by default. Without this, the score is provisional and the
-                events are not stored.
-              </small>
-            </span>
-          </label>
+          {!readOnly && (
+            <label className="save-option">
+              <input
+                type="checkbox"
+                checked={save}
+                onChange={(event) => setSave(event.currentTarget.checked)}
+              />
+              <span>
+                <strong>Save events to this local dataset</strong>
+                <small>
+                  Off by default. Without this, the score is provisional and the
+                  events are not stored.
+                </small>
+              </span>
+            </label>
+          )}
           <button
             className="button button-primary upload-submit"
             type="submit"
@@ -1038,8 +1046,9 @@ export function ScoreUploadPage() {
             <span aria-hidden="true">→</span>
           </button>
           <p className="upload-privacy">
-            The upload is sent to this AgentFICO service for scoring. It is not
-            saved unless you turn on the option above.
+            {readOnly
+              ? "The demo scores uploads without storing their events."
+              : "The service stores uploaded events only if you select Save."}
           </p>
           {submitError && (
             <InlineNotice

@@ -1,0 +1,13 @@
+.git
+.git/**
+**/node_modules
+**/dist
+**/.env
+**/.env.*
+**/*.sqlite
+**/*.sqlite-*
+**/*.db
+**/*.pem
+**/*.key
+**/*.log
+runs

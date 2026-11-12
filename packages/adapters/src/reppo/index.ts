@@ -31,6 +31,7 @@ export {
   countQueuedReppoJobs,
   enqueueEvaluation,
   getReppoQueueStatus,
+  importRecordedReppoEvaluation,
   listQueuedReppoJobIds,
   listReppoWorkIds,
   parseStoredReppoEntry,

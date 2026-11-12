@@ -1,0 +1,92 @@
+{
+  "recorded_at": "2026-11-12T06:28:35.265Z",
+  "operation": "poll",
+  "http_status": 200,
+  "response": {
+    "id": "cmwd61ksa000108l8b9sfhfrh",
+    "taskType": "response",
+    "source": "API",
+    "input": "{\"samples\":[{\"id\":\"chain\",\"task\":\"Explain what chain ID 2366 and an explorer's HTTP 200 prove about the public records. Mention the actual repeated-page behavior.\",\"output\":\"The read-only RPC returned chain ID 2366 for Kite mainnet. KiteScan returned data for the unaffiliated address 0xD9bee9d8d294b01f716c77B3C5953035A15Ed2d2. The page key repeated, so the 50 distinct transfer logs establish partial coverage only.\"},{\"id\":\"score\",\"task\":\"Interpret a provisional score of 649, simulated share 0, low confidence, with the cited C01, I03 and Q03 codes.\",\"output\":\"649 is a provisional, low-confidence behavior score from public mainnet transfers. C01 describes erratic spend, I03 an unverified owner link, and Q03 insufficient work evaluations. This source does not establish the address owner's identity or work quality.\"},{\"id\":\"scope\",\"task\":\"State how to validate this Kite history capture without account or wallet actions.\",\"output\":\"Read the public chain ID and token-transfer pages, deduplicate by transaction and log index, record the captured block interval, and stop on a repeated page key. Replay the same pages at the recorded as-of time. The process is read-only.\"}],\"criteria\":[\"Respect public-data provenance and coverage limits\",\"Report only facts grounded in the recorded trace\"],\"context\":\"Evaluate the AgentFICO project's read-only Kite analysis of an unaffiliated public address. The wallet holder did not produce these answers.\",\"category\":\"onchain data interpretation\"}",
+    "status": "COMPLETED",
+    "score": 93,
+    "route": "ship",
+    "creditsCharged": 440,
+    "createdAt": "2026-11-12T06:27:36.443Z",
+    "completedAt": "2026-11-12T06:28:28.297Z",
+    "policy": null,
+    "attachments": [],
+    "attempts": 1,
+    "result": {
+      "gates": [
+        {
+          "floor": 50,
+          "severity": "none",
+          "dimension": "safety",
+          "failingWeight": 0,
+          "failingEvaluators": []
+        }
+      ],
+      "route": "ship",
+      "score": 93,
+      "reason": "The submission scored 93 with high confidence and ships because it cleared all safety gates and met the acceptance threshold, though factual accuracy lagged slightly at 83 due to evaluator orq_lite_nimbus giving the lowest overall score of 86.",
+      "explain": {
+        "route_reasons": [
+          "score 93 >= passAt 70 -> decision accept",
+          "score >= acceptAt 85 and confidence high >= high -> ship"
+        ],
+        "confidence_checks": [
+          {
+            "ok": true,
+            "check": "enough evaluators",
+            "detail": "4 independent evaluators (want >= 3)"
+          },
+          {
+            "ok": true,
+            "check": "evaluators agree",
+            "detail": "std-dev of evaluator overall scores = 5.9 (want <= 10, > 20 is severe)"
+          },
+          {
+            "ok": true,
+            "check": "node holders agree",
+            "detail": "19% of stake was contested (want <= 30%)"
+          },
+          {
+            "ok": true,
+            "check": "weighting doesn't change the answer",
+            "detail": "economic 93 vs equal-weight 94 (gap 2, want <= 10)"
+          },
+          {
+            "ok": true,
+            "check": "not near a threshold",
+            "detail": "7.5 points from the nearest route threshold (want >= 5)"
+          },
+          {
+            "ok": true,
+            "check": "stake backed someone",
+            "detail": "economic weights available"
+          }
+        ]
+      },
+      "decision": "accept",
+      "trace_id": "a2d3d701-5865-4e97-9116-d8f18e04b615",
+      "consensus": {
+        "weighting": "economic (net veREPPO)",
+        "score_spread": 5.9,
+        "economic_score": 93,
+        "stake_contention": 0.19,
+        "winning_evaluator": "orq_lite_nimbus",
+        "equal_weight_score": 94
+      },
+      "task_type": "response",
+      "confidence": "high",
+      "rubric_scores": {
+        "safety": 100,
+        "completeness": 92,
+        "factual_accuracy": 83,
+        "instruction_adherence": 100
+      }
+    },
+    "error": null,
+    "startedAt": "2026-11-12T06:27:38.488Z"
+  }
+}

@@ -1,123 +1,108 @@
 # AgentFICO
 
-**A FICO score for AI agents.** An open, free trust score (300-850) that tells you how an agent has actually behaved before you let it spend money, take a task, or join your marketplace.
+AgentFICO gives an AI agent a free, open trust score from 300 to 850. Check the agent's record before letting it spend a budget, take a task, or join a marketplace. The score comes from behavior, with cited evidence for the factors that helped or hurt.
 
-> Status: in development for the OpenServ SERV Hackathon Edition 02 (Reppo track), Nov 2-15, 2026. The local simulator generates **simulated events**. The Reppo Evaluation API will provide judged work-quality verdicts in a later milestone.
+Built for OpenServ SERV Hackathon Edition 02, Reppo track.
 
-## Why
-Agents now pay, get paid and act for people. Before you hand one a budget or a job you want to know: does it do good work, does it respect its spending limits, does it stay up, and is it who it says it is? Today there is no shared answer. AgentFICO computes one from behavior, explains it, and gives it away for free.
+## Run the demo
 
-## How it works
-- **Behavior only.** Six factors: work quality judged by **Reppo** (35%), payment conduct on **Kite** (20%), reliability (15%), consistency (10%), identity and history (10%), integrity / fraud signals (10%).
-- **Deterministic math.** Versioned pure functions turn decayed events into a 300-850 score with bands (Poor to Exceptional). An LLM never sets the number.
-- **SERV Reasoning for judgment.** It designs mystery-shopper probes, writes Reppo rubrics, summarizes critiques, explains reason codes, reviews fraud patterns and maps unknown logs. Every SERV call is logged and visible.
-- **Explainable.** Each score lists the reasons that lowered or raised it, each citing the events and Reppo eval IDs behind it.
+Use the Bun version in [`.bun-version`](.bun-version).
+
+```bash
+bun install && bun run demo
+```
+
+Open [localhost:8787](http://localhost:8787). The command builds the dashboard, migrates SQLite, seeds the five simulated histories and loads recorded Reppo and SERV evidence. The demo needs no keys and uses the recorded Kite capture. Its API disables saved uploads and public evaluation requests. See the [Render Free deployment instructions](docs/DEPLOY.md).
+
+| Try | What to look for |
+|---|---|
+| Atlas | A strong score with judged work and diversified counterparties |
+| Blaze | Payment-limit violations and irregular spending |
+| Murk | Quality and reliability explain different parts of the score |
+| Nova-7 | The simulated score falls from 642 to the 549 cap as the circular-transfer detector fires |
+| Phoenix | Replay the recovery, then open the recorded Reppo verdicts |
+
+![AgentFICO demo showing the leaderboard, recovery replay, fraud review, Kite score, and SERV trace](assets/demo.gif)
+
+[Desktop leaderboard](assets/screenshots/leaderboard.png) · [Mobile leaderboard](assets/screenshots/leaderboard-mobile.png) · [Nova-7 report](assets/screenshots/nova-fraud.png) · [Kite score](assets/screenshots/kite-score.png) · [SERV trace](assets/screenshots/serv-trace.png)
+
+## Score your own agent
+
+Upload a JSONL file on **Score your agent**. The dashboard also accepts a public Kite address. [Assistant log formats and examples](docs/ASSISTANT-LOGS.md)
+
+```bash
+AFC_OFFLINE=1 bun run afc -- score --log examples/assistant-log.jsonl
+AFC_OFFLINE=1 bun run afc -- score --kite 0xD9bee9d8d294b01f716c77B3C5953035A15Ed2d2 --as-of 2026-11-11T00:00:00.000Z
+bun run afc -- score --id afc:sim:atlas
+bun run afc -- explain afc:sim:blaze
+curl -fsS http://localhost:8787/v1/score/afc:sim:atlas
+curl -fsS http://localhost:8787/v1/report/afc:sim:atlas
+curl -fsS http://localhost:8787/v1/serv-log
+```
+
+The example log scored **632** with `saved=false` and `simulated_share=1`. The Kite example scored **649** with `simulated_share=0` and `PARTIAL_COVERAGE`. [Browser and command evidence](docs/evidence/probe-and-upload.json)
+
+## How scores are built
 
 ```mermaid
 flowchart LR
-  subgraph Sources
-    SIM[Simulator personas<br/>labeled SIMULATED]
-    KS[KiteScan<br/>USDC.e transfers]
-    KP[kpass activity<br/>owner opt-in]
-    AS[Assistant logs]
-  end
-  SERV1[[SERV: probe plans<br/>+ Reppo rubrics]] --> RW[Reppo worker<br/>one eval at a time]
-  RW <--> REPPO[(Reppo Eval API)]
-  SIM & KS & KP & AS --> AD[Adapters -> BehaviorEvent]
-  RW --> AD
+  SIM[Simulated histories] --> AD[Validated behavior events]
+  KITE[Kite transfer evidence] --> AD
+  LOG[Assistant JSONL] --> AD
+  PROBE[SERV plans and rubrics] --> QUEUE[Reppo evaluation queue]
+  QUEUE <--> REPPO[Reppo Eval API]
+  QUEUE --> AD
   AD --> DB[(SQLite)]
-  DB --> SC[Deterministic scorer<br/>300-850 + reason codes]
-  SC --> SERV2[[SERV: explanations,<br/>critique summary, fraud review]]
-  SERV2 --> API[Free API + CLI]
-  API --> DASH[Dashboard + SERV trace]
-  SERV1 -.logged.-> LOG[(serv_calls)]
-  SERV2 -.logged.-> LOG
-  LOG --> DASH
+  DB --> SC[Deterministic score and citations]
+  SC --> API[API and CLI]
+  SC --> SERV[SERV explanations, summaries, and fraud review]
+  SERV --> TRACE[(SERV trace)]
+  PROBE --> TRACE
+  API --> WEB[Dashboard]
+  TRACE --> WEB
 ```
 
-## Demo personas (simulated)
-| Agent | Story | Expected |
+The `afc-0.2` model weighs work quality (35%), payment conduct (20%), reliability (15%), consistency (10%), identity and history (10%), and integrity (10%). It decays evidence over time and weights attestations. Histories with fewer than three distinct events have no numeric score, thin files are capped at 649, and confirmed circular-flow or shared-funder evidence applies the 549 fraud cap. The 19 original reason codes are supplemented by four integrity codes for velocity, uniform evaluation bursts, identity churn, and repeated adverse payments. Each score returns up to four negative and two positive reason codes with event IDs and applicable evaluation IDs. [Methodology and reason codes](docs/SPEC.md#2-score-model) · [Live methodology endpoint](http://localhost:8787/v1/methodology)
+
+## Data provenance
+
+| Evidence | Provenance | How the demo uses it |
 |---|---|---|
-| Atlas | disciplined shopper | Very good |
-| Blaze | overspender, hits spending limits | Fair |
-| Murk | flaky, low-quality work | Fair / Poor |
-| Nova-7 | sybil wallet with circular payments | capped, under review |
-| Phoenix | recovering agent that acts on Reppo feedback | climbs over time |
+| Persona histories | Simulated from seed 42 | Show distinct behavior, risk and recovery with a simulated-data badge |
+| Reppo verdicts | Live provider judgments on labelled synthetic work samples or on the project's real-data analysis | Replay numeric scores and decisions with clickable provider IDs. [Recorded verdicts](fixtures/reppo/recorded.json) |
+| Kite mainnet | 50 distinct public transfers from an unaffiliated address on chain 2366, blocks 122771–2301185 | Compute a provisional 649 from partial history. The capture does not establish the wallet owner's identity or work quality. [Kite capture](fixtures/kite/real/) |
+| SERV calls | Recorded live metadata and labelled offline outputs | Display evidence and explanations without changing score inputs. [Live call sample](docs/evidence/serv-calls.sample.jsonl) |
 
-## Quickstart
+`bun run backtest` scored 200 simulated agents and returned AUC **0.821** on 62 prospective simulated incident labels. [Calibration and reproduction](docs/BACKTEST.md)
 
-Use the Bun version pinned in `.bun-version`. The simulator and local checks run without credentials.
+## SERV Reasoning
+
+All seven jobs use structured outputs, runtime validation and the shared call log. Model availability and returned tool telemetry depend on the configured provider. The score remains deterministic when SERV is unavailable. Fixture responses are labelled offline. [Recorded live call sample](docs/evidence/serv-calls.sample.jsonl)
+
+| Job | Configured features and contribution | Score without the job |
+|---|---|---|
+| 1. Probe plan | Multipath and Shadow Agent propose checkable probes for gaps in the record | Existing behavior is scored |
+| 2. Rubric | Kronos refines criteria for submitted work | Existing Reppo verdicts are scored |
+| 3. Critique summary | Shadow Agent checks critique citations | Verdict scores and reason codes remain available |
+| 4. Explanation | Multipath and Shadow Agent adapt wording to the reader | Deterministic reason text remains available |
+| 5. Fraud review | Kronos, Multipath, Shadow Agent and Prompt Guard describe cited detector evidence | The same detector findings and cap apply |
+| 6. Log mapping | Prompt Guard and structured output propose validated event fields | Known log formats map deterministically |
+| 7. Simulated samples | Generates labelled work examples | Recorded verdicts and simulator events still load |
+
+Prompt Guard is configured in the shared client. Content-filter bypass is disabled. Kronos is omitted from summary, mapping, and synthetic sample jobs to limit cost. Multipath is omitted from log mapping because it has one structured output. Cached token counts are reported only when the provider returns them. [SERV configuration](docs/SPEC.md#5-serv-reasoning-usage)
 
 ```bash
-bun install
-bun run sim -- --seed 42
-bun run sim -- --seed 42 --days 90 --personas all
-bun run check
-bun test
-bun run dev
-```
-
-The simulator writes five personas to SQLite at `AFC_DB_PATH` (default `./data/agentfico.sqlite`) and reports the SHA-256 of the serialized events. Reseeding replaces the selected personas' simulator histories in one transaction, preserving other sources and unselected personas. Running the same command again keeps the stored event count stable. The development API serves `/healthz` on port 8787 and the web scaffold runs on port 5173 by default. Use `cp .env.example .env` to set local configuration.
-
-Score agents and inspect evidence locally.
-
-```bash
-bun run afc -- score --id afc:sim:atlas
-bun run afc -- score --log examples/my-agent.jsonl
-bun run afc -- explain afc:sim:blaze
+AFC_OFFLINE=1 bun run serv:smoke
 bun run afc -- serv-log --afc-id afc:sim:atlas
-bun run afc -- evaluate --samples examples/samples.jsonl --category shopping --simulated
+bun run check
 ```
 
-The API and CLI share the same scoring service. Uploads are provisional by default. The API accepts a multipart `file` of up to 1 MiB and supports `?save=1` to initialize a new history. Uploaded claims use self-reported attestation. Unknown log formats receive a line-specific error. The local evaluation endpoint requires `AFC_ENABLE_EVALUATE=1` and a Reppo key; the command above queues work for the separate worker.
-
-`bun run afc -- score --kite 0xYourAgentAddress` reads USDC.e transfers from the configured KiteScan endpoint in online mode. Use `--kite-fixture <file>` to score recorded data offline. The result includes coverage and provenance. Live mainnet evidence remains part of M7.
-
-The one-command demo is scheduled for M9.
-
-## Reppo evaluations
-
-`bun run reppo:worker` processes the durable queue. Use `-- --once` for one state transition or `-- --drain` to finish the queued and active work present at startup. With no Reppo key, fixture mode creates explicitly simulated quality events. For live work, configure the local key and run with `AFC_OFFLINE=0`.
-
-The deployed Reppo API now uses `/agents/evals`. The adapter records each queue item's contract, submission, poll and verdict. It resumes known IDs after restart, stops ambiguous submissions for reconciliation, and stops the account on insufficient credits. Live work remains single-flight with 60-second polls and at least 15 minutes between submissions. Score reads use stored events.
-
-## SERV Reasoning usage
-
-Run the four implemented jobs, covering rubric creation, critique summaries, explanations and simulated work samples
-
-```bash
-bun run serv:smoke
-# With SERV_API_KEY and AFC_MODEL_* configured locally
-AFC_OFFLINE=0 bun run serv:smoke
-```
-
-Without a key, or with `AFC_OFFLINE=1`, the command loads templates from `fixtures/serv/` and marks every row `offline=true`. Live errors are logged and terminate the smoke run. Calls use Prompt Guard, strict JSON schemas and runtime validation. Explanation output can change wording while preserving deterministic score fields.
-
-Each attempt is stored in `serv_calls` at `AFC_DB_PATH`, including failures. Previews are redacted before truncation. Usage is recorded only when returned. Cost and feature outcomes remain null while their response fields are undocumented. The dashboard and `GET /v1/serv-log` views are scheduled for M5/M6.
-
-The full feature table is in [docs/SPEC.md](docs/SPEC.md#5-serv-reasoning-usage). Current verification and live-call availability are recorded in [STATUS.md](STATUS.md).
-
-## Dashboard
-
-Seed the five personas with `bun run sim -- --seed 42`, then start `bun run dev`. The dashboard provides the leaderboard, agent reports, SERV trace, provisional JSONL upload and Phoenix replay. Simulated histories and offline annotations have visible labels.
-
-For a local production build, run `bun run --filter @agentfico/web build`, then `bun apps/api/src/index.ts`. The API serves the built dashboard and its routes.
-
-## Docs
-- [docs/SPEC.md](docs/SPEC.md): score model, reason codes, event schema, SERV, Reppo, Kite, personas, API
-- [docs/PLAN.md](docs/PLAN.md): build plan and demo script
-- [docs/SUBMISSION.md](docs/SUBMISSION.md): hackathon requirements and checklist
-- [docs/DECISIONS.md](docs/DECISIONS.md): design decisions
-- [STATUS.md](STATUS.md): progress
-
-## Roadmap
-- Repayment history as a factor once agents use credit lines (lender adapters)
-- Real adapters at scale: Kite backfill, Passport owner opt-in, signed assistant-log SDK
-- Publish scores to the ERC-8004 Reputation Registry
-- Score-change webhooks and bulk scoring
+Local live use requires keys in an ignored `.env` and explicit operator commands. The durable Reppo worker submits one evaluation at a time, polls at 60 seconds, and leaves at least 15 minutes between submissions. Score reads use stored data.
 
 ## Sustainability
-The core stays MIT and free. A hosted version can fund itself with higher rate limits, webhooks and bulk scoring for marketplaces, and integrations for lenders and insurers that want monitored scores.
 
-## License
-MIT. See [LICENSE](LICENSE). AgentFICO is not affiliated with Fair Isaac Corporation; "FICO" is used only as a comparison.
+The fixture demo spends zero SERV provider calls and zero Reppo credits per score or upload. Score reads run the deterministic scorer against SQLite, using stored evidence. Live text evaluations cost 440 Reppo credits at the documented rate, and a settled verdict can serve repeated score reads. The core remains MIT and free. A hosted service could support score-change webhooks, bulk queries for marketplaces, and monitored-score integrations for lenders or insurers. [Reppo evaluation guide](https://eval.reppo.xyz/agents.md)
+
+[Status and proofs](STATUS.md) · [Specification](docs/SPEC.md) · [Decision log](docs/DECISIONS.md) · [License](LICENSE)
+
+AgentFICO is unaffiliated with Fair Isaac Corporation.

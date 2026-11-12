@@ -6,7 +6,7 @@ Deadline: Nov 16 02:59 Istanbul (Nov 15 23:59 UTC). Code complete: Nov 13.
 Last updated: Nov 12 14:00 Istanbul
 
 ## Now
-M0–M8 are merged and verified on main. M9 demo verification and the approved Reppo batch are in progress.
+M0–M8 are merged and verified on main. M9 has a verified local demo, simulated back-test and approved live batch in progress. The Render Free configuration and submission drafts are being finalized.
 
 ## Next
 1. Complete the approved Reppo batch and verify the demo from a fresh clone.
@@ -31,17 +31,17 @@ M0–M8 are merged and verified on main. M9 demo verification and the approved R
 - [x] M6 Dashboard (Nov 11 10:55 Istanbul) — browser flows passed at desktop and 390 px, with 186 passing tests. [Main CI](https://github.com/ozgureyilmaz/agentfico/actions/runs/42985808699)
 - [x] M7 Fraud detectors + SERV fraud review + real Kite address (Nov 12 09:03 Istanbul) — six detectors tested, Nova-7 642 → 549, and the public Kite mainnet address scored 649 with partial coverage. [Detector and offline review proof](docs/evidence/nova-fraud-review.json) · [Kite capture](fixtures/kite/real/kitescan-mainnet-0xd9bee9d8d294b01f716c77b3c5953035a15ed2d2.meta.json) [Main CI](https://github.com/ozgureyilmaz/agentfico/actions/runs/43205141595)
 - [x] M8 Probe plans + assistant log mapping (Nov 12 09:10 Istanbul) — persisted three probes, settled one offline evaluation, mapped four assistant events and verified both browser scoring inputs. [Proof](docs/evidence/probe-and-upload.json) [Main CI](https://github.com/ozgureyilmaz/agentfico/actions/runs/43205214626)
-- [ ] M9 Ship: one-command demo on fresh clone, hosted URL, README GIF/screenshots, AUC, 20+ Reppo evals
+- [ ] M9 Ship — demo, screenshots, GIF, AUC and local browser checks verified. The live Reppo batch is in progress. Hosted URL remains UNSURE pending Render account setup and deployment approval.
 - [ ] M10 Submission assets
 
 ## How-we-win gates (from AGENTS.md)
-- [ ] SERV trace panel + `/v1/serv-log` + committed sample log
+- [x] SERV trace panel + `/v1/serv-log` + committed sample log (Nov 12 09:21 Istanbul) — browser loaded the trace with token usage and the demo imported recorded call metadata. [Browser proof](docs/evidence/demo-browser.json) · [Live sample](docs/evidence/serv-calls.sample.jsonl)
 - [ ] 20+ real settled Reppo evals, eval IDs clickable
-- [ ] Fresh clone to dashboard < 3 min (time: __)
+- [x] Fresh clone to dashboard < 3 min (Nov 12 09:21 Istanbul) — 3.301 s including clone, no `.env`, `/healthz` and dashboard loaded. [Timing](docs/evidence/demo-browser.json)
 - [ ] Hosted URL live: __
 - [x] Score-your-own-agent works (log, Kite address, upload) (Nov 12 09:10 Istanbul) — browser and CLI scores match for the assistant log (632) and recorded Kite address (649). [Proof](docs/evidence/probe-and-upload.json)
 - [x] Real Kite address scored and shown (Nov 12 09:10 Istanbul) — mainnet public address displayed at desktop and 390 px with partial coverage and a provisional score of 649. [Browser proof](docs/evidence/probe-and-upload.json) · [Live capture](fixtures/kite/real/)
-- [ ] README: screenshots, GIF, SERV feature on/off table, sustainability
+- [x] README: screenshots, GIF, SERV feature on/off table, sustainability (Nov 12 09:22 Istanbul) — [README](README.md) includes the verified screenshots and [12-second GIF](assets/demo.gif).
 - [ ] Video 2-3 min, link: __
 - [ ] Logo PNG + SVG
 
@@ -184,3 +184,10 @@ M0–M8 are merged and verified on main. M9 demo verification and the approved R
 - Nov 12 14:00 Istanbul · M7 · PR #7 merged into main at `23407561c4dfae5244d1430c178d391b535d7320`. The push workflow completed with `success`. [GitHub Actions run](https://github.com/ozgureyilmaz/agentfico/actions/runs/43205141595)
 
 - Nov 12 14:00 Istanbul · M8 · PR #8 merged into main at `8789ada0137604375c04158067169df8638a1d24`. The push workflow completed with `success`. [GitHub Actions run](https://github.com/ozgureyilmaz/agentfico/actions/runs/43205214626)
+
+- Nov 12 09:16 Istanbul · M9 · `bun run backtest` scored all 200 simulated subjects, with 62 holdout incidents and AUC `0.8208274894810659`. [Exact output](docs/evidence/simulated-backtest.json)
+- Nov 12 09:21 Istanbul · M9 · Fresh local clone at `057f390`, with no `.env`: `bun install && bun run demo` → health and dashboard ready in `3.301s` including clone. Fresh-clone `bun run check` → `208 pass`, `0 fail`. Browser desktop and 390 px checks reported zero console errors and no horizontal overflow. [Timing and metrics](docs/evidence/demo-browser.json)
+- Nov 12 09:22 Istanbul · M9 · Reppo preflight confirmed `19,800` credits available at `440` per text evaluation. Phoenix follow-up `cmwd5ia5r000008l8wqzthd4r` completed at `100` after the earlier verdict at `70`; the dashboard returned `696`. [Sanitized batch proof](docs/evidence/reppo-batch.json)
+
+- Nov 12 14:05 Istanbul · M7–M8 proof commit `a71df4c` passed 205 tests and [main CI](https://github.com/ozgureyilmaz/agentfico/actions/runs/43205755903).
+- Nov 12 14:00 Istanbul · M9 · Reconciled 11 settled evaluations, `4,840` credits charged and `14,960` available. Reppo showed 16 completed evaluations overall and no in-flight evaluation, so the interrupted attempt had no provider ID or charge. The worker resumed the four remaining evaluations at the existing pace. [Journal proof](docs/evidence/reppo-batch.json)
