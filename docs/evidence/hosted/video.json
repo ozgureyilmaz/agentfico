@@ -1,0 +1,33 @@
+{
+  "capture_url": "https://agentfico-free-demo.onrender.com",
+  "output": "video/out/agentfico-demo.mp4",
+  "runtime_seconds": 164.0,
+  "resolution": "1920x1080",
+  "frame_rate": "30/1",
+  "captions": "burned in",
+  "audio": {
+    "codec": "aac",
+    "channels": 2,
+    "sample_rate_hz": 48000,
+    "decoded_peak_db": "-inf"
+  },
+  "size_bytes": 9304361,
+  "sha256": "41f606598af5fbe2a7a77425b10c8d23a47b68bfca3d78dbf5194eb14014f9f9",
+  "scenes": [
+    "hook",
+    "problem",
+    "leaderboard",
+    "agent-report",
+    "phoenix-replay",
+    "nova-fraud-cap",
+    "kite-mainnet",
+    "score-own-log",
+    "serv-trace",
+    "clickable-reppo-eval",
+    "architecture",
+    "why-it-matters",
+    "outro"
+  ],
+  "console_errors": 0,
+  "external_requests": 0
+}

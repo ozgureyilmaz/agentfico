@@ -248,11 +248,10 @@ const allScenes = [
       await page.getByRole("heading", { name: "SERV trace" }).waitFor();
       const calls = page.locator(".serv-call-list");
       await calls.waitFor();
-      const first = calls
-        .locator("article")
-        .filter({ has: page.locator(".status-live") })
-        .first();
-      await first.waitFor();
+      const articles = calls.locator("article");
+      await articles.first().waitFor();
+      const live = articles.filter({ has: page.locator(".status-live") });
+      const first = (await live.count()) ? live.first() : articles.first();
       await scrollTo(page, first);
       await smoothHover(page, first, 750);
       const count = await calls.locator("article").count();
@@ -356,13 +355,13 @@ async function setVisualOverlays(page, caption) {
       },
       { passive: true },
     );
-    window.__afcDemoCursor = { x: innerWidth * 0.63, y: innerHeight * 0.4 };
+    window.__afcDemoPointer = { x: innerWidth * 0.63, y: innerHeight * 0.4 };
   }, caption);
 }
 
 async function smoothMove(page, x, y, durationMs = 800) {
   const from = await page.evaluate(
-    () => window.__afcDemoCursor ?? { x: 960, y: 450 },
+    () => window.__afcDemoPointer ?? { x: 960, y: 450 },
   );
   const frames = Math.max(1, Math.round(durationMs / 40));
   for (let index = 1; index <= frames; index += 1) {
@@ -373,7 +372,7 @@ async function smoothMove(page, x, y, durationMs = 800) {
     await page.mouse.move(nextX, nextY);
     await page.evaluate(
       (point) => {
-        window.__afcDemoCursor = point;
+        window.__afcDemoPointer = point;
       },
       { x: nextX, y: nextY },
     );

@@ -157,7 +157,7 @@ const metadata = {
   file_size_mib: Number((size / (1024 * 1024)).toFixed(2)),
   segment_count: manifest.segments.length,
   transition_seconds: transition,
-  source: "local AgentFICO app and recorded fixtures",
+  source: manifest.base_url,
 };
 writeFileSync(
   join(out, "render-metadata.json"),

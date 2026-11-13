@@ -1,0 +1,13 @@
+{
+  "commit": "ce00e031711104af3db407140a3ef33ee51b3403",
+  "command": "bun install && bun run demo",
+  "seconds_after_clone": 2.531,
+  "no_dotenv": true,
+  "healthz_ok": true,
+  "leaderboard_agents": 6,
+  "tests_passed": 209,
+  "tests_failed": 0,
+  "history_commits_scanned_before_closeout": 38,
+  "pr_titles_and_bodies_scanned": 10,
+  "prohibited_matches": 0
+}

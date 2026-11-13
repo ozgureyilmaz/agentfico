@@ -3,15 +3,15 @@
 Tick only with proof: time (Istanbul) + one-line proof (command output, PR or commit link). No proof, no tick.
 Deadline: Nov 16 02:59 Istanbul (Nov 15 23:59 UTC). Code complete: Nov 13.
 
-Last updated: Nov 13 19:24 Istanbul
+Last updated: Nov 13 19:34 Istanbul
 
 ## Now
-M9 and the Glacier visual release are merged with passing CI. The Glacier deployment and public browser checks are pending.
+The Glacier demo is live on Render Free. Main CI, the fresh-clone run and public browser checks passed.
 
 ## Next
-1. Deploy the merged Glacier release on Render Free.
-2. Verify the public dashboard and render the local submission video from it.
-3. Review the final submission drafts.
+1. Record the voiceover and upload the video.
+2. Publish the X post and complete the owner approval and form steps.
+3. Add the OpenServ data-collection screenshot to the evidence folder.
 
 ## Setup (Ozgur)
 - [x] Repo created, public, MIT (Nov 05)
@@ -31,29 +31,28 @@ M9 and the Glacier visual release are merged with passing CI. The Glacier deploy
 - [x] M6 Dashboard (Nov 11 10:55 Istanbul) — browser flows passed at desktop and 390 px, with 186 passing tests. [Main CI](https://github.com/ozgureyilmaz/agentfico/actions/runs/42985808699)
 - [x] M7 Fraud detectors + SERV fraud review + real Kite address (Nov 12 09:03 Istanbul) — six detectors tested, Nova-7 642 → 549, and the public Kite mainnet address scored 649 with partial coverage. [Detector and offline review proof](docs/evidence/nova-fraud-review.json) · [Kite capture](fixtures/kite/real/kitescan-mainnet-0xd9bee9d8d294b01f716c77b3c5953035a15ed2d2.meta.json) [Main CI](https://github.com/ozgureyilmaz/agentfico/actions/runs/43205141595)
 - [x] M8 Probe plans + assistant log mapping (Nov 12 09:10 Istanbul) — persisted three probes, settled one offline evaluation, mapped four assistant events and verified both browser scoring inputs. [Proof](docs/evidence/probe-and-upload.json) [Main CI](https://github.com/ozgureyilmaz/agentfico/actions/runs/43205214626)
-- [ ] M9 Ship — demo, screenshots, GIF, AUC and local browser checks verified. All 20 live Reppo evaluations settled and are clickable. Hosted URL remains UNSURE pending Render account setup and deployment approval. [Main CI](https://github.com/ozgureyilmaz/agentfico/actions/runs/43462115828)
-- [ ] M10 Submission assets — [logo](assets/brand/), [video script](docs/submission/video-script.md), [Typeform draft](docs/submission/writeup.md), and [X draft](docs/submission/x-post.md) prepared. The video is a local draft. Owner publication and submission steps are pending. [Main CI](https://github.com/ozgureyilmaz/agentfico/actions/runs/43462253692)
+- [x] M9 Ship (Nov 13 19:34 Istanbul) — 20 settled evaluations, AUC 0.821, clean clone in 2.531 s, and the hosted demo verified. [Main CI](https://github.com/ozgureyilmaz/agentfico/actions/runs/43462115828) · [Public evidence](docs/evidence/hosted/)
+- [ ] M10 Submission assets — [logo](assets/brand/), [video script](docs/submission/video-script.md), [Typeform draft](docs/submission/writeup.md), and [X draft](docs/submission/x-post.md) prepared. The hosted capture was rendered locally. Owner publication and submission steps are pending. [Main CI](https://github.com/ozgureyilmaz/agentfico/actions/runs/43462253692)
 
 ## How-we-win gates (from AGENTS.md)
-- [x] SERV trace panel + `/v1/serv-log` + committed sample log (Nov 12 09:21 Istanbul) — browser loaded the trace with token usage and the demo imported recorded call metadata. [Browser proof](docs/evidence/demo-browser.json) · [Live sample](docs/evidence/serv-calls.sample.jsonl)
+- [x] SERV trace panel + `/v1/serv-log` + committed sample log (Nov 12 09:21 Istanbul) — browser loaded the trace with token usage and the demo imported recorded call metadata. [Hosted browser proof](docs/evidence/hosted/) · [Live sample](docs/evidence/serv-calls.sample.jsonl)
 - [x] 20+ real settled Reppo evals, eval IDs clickable (Nov 13 09:06 Istanbul) — 20 distinct completions and 20 working dashboard links. [Evaluation index](docs/evidence/INDEX.md#settled-reppo-evaluations) · [Browser proof](docs/evidence/release-audit.json)
-- [x] Fresh clone to dashboard < 3 min (Nov 12 09:21 Istanbul) — 3.301 s including clone, no `.env`, `/healthz` and dashboard loaded. [Timing](docs/evidence/demo-browser.json)
-- [ ] Hosted URL live: __
+- [x] Fresh clone to dashboard < 3 min (Nov 13 19:34 Istanbul) — `bun install && bun run demo` on published main reached the dashboard in 2.531 s without `.env`. [Proof](docs/evidence/freeze-main.json)
+- [x] Hosted URL live (Nov 13 19:34 Istanbul) — health check and both browser widths passed. [Live demo](https://agentfico-free-demo.onrender.com) · [Browser evidence](docs/evidence/hosted/)
 - [x] Score-your-own-agent works (log, Kite address, upload) (Nov 12 09:10 Istanbul) — browser and CLI scores match for the assistant log (632) and recorded Kite address (649). [Proof](docs/evidence/probe-and-upload.json)
 - [x] Real Kite address scored and shown (Nov 12 09:10 Istanbul) — mainnet public address displayed at desktop and 390 px with partial coverage and a provisional score of 649. [Browser proof](docs/evidence/probe-and-upload.json) · [Live capture](fixtures/kite/real/)
-- [x] README: screenshots, GIF, SERV feature on/off table, sustainability (Nov 12 09:22 Istanbul) — [README](README.md) includes the verified screenshots and [12-second GIF](assets/demo.gif).
+- [x] README: screenshots, GIF, SERV feature on/off table, sustainability (Nov 13) — the [README](README.md) includes the live URL, expected Free cold start, screenshots and the [12-second GIF](assets/demo.gif).
 - [ ] Video 2–3 min, link: [video url]
 - [x] Logo PNG + SVG (Nov 12 14:29 Istanbul) — SVGs parse; 512 and 1024 px in both colorways; favicon set, 1200 × 630 Open Graph, and 1500 × 500 X artwork verified. [Brand files](assets/brand/)
 
 ## Submission (Ozgur)
-- [x] Field 7 final (Nov 12 14:12 Istanbul) — verified 1,763 characters in the [form draft](docs/submission/writeup.md).
-- [ ] X post published, URL: __
+- [x] Field 7 final (Nov 13 19:35 Istanbul) — 1,841 characters with 209 tests, 20 evaluations and the live URL. [Form draft](docs/submission/writeup.md)
+- [ ] X post published, link: [x post url]
 - [ ] Ozgur OK to submit
 - [ ] Form submitted, confirmation saved
 
 ## Blockers / open questions
 - Kite mainnet transfer coverage remains partial. The explorer repeated its next page key; the provisional score uses 50 distinct transfer logs.
-- Render account sign-in and deployment approval (Ozgur).
 - Reppo balance verified at 13,200 credits after the approved batch.
 
 ## Reppo evals log
@@ -212,3 +211,8 @@ M9 and the Glacier visual release are merged with passing CI. The Glacier deploy
 - Nov 13 19:24 Istanbul · M9 · PR #9 merged at `dd474223a7659e72ef66c8c8333765a85fc689ef` and passed [main CI](https://github.com/ozgureyilmaz/agentfico/actions/runs/43462115828).
 
 - Nov 13 19:24 Istanbul · M10 · PR #10 merged at `bb65090d0653ed28127916a743fde5a698a0ba20` and passed [main CI](https://github.com/ozgureyilmaz/agentfico/actions/runs/43462253692).
+
+- Nov 13 19:34 Istanbul · Freeze · Published main `ce00e03` passed 209 tests. [Main CI](https://github.com/ozgureyilmaz/agentfico/actions/runs/43462550401) · [Fresh clone proof](docs/evidence/freeze-main.json)
+- Nov 13 19:34 Istanbul · Hosting · Render deployed `ce00e03`. Public Chromium at 1280 and 390 px passed 11 views each, all 20 evaluation links, log score 632, Kite score 649 and Nova-7 642 → 549. Both widths had zero console errors and overflow. [Deployment](https://dashboard.render.com/web/srv-dbrammgae00c73f3tqkg/deploys/dep-dbrjli0u01pc73beq9rg) · [Hosted screenshots and proof](docs/evidence/hosted/)
+
+- Nov 13 19:45 Istanbul · M10 video · Public capture completed all 13 scenes. `ffprobe` → 164.000 s, 1920 × 1080, 30 fps, 9,304,361 bytes. Captions are burned in and the decoded stereo audio peak was `-inf` dB. [Render proof](docs/evidence/hosted/video.json)

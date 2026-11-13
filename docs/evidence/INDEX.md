@@ -54,4 +54,10 @@ The baseline Phoenix replay reached 691. Reppo evaluation `cmwaknixh000208jshh2w
 
 ## Pending owner evidence
 
-Pending owner evidence includes the OpenServ data-collection screenshot, hosted URL, published video, and submission confirmation.
+Pending owner evidence includes the OpenServ data-collection screenshot, published video, X post, and submission confirmation.
+
+## Release freeze
+
+- [Public Glacier screenshots and browser audit](hosted/) · [Live demo](https://agentfico-free-demo.onrender.com)
+- [Fresh clone of published main](freeze-main.json) · [Main CI](https://github.com/ozgureyilmaz/agentfico/actions/runs/43462550401)
+- [Hosted video capture and render proof](hosted/video.json)

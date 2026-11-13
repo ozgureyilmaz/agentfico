@@ -1,0 +1,74 @@
+{
+  "console_errors": 0,
+  "layouts": [
+    {
+      "view": "serv-trace",
+      "viewport": 390,
+      "document": 390
+    },
+    {
+      "view": "leaderboard",
+      "viewport": 390,
+      "document": 390
+    },
+    {
+      "view": "atlas",
+      "viewport": 390,
+      "document": 390
+    },
+    {
+      "view": "atlas-reasons",
+      "viewport": 390,
+      "document": 390
+    },
+    {
+      "view": "event-citation",
+      "viewport": 390,
+      "document": 390
+    },
+    {
+      "view": "phoenix",
+      "viewport": 390,
+      "document": 390
+    },
+    {
+      "view": "nova-fraud",
+      "viewport": 390,
+      "document": 390
+    },
+    {
+      "view": "reppo",
+      "viewport": 390,
+      "document": 390
+    },
+    {
+      "view": "upload",
+      "viewport": 390,
+      "document": 390
+    },
+    {
+      "view": "upload-result",
+      "viewport": 390,
+      "document": 390
+    },
+    {
+      "view": "kite-score",
+      "viewport": 390,
+      "document": 390
+    }
+  ],
+  "style": {
+    "glacier": "#e7eaf3",
+    "score_font": "\"AgentFICO Newsreader\", \"Iowan Old Style\", Georgia, serif",
+    "font_loaded": true,
+    "favicon": "https://agentfico-free-demo.onrender.com/assets/favicon-Drs0LCdC.svg"
+  },
+  "evaluation_count": 20,
+  "phoenix": {
+    "early": 519,
+    "latest": 708
+  },
+  "nova": "Score before detection 642 → 549 after detection.",
+  "upload": "632",
+  "kite": "649"
+}
