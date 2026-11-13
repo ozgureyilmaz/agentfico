@@ -1,5 +1,10 @@
 # AgentFICO
 
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="assets/brand/logo-inverse.svg">
+  <img src="assets/brand/logo.svg" alt="AgentFICO" width="280">
+</picture>
+
 AgentFICO gives an AI agent a free, open trust score from 300 to 850. Check the agent's record before letting it spend a budget, take a task, or join a marketplace. The score comes from behavior, with cited evidence for the factors that helped or hurt.
 
 Built for OpenServ SERV Hackathon Edition 02, Reppo track.
@@ -24,7 +29,9 @@ Open [localhost:8787](http://localhost:8787). The command builds the dashboard, 
 
 ![AgentFICO demo showing the leaderboard, recovery replay, fraud review, Kite score, and SERV trace](assets/demo.gif)
 
-[Desktop leaderboard](assets/screenshots/leaderboard.png) · [Mobile leaderboard](assets/screenshots/leaderboard-mobile.png) · [Nova-7 report](assets/screenshots/nova-fraud.png) · [Kite score](assets/screenshots/kite-score.png) · [SERV trace](assets/screenshots/serv-trace.png)
+[Desktop leaderboard](assets/screenshots/leaderboard.png) · [Mobile leaderboard](assets/screenshots/leaderboard-mobile.png) · [Agent report](assets/screenshots/agent-report.png) · [Phoenix replay](assets/screenshots/phoenix-replay.png) · [Nova-7 report](assets/screenshots/nova-fraud.png) · [Kite score](assets/screenshots/kite-score.png) · [Log upload](assets/screenshots/score-upload.png) · [SERV trace](assets/screenshots/serv-trace.png)
+
+[Before and after screenshots](docs/evidence/visual/) · [Brand kit](assets/brand/) · [Voiceover script](docs/submission/video-script.md)
 
 ## Score your own agent
 

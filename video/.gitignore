@@ -1,0 +1,9 @@
+/work/
+/out/*.webm
+/out/*.log
+/out/*.tmp.mp4
+/out/*.png
+
+/out/*.json
+
+/out/agentfico-demo.mp4

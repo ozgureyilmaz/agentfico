@@ -1,0 +1,18 @@
+{
+  "runtime_seconds": 164,
+  "resolution": "1920x1080",
+  "frame_rate": "30/1",
+  "video_codec": "h264",
+  "audio_codec": "aac",
+  "audio_sample_rate": 48000,
+  "audio_channels": 2,
+  "audio_content": "silent stereo track",
+  "file_size_bytes": 9685875,
+  "file_size_mib": 9.24,
+  "segment_count": 13,
+  "transition_seconds": 0.35,
+  "source": "local AgentFICO app and recorded fixtures",
+  "sha256": "61a66074ca00647efe4ccf5a070fbccd92c1354b8dbd76f0979a7f9550707b72",
+  "capture_console_errors": 0,
+  "capture_blocked_external_origins": 0
+}

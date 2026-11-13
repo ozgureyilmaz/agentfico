@@ -1,0 +1,98 @@
+{
+  "baseline_commit": "0e3c6b9636fc6d9e69f53c04fa00e1bbb23a4e66",
+  "mode": "local fixture-backed hosted build",
+  "browser": "Chromium via Playwright",
+  "checks": [
+    "Mobile and desktop: one main landmark and h1 per view; no document overflow",
+    "Open a cited event and close its detail dialog",
+    "Move the Phoenix replay slider to early and latest observations",
+    "Resolve every recorded Reppo evaluation link to its in-page target and follow a Phoenix link",
+    "Open the global SERV trace and find recorded call usage fields",
+    "Score the example JSONL in the read-only form",
+    "Look up the recorded Kite mainnet address and verify the partial-coverage label",
+    "Compare report scores, factors, reason codes, cited event/eval IDs and selected hrefs to M9"
+  ],
+  "viewports": [
+    {
+      "viewport": "1280x900",
+      "before_console_errors": 0,
+      "after_console_errors": 0,
+      "document_width_px": {
+        "serv-trace": 1280,
+        "leaderboard": 1280,
+        "atlas": 1280,
+        "atlas-reasons": 1280,
+        "event-citation": 1280,
+        "phoenix": 1280,
+        "nova-fraud": 1280,
+        "reppo": 1280,
+        "upload": 1280,
+        "upload-result": 1280,
+        "kite-score": 1280
+      }
+    },
+    {
+      "viewport": "390x844",
+      "before_console_errors": 0,
+      "after_console_errors": 0,
+      "document_width_px": {
+        "serv-trace": 390,
+        "leaderboard": 390,
+        "atlas": 390,
+        "atlas-reasons": 390,
+        "event-citation": 390,
+        "phoenix": 390,
+        "nova-fraud": 390,
+        "reppo": 390,
+        "upload": 390,
+        "upload-result": 390,
+        "kite-score": 390
+      }
+    }
+  ],
+  "parity": {
+    "agents": {
+      "afc:asst:kite-reader": null,
+      "afc:sim:atlas": 780,
+      "afc:sim:blaze": 635,
+      "afc:sim:murk": 621,
+      "afc:sim:nova-7": 549,
+      "afc:sim:phoenix": 708
+    },
+    "recorded_evaluation_links": 20,
+    "phoenix_replay": {
+      "early": 519,
+      "latest": 708
+    },
+    "nova_fraud_transition": "Score before detection 642 → 549 after detection.",
+    "kite_mainnet_partial_coverage": 649,
+    "example_log": 632,
+    "matched_sha256": "fd61afb5c07dc92f8ff03822381f3160f7a64b66c94974daf5d325e73ecf0921"
+  },
+  "contrast": {
+    "scope": "Computed colors for body paragraphs, navigation and sampled metadata on flat surfaces",
+    "threshold_for_normal_text": 4.5,
+    "worst_body_pair": {
+      "fg": "rgb(82, 97, 122)",
+      "bg": "rgb(231, 234, 243)",
+      "ratio": 5.21,
+      "label": "body",
+      "example": "Uploads use the published deterministic scorer. SERV can explain a res"
+    },
+    "worst_sampled_metadata_pair": {
+      "fg": "rgb(82, 97, 122)",
+      "bg": "rgb(231, 234, 243)",
+      "ratio": 5.21,
+      "label": "metadata",
+      "example": "BRING YOUR OWN DATA"
+    }
+  },
+  "states": {
+    "loading_mark": true,
+    "empty_mark": true,
+    "serif_loaded": true,
+    "prefers_reduced_motion": true,
+    "reduced_scroll": "auto",
+    "console_errors": 0
+  }
+}

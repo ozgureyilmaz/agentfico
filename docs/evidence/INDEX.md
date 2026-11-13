@@ -15,6 +15,7 @@ The repository distinguishes live provider responses, recorded replay, and simul
 | M8 probes and uploads | [Main CI](https://github.com/ozgureyilmaz/agentfico/actions/runs/43205214626) · [PR CI](https://github.com/ozgureyilmaz/agentfico/actions/runs/43166846501) · [Plan ID, log mapping call IDs and browser outputs](probe-and-upload.json) |
 | M9 recorded evaluations | [Initial and follow-up verdict manifest](../../fixtures/reppo/recorded.json) · [Approved batch observations](reppo-batch.json) |
 | M9 demo and back-test | [Final clean clone, 20 links and browser metrics](release-audit.json) · [Earlier demo timing](demo-browser.json) · [Simulated AUC and calibration output](simulated-backtest.json) · [Demo GIF](../../assets/demo.gif) · [Render container restart proof](render-release-container.json) |
+| M10 visual assets | [Before and after dashboard captures](visual/) · [Brand kit](../../assets/brand/) · [Video script, form, and X drafts](../submission/) |
 
 The public Kite address scored 649 on mainnet chain 2366. The provider repeated pages, so the score is provisional and based on 50 distinct transfer logs between blocks 122771 and 2301185. The source responses and their capture times are recorded with the fixture.
 
@@ -46,6 +47,10 @@ The baseline Phoenix replay reached 691. Reppo evaluation `cmwaknixh000208jshh2w
 | `afc:sim:atlas` | [`cmwdgali2000607l4kkrvwrqv`](../../fixtures/reppo/real/2026-11-12T11-15-32-389Z-3fdba35f04dc-29-poll.json) | 2026-11-12T11:15:07.510Z | 440 | Simulated |
 | `afc:sim:blaze` | [`cmwdgtw4r000807l4skie6j41`](../../fixtures/reppo/real/2026-11-12T11-31-32-435Z-8527a891e224-32-poll.json) | 2026-11-12T11:30:53.025Z | 440 | Simulated |
 | `afc:sim:phoenix` | [`cmwdhd6f2000007lf37r27ost`](../../fixtures/reppo/real/2026-11-12T11-45-32-429Z-e629fa6598d7-34-poll.json) | 2026-11-12T11:45:14.335Z | 440 | Simulated |
+
+## Submission drafts
+
+[Brand assets](../../assets/brand/) · [Video script](../submission/video-script.md) · [Typeform answers](../submission/writeup.md) · [X drafts](../submission/x-post.md)
 
 ## Pending owner evidence
 

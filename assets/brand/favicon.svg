@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64" role="img" aria-labelledby="title"><title id="title">AgentFICO favicon</title><rect width="64" height="64" fill="#e7eaf3"/><svg x="0" y="0" width="64" height="64" viewBox="0 0 120 120" aria-hidden="true">
+  <g id="mark" fill="none" stroke="#0a0d12" stroke-linecap="round" stroke-linejoin="round">
+    <circle cx="60" cy="58" r="43.5" stroke-width="1.5"/>
+    <path d="M60 15v7M60 94v7" stroke-width="1.5"/>
+    <path d="M39 94C24 81 21 57 29 37c3-7 7-13 13-18M81 94c15-13 18-37 10-57-3-7-7-13-13-18" stroke-width="1.8"/>
+    <path d="M33 81c-8 0-13-5-15-12 8-1 14 2 17 8M29 66c-8-1-12-6-13-13 8 0 13 3 16 10M29 50c-7-3-10-9-9-16 7 2 11 7 12 14M34 35c-5-5-6-12-3-18 6 4 8 10 6 17M41 24c-3-6-2-13 3-18 4 6 4 12 0 18" stroke-width="1.8"/>
+    <path d="M87 81c8 0 13-5 15-12-8-1-14 2-17 8M91 66c8-1 12-6 13-13-8 0-13 3-16 10M91 50c7-3 10-9 9-16-7 2-11 7-12 14M86 35c5-5 6-12 3-18-6 4-8 10-6 17M79 24c3-6 2-13-3-18-4 6-4 12 0 18" stroke-width="1.8"/>
+    <path d="M47 41c5-2 9-2 13 1 4-3 8-3 13-1v32c-5-2-9-1-13 2-4-3-8-4-13-2zM60 42v31M51 49h5M51 56h5M51 63h5M64 49h5M64 56h5M64 63h5" stroke-width="1.7"/>
+    <path d="m55 82 4 4 8-9" stroke-width="2"/>
+  </g>
+  <g class="stipple" fill="#0a0d12" aria-hidden="true">
+    <circle cx="17" cy="83" r=".7"/><circle cx="23" cy="90" r=".65"/><circle cx="30" cy="96" r=".7"/>
+    <circle cx="103" cy="83" r=".7"/><circle cx="97" cy="90" r=".65"/><circle cx="90" cy="96" r=".7"/>
+    <circle cx="36" cy="103" r=".65"/><circle cx="43" cy="107" r=".65"/><circle cx="50" cy="110" r=".6"/>
+    <circle cx="84" cy="103" r=".65"/><circle cx="77" cy="107" r=".65"/><circle cx="70" cy="110" r=".6"/>
+    <circle cx="11" cy="76" r=".55"/><circle cx="109" cy="76" r=".55"/>
+  </g>
+  <style>@media (max-width: 80px) { .stipple { display: none; } }</style>
+</svg>
+</svg>
