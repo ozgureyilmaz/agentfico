@@ -11,7 +11,7 @@ Built for OpenServ SERV Hackathon Edition 02, Reppo track.
 
 ## Run the demo
 
-Render Free may take roughly 30–60 seconds to wake after inactivity. [Open the hosted demo](https://agentfico-free-demo.onrender.com) · [Render Free service limits](https://render.com/docs/free#spinning-down-on-idle)
+Render Free may take roughly 30–60 seconds to wake after inactivity. [Open the hosted demo](https://agentfico.onrender.com/) · [Render Free service limits](https://render.com/docs/free#spinning-down-on-idle)
 
 Use the Bun version in [`.bun-version`](.bun-version).
 

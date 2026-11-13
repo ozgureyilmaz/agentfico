@@ -58,6 +58,6 @@ Pending owner evidence includes the OpenServ data-collection screenshot, publish
 
 ## Release freeze
 
-- [Public Glacier screenshots and browser audit](hosted/) · [Live demo](https://agentfico-free-demo.onrender.com)
+- [Public Glacier screenshots and browser audit](hosted/) · [Live demo](https://agentfico.onrender.com/)
 - [Fresh clone of published main](freeze-main.json) · [Main CI](https://github.com/ozgureyilmaz/agentfico/actions/runs/43462550401)
 - [Hosted video capture and render proof](hosted/video.json)

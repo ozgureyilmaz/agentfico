@@ -49,7 +49,7 @@ Fields marked OZGUR are personal; fill on the day.
 5. **New or existing project**: A new project
 6. **Project name**: AgentFICO
 7. **About the project** (what, who, problem, how): draft below
-8. **Project URL** (demo, website or repo): [Hosted demo](https://agentfico-free-demo.onrender.com)
+8. **Project URL** (demo, website or repo): [Hosted demo](https://agentfico.onrender.com/)
 9. **X post URL**: [x post url]
 10. **Additional URL**: [Source repository](https://github.com/ozgureyilmaz/agentfico) or [video url]
 11. **Logo**: [512 px PNG](../assets/brand/logo.png)
@@ -73,12 +73,12 @@ Fields marked OZGUR are personal; fill on the day.
 
 ## Final checklist (tick in STATUS.md too)
 - [x] Code complete (Nov 13), [fresh-clone test logged](evidence/freeze-main.json)
-- [x] Hosted demo URL up, checked logged out. [Live demo](https://agentfico-free-demo.onrender.com) · [Evidence](evidence/hosted/)
+- [x] Hosted demo URL up, checked logged out. [Live demo](https://agentfico.onrender.com/) · [Evidence](evidence/hosted/)
 - [ ] README: pitch, GIF, screenshots, quickstart, API/CLI examples, SERV feature table (on/off), Reppo eval ID table, simulated-data notice, roadmap, sustainability, license, "not affiliated with FICO"
 - [ ] `docs/evidence/`: SERV call log sample, console usage screenshot, data-collection screenshot
 - [ ] Video 2-3 min, uploaded, plays logged out, link in README
 - [x] Logo PNG + SVG ([assets](../assets/brand/), 512 × 512 PNG verified)
 - [ ] X post drafted (tags @openservai and @reppo, link, GIF); Ozgur posts it
-- [x] Field 7 text final and matches the code ([draft](submission/writeup.md), 1,841 characters)
+- [x] Field 7 text final and matches the code ([draft](submission/writeup.md), 1,831 characters)
 - [ ] Ozgur OK to submit
 - [ ] Form submitted by Nov 15 20:00 Istanbul; confirmation saved

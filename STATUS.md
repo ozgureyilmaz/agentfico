@@ -3,7 +3,7 @@
 Tick only with proof: time (Istanbul) + one-line proof (command output, PR or commit link). No proof, no tick.
 Deadline: Nov 16 02:59 Istanbul (Nov 15 23:59 UTC). Code complete: Nov 13.
 
-Last updated: Nov 13 19:34 Istanbul
+Last updated: Nov 13 20:44 Istanbul
 
 ## Now
 The Glacier demo is live on Render Free. Main CI, the fresh-clone run and public browser checks passed.
@@ -38,7 +38,7 @@ The Glacier demo is live on Render Free. Main CI, the fresh-clone run and public
 - [x] SERV trace panel + `/v1/serv-log` + committed sample log (Nov 12 09:21 Istanbul) — browser loaded the trace with token usage and the demo imported recorded call metadata. [Hosted browser proof](docs/evidence/hosted/) · [Live sample](docs/evidence/serv-calls.sample.jsonl)
 - [x] 20+ real settled Reppo evals, eval IDs clickable (Nov 13 09:06 Istanbul) — 20 distinct completions and 20 working dashboard links. [Evaluation index](docs/evidence/INDEX.md#settled-reppo-evaluations) · [Browser proof](docs/evidence/release-audit.json)
 - [x] Fresh clone to dashboard < 3 min (Nov 13 19:34 Istanbul) — `bun install && bun run demo` on published main reached the dashboard in 2.531 s without `.env`. [Proof](docs/evidence/freeze-main.json)
-- [x] Hosted URL live (Nov 13 19:34 Istanbul) — health check and both browser widths passed. [Live demo](https://agentfico-free-demo.onrender.com) · [Browser evidence](docs/evidence/hosted/)
+- [x] Hosted URL live (Nov 13 20:44 Istanbul) — the homepage and health check returned HTTP 200, and the API listed six agents. [Live demo](https://agentfico.onrender.com/) · [Original deployment browser evidence](docs/evidence/hosted/)
 - [x] Score-your-own-agent works (log, Kite address, upload) (Nov 12 09:10 Istanbul) — browser and CLI scores match for the assistant log (632) and recorded Kite address (649). [Proof](docs/evidence/probe-and-upload.json)
 - [x] Real Kite address scored and shown (Nov 12 09:10 Istanbul) — mainnet public address displayed at desktop and 390 px with partial coverage and a provisional score of 649. [Browser proof](docs/evidence/probe-and-upload.json) · [Live capture](fixtures/kite/real/)
 - [x] README: screenshots, GIF, SERV feature on/off table, sustainability (Nov 13) — the [README](README.md) includes the live URL, expected Free cold start, screenshots and the [12-second GIF](assets/demo.gif).
@@ -46,7 +46,7 @@ The Glacier demo is live on Render Free. Main CI, the fresh-clone run and public
 - [x] Logo PNG + SVG (Nov 12 14:29 Istanbul) — SVGs parse; 512 and 1024 px in both colorways; favicon set, 1200 × 630 Open Graph, and 1500 × 500 X artwork verified. [Brand files](assets/brand/)
 
 ## Submission (Ozgur)
-- [x] Field 7 final (Nov 13 19:35 Istanbul) — 1,841 characters with 209 tests, 20 evaluations and the live URL. [Form draft](docs/submission/writeup.md)
+- [x] Field 7 final (Nov 13 19:35 Istanbul) — 1,831 characters with 209 tests, 20 evaluations and the live URL. [Form draft](docs/submission/writeup.md)
 - [ ] X post published, link: [x post url]
 - [ ] Ozgur OK to submit
 - [ ] Form submitted, confirmation saved
@@ -216,3 +216,5 @@ The Glacier demo is live on Render Free. Main CI, the fresh-clone run and public
 - Nov 13 19:34 Istanbul · Hosting · Render deployed `ce00e03`. Public Chromium at 1280 and 390 px passed 11 views each, all 20 evaluation links, log score 632, Kite score 649 and Nova-7 642 → 549. Both widths had zero console errors and overflow. [Deployment](https://dashboard.render.com/web/srv-dbrammgae00c73f3tqkg/deploys/dep-dbrjli0u01pc73beq9rg) · [Hosted screenshots and proof](docs/evidence/hosted/)
 
 - Nov 13 19:45 Istanbul · M10 video · Public capture completed all 13 scenes. `ffprobe` → 164.000 s, 1920 × 1080, 30 fps, 9,304,361 bytes. Captions are burned in and the decoded stereo audio peak was `-inf` dB. [Render proof](docs/evidence/hosted/video.json)
+
+- Nov 13 20:44 Istanbul · Hosting · The new Render service deployed commit `88620bd`. The homepage showed `AgentFICO`, `/healthz` returned `ok=true`, and `/v1/agents` returned six agents. [Live demo](https://agentfico.onrender.com/) · [Deployment](https://dashboard.render.com/web/srv-dbrkmoutlv9c73atrh00/deploys/dep-dbrkmp6tlv9c73atrhu0)

@@ -27,8 +27,7 @@ const base = new URL(baseUrl);
 const localCapture =
   base.protocol === "http:" &&
   ["127.0.0.1", "localhost", "[::1]"].includes(base.hostname);
-const hostedCapture =
-  base.origin === "https://agentfico-free-demo.onrender.com";
+const hostedCapture = base.origin === "https://agentfico.onrender.com";
 if ((!localCapture && !hostedCapture) || base.username || base.password) {
   throw new Error(
     "Use the local fixture demo or the AgentFICO public demo URL.",

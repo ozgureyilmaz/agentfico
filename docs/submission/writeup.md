@@ -15,12 +15,12 @@ SERV Reasoning powers seven logged jobs: (1) design checkable probe plans; (2) d
 
 Provenance: the five agent histories are simulated. Reppo verdicts are real provider assessments of synthetic samples and one project analysis of public chain data. The separate Kite example is an unaffiliated public mainnet address: 649 from 50 distinct transfer logs with partial coverage, so provisional. The simulator back-test AUC of 0.821 is not real-world validation.
 
-For OpenServ SERV Hackathon Edition 02, we built the scorer, durable Reppo queue, evidence adapters, dashboard, API, and CLI. The demo runs from fixtures without keys and 209 tests pass. Live demo: https://agentfico-free-demo.onrender.com.
+For OpenServ SERV Hackathon Edition 02, we built the scorer, durable Reppo queue, evidence adapters, dashboard, API, and CLI. The demo runs from fixtures without keys and 209 tests pass. Live demo: https://agentfico.onrender.com/
 ```
 
 ## Other form inputs
 
-- **Project URL:** [Hosted demo](https://agentfico-free-demo.onrender.com)
+- **Project URL:** [Hosted demo](https://agentfico.onrender.com/)
 - **Additional URL:** [Source repository](https://github.com/ozgureyilmaz/agentfico)
 - **X post URL:** [x post url]
 - **Video:** [video url]

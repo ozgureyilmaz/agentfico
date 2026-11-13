@@ -5,7 +5,7 @@ The [voiceover script](../docs/submission/video-script.md) follows the rendered 
 Capture the public fixture-backed demo from the repository root.
 
 ```sh
-bash video/render.sh https://agentfico-free-demo.onrender.com
+bash video/render.sh https://agentfico.onrender.com/
 ```
 
 The renderer uses Node.js 22 or later, Playwright with Chromium, and FFmpeg with H.264 support. It can use an installed Playwright package in the repository or the local npm execution cache. To select a specific installation, set `AFC_PLAYWRIGHT_ENTRY` to its `playwright/index.mjs` file. These are local render tools and are not application dependencies.

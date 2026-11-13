@@ -1,6 +1,8 @@
 # Public Glacier verification
 
-Render deployed main commit `ce00e03` on the Free plan. The public health endpoint returned HTTP 200 and `ok=true`. [Live demo](https://agentfico-free-demo.onrender.com) · [Deployment](https://dashboard.render.com/web/srv-dbrammgae00c73f3tqkg/deploys/dep-dbrjli0u01pc73beq9rg)
+The current AgentFICO demo is served at the shorter address. The screenshots and recordings below document the original deployment. [Current demo](https://agentfico.onrender.com/)
+
+Render deployed main commit `ce00e03` on the Free plan. The public health endpoint returned HTTP 200 and `ok=true`. [Deployment](https://dashboard.render.com/web/srv-dbrammgae00c73f3tqkg/deploys/dep-dbrjli0u01pc73beq9rg)
 
 Each viewport passed 11 checks with zero console errors and zero horizontal overflow. Both loaded the Glacier palette, local serif score numerals, and the new favicon. The audit resolved all 20 Reppo evaluation links and clicked the Phoenix verdict citation. Concurrent checks reached the hosted API rate limit and returned HTTP 429. Sequential runs passed.
 
