@@ -26,6 +26,7 @@ import {
 } from "./lib";
 import {
   AppLink,
+  BrandEmblem,
   EmptyCard,
   ErrorCard,
   EventCitation,
@@ -120,9 +121,7 @@ export default function App() {
     <div className="app-frame">
       <aside className="sidebar">
         <AppLink to="/" className="brand-lockup">
-          <span className="brand-mark" aria-hidden="true">
-            A
-          </span>
+          <BrandEmblem className="brand-mark" />
           <span className="brand-name">
             AgentFICO<span>TRUST, MADE LEGIBLE</span>
           </span>

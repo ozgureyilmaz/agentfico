@@ -2,6 +2,7 @@
 
 ## Nov 12, 2026
 
+- **Glacier visual identity.** Use one shared palette and local type definition for the dashboard, brand artwork, and title cards. Use darker ink or body tones for readable provenance and reserve mist colors for decoration. The original ledger seal also identifies the loading and empty states.
 - **Read-only demo.** The demo builds the frontend and serves it with the API, seeds synthetic histories, and imports redacted recorded provider evidence. Hosted scoring uses fixtures. Render Free uses a fresh temporary SQLite directory on every process start. Uploads can be scored provisionally and the public API cannot save them or enqueue evaluations.
 - **Simulated validation.** Use 200 independent seeded histories and score only the first 60 days. Generate the incident labels for days 61–90 independently from each profile's latent risk, and report pairwise AUC and observed rates by score band. This measures the simulator's ranking behavior.
 

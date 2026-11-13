@@ -15,6 +15,7 @@ The repository distinguishes live provider responses, recorded replay, and simul
 | M8 probes and uploads | [Main CI](https://github.com/ozgureyilmaz/agentfico/actions/runs/43205214626) · [PR CI](https://github.com/ozgureyilmaz/agentfico/actions/runs/43166846501) · [Plan ID, log mapping call IDs and browser outputs](probe-and-upload.json) |
 | M9 recorded evaluations | [Initial and follow-up verdict manifest](../../fixtures/reppo/recorded.json) · [Approved batch observations](reppo-batch.json) |
 | M9 demo and back-test | [Final clean clone, 20 links and browser metrics](release-audit.json) · [Earlier demo timing](demo-browser.json) · [Simulated AUC and calibration output](simulated-backtest.json) · [Demo GIF](../../assets/demo.gif) · [Render container restart proof](render-release-container.json) |
+| M10 visual assets | [Before and after dashboard captures](visual/) · [Brand kit](../../assets/brand/) · [Video script, form, and X drafts](../submission/) |
 
 The public Kite address scored 649 on mainnet chain 2366. The provider repeated pages, so the score is provisional and based on 50 distinct transfer logs between blocks 122771 and 2301185. The source responses and their capture times are recorded with the fixture.
 

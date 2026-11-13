@@ -1,0 +1,26 @@
+/* AgentFICO — Glacier palette and local typography. */
+@font-face {
+  font-family: "AgentFICO Newsreader";
+  src: url("./fonts/Newsreader-Variable.ttf") format("truetype");
+  font-style: normal;
+  font-weight: 200 800;
+  font-display: swap;
+}
+
+:root {
+  color-scheme: light;
+  --bg: #e7eaf3;
+  --surface: #f4f6fa;
+  --line: #c8cfe4;
+  --muted: #9aa6c4;
+  --body: #3a4353;
+  --ink: #0a0d12;
+  --mist: #658ac3;
+  --deep: #304991;
+  --night: #0d1120;
+
+  --font-serif: "AgentFICO Newsreader", "Iowan Old Style", Georgia, serif;
+  --font-body: "Avenir Next", "Segoe UI", sans-serif;
+  --font-data: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+  --font-numeric: "tnum";
+}

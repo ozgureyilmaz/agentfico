@@ -67,7 +67,7 @@ Fields marked OZGUR are personal; fill on the day.
 ### Draft submission assets
 
 - [Typeform answers and field 7 draft](submission/writeup.md)
-- [2:25 video script and shot list](submission/video-script.md)
+- [Voiceover script for the 2:44 draft](submission/video-script.md)
 - [X post draft](submission/x-post.md)
 - [Logo SVG](../assets/brand/logo.svg) and [512 px PNG](../assets/brand/logo.png)
 

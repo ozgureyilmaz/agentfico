@@ -3,15 +3,15 @@
 Tick only with proof: time (Istanbul) + one-line proof (command output, PR or commit link). No proof, no tick.
 Deadline: Nov 16 02:59 Istanbul (Nov 15 23:59 UTC). Code complete: Nov 13.
 
-Last updated: Nov 13 09:06 Istanbul
+Last updated: Nov 13 09:14 Istanbul
 
 ## Now
-M0–M8 are merged and verified on main. M9 passed the offline demo and Render container checks, with 20 settled Reppo evaluations. The hosted URL remains pending.
+The Glacier dashboard, brand kit, and rendered submission video are verified locally. The browser evidence covers 20 recorded Reppo verdicts. The hosted URL and publication steps remain open.
 
 ## Next
-1. Approve the M9 and M10 branch pushes.
-2. Sign in to Render, approve the Free deployment and verify its public URL.
-3. Review the video and submission drafts.
+1. Review the visual assets and approve pushing the M10 branch.
+2. Verify the public Render URL after owner-approved deployment.
+3. Record the voiceover and publish the demo and submission with owner approval.
 
 ## Setup (Ozgur)
 - [x] Repo created, public, MIT (Nov 05)
@@ -32,7 +32,7 @@ M0–M8 are merged and verified on main. M9 passed the offline demo and Render c
 - [x] M7 Fraud detectors + SERV fraud review + real Kite address (Nov 12 09:03 Istanbul) — six detectors tested, Nova-7 642 → 549, and the public Kite mainnet address scored 649 with partial coverage. [Detector and offline review proof](docs/evidence/nova-fraud-review.json) · [Kite capture](fixtures/kite/real/kitescan-mainnet-0xd9bee9d8d294b01f716c77b3c5953035a15ed2d2.meta.json) [Main CI](https://github.com/ozgureyilmaz/agentfico/actions/runs/43205141595)
 - [x] M8 Probe plans + assistant log mapping (Nov 12 09:10 Istanbul) — persisted three probes, settled one offline evaluation, mapped four assistant events and verified both browser scoring inputs. [Proof](docs/evidence/probe-and-upload.json) [Main CI](https://github.com/ozgureyilmaz/agentfico/actions/runs/43205214626)
 - [ ] M9 Ship — demo, screenshots, GIF, AUC and local browser checks verified. All 20 live Reppo evaluations settled and are clickable. Hosted URL remains UNSURE pending Render account setup and deployment approval.
-- [ ] M10 Submission assets — [logo](assets/brand/), [video script](docs/submission/video-script.md), [Typeform draft](docs/submission/writeup.md), and [X draft](docs/submission/x-post.md) prepared. Video and owner submission steps are pending.
+- [ ] M10 Submission assets — [logo](assets/brand/), [video script](docs/submission/video-script.md), [Typeform draft](docs/submission/writeup.md), and [X draft](docs/submission/x-post.md) prepared. The video is a local draft. Owner publication and submission steps are pending.
 
 ## How-we-win gates (from AGENTS.md)
 - [x] SERV trace panel + `/v1/serv-log` + committed sample log (Nov 12 09:21 Istanbul) — browser loaded the trace with token usage and the demo imported recorded call metadata. [Browser proof](docs/evidence/demo-browser.json) · [Live sample](docs/evidence/serv-calls.sample.jsonl)
@@ -42,8 +42,8 @@ M0–M8 are merged and verified on main. M9 passed the offline demo and Render c
 - [x] Score-your-own-agent works (log, Kite address, upload) (Nov 12 09:10 Istanbul) — browser and CLI scores match for the assistant log (632) and recorded Kite address (649). [Proof](docs/evidence/probe-and-upload.json)
 - [x] Real Kite address scored and shown (Nov 12 09:10 Istanbul) — mainnet public address displayed at desktop and 390 px with partial coverage and a provisional score of 649. [Browser proof](docs/evidence/probe-and-upload.json) · [Live capture](fixtures/kite/real/)
 - [x] README: screenshots, GIF, SERV feature on/off table, sustainability (Nov 12 09:22 Istanbul) — [README](README.md) includes the verified screenshots and [12-second GIF](assets/demo.gif).
-- [ ] Video 2-3 min, link: __
-- [x] Logo PNG + SVG (Nov 12 09:25 Istanbul) — `sips` confirmed 512 × 512. [Brand files](assets/brand/)
+- [ ] Video 2–3 min, link: [video url]
+- [x] Logo PNG + SVG (Nov 12 14:29 Istanbul) — SVGs parse; 512 and 1024 px in both colorways; favicon set, 1200 × 630 Open Graph, and 1500 × 500 X artwork verified. [Brand files](assets/brand/)
 
 ## Submission (Ozgur)
 - [x] Field 7 final (Nov 12 14:12 Istanbul) — verified 1,763 characters in the [form draft](docs/submission/writeup.md).
@@ -200,3 +200,11 @@ M0–M8 are merged and verified on main. M9 passed the offline demo and Render c
 
 - Nov 12 09:25 Istanbul · M10 drafts · [Submission drafts](docs/submission/) and [brand assets](assets/brand/) created. `sips -g pixelWidth -g pixelHeight assets/brand/logo.png` → `512 × 512`. The video, X post, approval, and form submission stay unchecked.
 - Nov 12 14:12 Istanbul · M10 · Production build emitted the SVG and 512 × 512 PNG as favicons. Field 7 is `1763` characters, video script is `2:30`, and the two lowercase X variants fit within 280 characters with both links. [Submission drafts](docs/submission/)
+
+- Nov 12 14:29 Istanbul · M10 brand · Regenerated the brand kit in a temporary copy with `python3 assets/brand/generate_assets.py`. Every output matched byte for byte or pixel for pixel; SVGs parsed and PNG and ICO dimensions were verified. [Usage and assets](assets/brand/brand.md)
+
+- Nov 13 09:09 Istanbul · M10 visual pass · `bun run check` → 209 pass, 0 fail. Hosted-mode Chromium at 1280 × 900 and 390 × 844 → 11 views per size, zero console errors and zero horizontal overflow. Scores, factor values, event and evaluation IDs, and inspected link targets matched M9. The lowest sampled body and metadata contrast was 5.21:1. [Screenshots and browser results](docs/evidence/visual/)
+- Nov 13 09:09 Istanbul · M10 video · `bash video/render.sh` → 13 scenes, zero console errors or external requests. `ffprobe` → 164 s, 1920 × 1080, 30 fps and stereo AAC at 48 kHz. Audio decoded to silence. [Script](docs/submission/video-script.md)
+
+- Nov 13 09:14 Istanbul · M10 rebase · Verified the visual pass against M9 `0e3c6b9` with all 20 verdicts. Both viewport suites matched the same score and citation data. A clean local clone with no `.env` started with `bun install --frozen-lockfile && bun run demo`. `/healthz` returned OK. Rebased `bun run check` → 209 pass, 0 fail. [Browser proof](docs/evidence/visual/browser.json)
+- Nov 13 09:15 Istanbul · M10 final video · Re-rendered from the 20-verdict demo. All 13 scenes passed capture, including Phoenix 519 → 708 and a clicked Reppo citation. `ffprobe` → 164 s, 1920 × 1080, 30 fps. Decoded stereo peak was `-inf` dB. [Render evidence](docs/evidence/visual/video.json)

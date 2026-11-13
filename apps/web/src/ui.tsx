@@ -6,7 +6,6 @@ import {
   useState,
 } from "react";
 import {
-  CartesianGrid,
   Line,
   LineChart,
   ResponsiveContainer,
@@ -14,6 +13,7 @@ import {
   XAxis,
   YAxis,
 } from "recharts";
+import logoMarkUrl from "../../../assets/brand/logo-mark.svg?url";
 import {
   type AgentReport,
   type AgentScore,
@@ -78,6 +78,12 @@ export function AppLink({
     >
       {children}
     </a>
+  );
+}
+
+export function BrandEmblem({ className = "" }: { className?: string }) {
+  return (
+    <img className={className} src={logoMarkUrl} alt="" aria-hidden="true" />
   );
 }
 
@@ -151,7 +157,7 @@ export function LoadingCard({
       className={`state-card loading-card ${compact ? "is-compact" : ""}`}
       role="status"
     >
-      <span className="loading-spinner" />
+      <BrandEmblem className="state-mark loading-mark" />
       <span>{label}</span>
     </div>
   );
@@ -166,9 +172,7 @@ export function EmptyCard({
 }) {
   return (
     <div className="state-card empty-card">
-      <span className="empty-icon" aria-hidden="true">
-        ⌁
-      </span>
+      <BrandEmblem className="state-mark empty-mark" />
       <div>
         <strong>{title}</strong>
         <span>{detail}</span>
@@ -274,6 +278,34 @@ export function FactorRow({
 }
 
 export function ScoreGauge({ score }: { score: AgentScore }) {
+  const [reading, setReading] = useState(score.score);
+  useEffect(() => {
+    const value = score.score;
+    if (value === null) {
+      setReading(null);
+      return;
+    }
+    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const start = performance.now();
+    let frame = 0;
+    const update = (now: number) => {
+      const elapsed = Math.min(1, (now - start) / 600);
+      const progress = 1 - (1 - elapsed) ** 3;
+      setReading(Math.round(300 + (value - 300) * progress));
+      if (elapsed < 1) frame = requestAnimationFrame(update);
+    };
+    const reset = () => {
+      cancelAnimationFrame(frame);
+      setReading(value);
+    };
+    if (reduced.matches) reset();
+    else frame = requestAnimationFrame(update);
+    reduced.addEventListener("change", reset);
+    return () => {
+      cancelAnimationFrame(frame);
+      reduced.removeEventListener("change", reset);
+    };
+  }, [score.score]);
   const arcLength = Math.PI * 80;
   const ratio =
     score.score === null
@@ -294,8 +326,8 @@ export function ScoreGauge({ score }: { score: AgentScore }) {
           strokeDashoffset={arcLength * (1 - ratio)}
         />
       </svg>
-      <div className="gauge-reading">
-        <strong>{formatScore(score.score)}</strong>
+      <div className="gauge-reading" aria-hidden="true">
+        <strong>{formatScore(reading)}</strong>
         <span>out of 850</span>
       </div>
       <div className="gauge-ends">
@@ -491,6 +523,9 @@ export function ReppoEvidence({ report }: { report: AgentReport }) {
           const overallScore = result.score ?? verdict?.score ?? null;
           const decision = result.decision ?? verdict?.decision;
           const confidence = result.confidence ?? verdict?.confidence;
+          const hasRecordedVerdict =
+            verdict?.status.toLowerCase() === "settled" &&
+            verdict.result !== null;
           return (
             <article
               key={evalId}
@@ -500,6 +535,11 @@ export function ReppoEvidence({ report }: { report: AgentReport }) {
               <div className="eval-card-head">
                 <div>
                   <span className="eyebrow">REPPO EVALUATION</span>
+                  {hasRecordedVerdict && (
+                    <span className="provenance-note">
+                      RECORDED REPPO VERDICT
+                    </span>
+                  )}
                   <h3>
                     <a
                       className="mono-label eval-link"
@@ -759,19 +799,18 @@ export function PhoenixReplay({
                   data={chartPoints}
                   margin={{ top: 8, right: 14, bottom: 0, left: -12 }}
                 >
-                  <CartesianGrid stroke="#e5ece9" vertical={false} />
                   <XAxis
                     dataKey="label"
                     tickLine={false}
                     axisLine={false}
-                    tick={{ fill: "#61716e", fontSize: 11 }}
+                    tick={{ fill: "var(--meta)", fontSize: 11 }}
                   />
                   <YAxis
                     domain={[300, 850]}
                     ticks={[300, 500, 700, 850]}
                     tickLine={false}
                     axisLine={false}
-                    tick={{ fill: "#61716e", fontSize: 11 }}
+                    tick={{ fill: "var(--meta)", fontSize: 11 }}
                     width={42}
                   />
                   <Tooltip
@@ -781,10 +820,10 @@ export function PhoenixReplay({
                   <Line
                     type="monotone"
                     dataKey="score"
-                    stroke="#08786f"
-                    strokeWidth={2.5}
-                    dot={{ r: 3, fill: "#08786f", strokeWidth: 0 }}
-                    activeDot={{ r: 5, fill: "#08786f" }}
+                    stroke="var(--deep)"
+                    strokeWidth={1.5}
+                    dot={{ r: 2.5, fill: "var(--mist)", strokeWidth: 0 }}
+                    activeDot={{ r: 4, fill: "var(--deep)" }}
                     isAnimationActive={false}
                   />
                 </LineChart>
