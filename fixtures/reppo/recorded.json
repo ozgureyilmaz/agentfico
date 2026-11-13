@@ -83,5 +83,20 @@
     "afc_id": "afc:sim:phoenix",
     "file": "real/2026-11-12T11-00-32-338Z-6b51d431df5d-27-poll.json",
     "simulated": true
+  },
+  {
+    "afc_id": "afc:sim:atlas",
+    "file": "real/2026-11-12T11-15-32-389Z-3fdba35f04dc-29-poll.json",
+    "simulated": true
+  },
+  {
+    "afc_id": "afc:sim:blaze",
+    "file": "real/2026-11-12T11-31-32-435Z-8527a891e224-32-poll.json",
+    "simulated": true
+  },
+  {
+    "afc_id": "afc:sim:phoenix",
+    "file": "real/2026-11-12T11-45-32-429Z-e629fa6598d7-34-poll.json",
+    "simulated": true
   }
 ]

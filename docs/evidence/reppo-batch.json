@@ -2,7 +2,7 @@
   "preflight_available_credits": 19800,
   "text_eval_credit_price": 440,
   "approved_credit_limit": 6600,
-  "submit_attempts": 13,
+  "submit_attempts": 16,
   "reconciliation": {
     "checked_at_utc": "2026-11-12T10:59:32.093Z",
     "previous_submit_attempt": 12,
@@ -16,11 +16,10 @@
     "disposition": "no provider evaluation was created for the interrupted attempt",
     "remaining_evaluations": 4
   },
-  "settled": 12,
-  "charged_credits": 5280,
+  "settled": 15,
+  "charged_credits": 6600,
   "queue_statuses": {
-    "settled": 12,
-    "queued": 3
+    "settled": 15
   },
   "evaluations": [
     {
@@ -142,6 +141,36 @@
       "credits_charged": 440,
       "sample_history_simulated": true,
       "recording": "../../fixtures/reppo/real/2026-11-12T11-00-32-338Z-6b51d431df5d-27-poll.json"
+    },
+    {
+      "subject": "afc:sim:atlas",
+      "eval_id": "cmwdgali2000607l4kkrvwrqv",
+      "status": "COMPLETED",
+      "score": 100,
+      "completed_at_utc": "2026-11-12T11:15:07.510Z",
+      "credits_charged": 440,
+      "sample_history_simulated": true,
+      "recording": "../../fixtures/reppo/real/2026-11-12T11-15-32-389Z-3fdba35f04dc-29-poll.json"
+    },
+    {
+      "subject": "afc:sim:blaze",
+      "eval_id": "cmwdgtw4r000807l4skie6j41",
+      "status": "COMPLETED",
+      "score": 40,
+      "completed_at_utc": "2026-11-12T11:30:53.025Z",
+      "credits_charged": 440,
+      "sample_history_simulated": true,
+      "recording": "../../fixtures/reppo/real/2026-11-12T11-31-32-435Z-8527a891e224-32-poll.json"
+    },
+    {
+      "subject": "afc:sim:phoenix",
+      "eval_id": "cmwdhd6f2000007lf37r27ost",
+      "status": "COMPLETED",
+      "score": 100,
+      "completed_at_utc": "2026-11-12T11:45:14.335Z",
+      "credits_charged": 440,
+      "sample_history_simulated": true,
+      "recording": "../../fixtures/reppo/real/2026-11-12T11-45-32-429Z-e629fa6598d7-34-poll.json"
     }
   ]
 }

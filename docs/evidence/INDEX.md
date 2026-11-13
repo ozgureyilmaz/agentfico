@@ -22,7 +22,7 @@ The baseline Phoenix replay reached 691. Reppo evaluation `cmwaknixh000208jshh2w
 
 ## Settled Reppo evaluations
 
-17 recorded live completions, 7,480 credits charged across M4 and M9. The Kite analysis evaluation grades the project's analysis and does not score the wallet owner's work.
+20 recorded live completions, 8,800 credits charged across M4 and M9. The Kite analysis evaluation grades the project's analysis and does not score the wallet owner's work.
 
 | Subject | Evaluation ID | Completed (UTC) | Credits | Sample history |
 |---|---|---|---:|---|
@@ -43,6 +43,9 @@ The baseline Phoenix replay reached 691. Reppo evaluation `cmwaknixh000208jshh2w
 | `afc:sim:murk` | [`cmwdabwa6000508jpwjqdzdef`](../../fixtures/reppo/real/2026-11-12T08-28-35-399Z-4a44dc153642-22-poll.json) | 2026-11-12T08:28:30.026Z | 440 | Simulated |
 | `afc:sim:nova-7` | [`cmwdav6oy000008jsail3f930`](../../fixtures/reppo/real/2026-11-12T08-52-59-505Z-4fc82b26aecb-24-poll.json) | 2026-11-12T08:43:27.552Z | 440 | Simulated |
 | `afc:sim:phoenix` | [`cmwdfrau9000007l45gv0ko1d`](../../fixtures/reppo/real/2026-11-12T11-00-32-338Z-6b51d431df5d-27-poll.json) | 2026-11-12T11:00:00.198Z | 440 | Simulated |
+| `afc:sim:atlas` | [`cmwdgali2000607l4kkrvwrqv`](../../fixtures/reppo/real/2026-11-12T11-15-32-389Z-3fdba35f04dc-29-poll.json) | 2026-11-12T11:15:07.510Z | 440 | Simulated |
+| `afc:sim:blaze` | [`cmwdgtw4r000807l4skie6j41`](../../fixtures/reppo/real/2026-11-12T11-31-32-435Z-8527a891e224-32-poll.json) | 2026-11-12T11:30:53.025Z | 440 | Simulated |
+| `afc:sim:phoenix` | [`cmwdhd6f2000007lf37r27ost`](../../fixtures/reppo/real/2026-11-12T11-45-32-429Z-e629fa6598d7-34-poll.json) | 2026-11-12T11:45:14.335Z | 440 | Simulated |
 
 ## Pending owner evidence
 
