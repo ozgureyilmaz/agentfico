@@ -172,5 +172,10 @@
       "sample_history_simulated": true,
       "recording": "../../fixtures/reppo/real/2026-11-12T11-45-32-429Z-e629fa6598d7-34-poll.json"
     }
-  ]
+  ],
+  "provider_account_readback": {
+    "checked_at": "2026-11-13T09:06:40+03:00",
+    "completed_evaluations": 20,
+    "available_credits": 13200
+  }
 }

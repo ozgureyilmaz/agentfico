@@ -1,0 +1,46 @@
+{
+  "command": "bun install && bun run demo",
+  "commit": "760f6b2729aa1aa57a6cc99988370c999e063c7e",
+  "no_dotenv": true,
+  "seconds_after_clone": 7.632,
+  "seconds_including_clone": 7.862,
+  "healthz_ok": true,
+  "web_asset_bytes": 740343,
+  "leaderboard_rows": 6,
+  "browser": {
+    "devices": [
+      {
+        "viewport_width": 1280,
+        "document_width": 1280,
+        "fcp_ms": 52,
+        "lcp_ms": 52,
+        "cumulative_layout_shift": 0.0084,
+        "main_landmarks": 1,
+        "h1_count": 1,
+        "page_language": "en"
+      },
+      {
+        "viewport_width": 390,
+        "document_width": 390,
+        "fcp_ms": 60,
+        "lcp_ms": 60,
+        "cumulative_layout_shift": 0.001,
+        "main_landmarks": 1,
+        "h1_count": 1,
+        "page_language": "en"
+      }
+    ],
+    "phoenix_early": 519,
+    "phoenix_latest": 708,
+    "fraud_transition": "Score before detection 642 \u2192 549 after detection.",
+    "hosted_save_control": "hidden",
+    "kite_mainnet": true,
+    "clickable_evaluation_ids": 20,
+    "console_errors": 0
+  },
+  "tests": {
+    "passed": 209,
+    "failed": 0
+  },
+  "verified_at": "2026-11-13T09:06:40+03:00"
+}

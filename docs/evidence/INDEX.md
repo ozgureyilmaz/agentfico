@@ -14,11 +14,11 @@ The repository distinguishes live provider responses, recorded replay, and simul
 | M7 fraud and Kite | [Main CI](https://github.com/ozgureyilmaz/agentfico/actions/runs/43205141595) · [PR CI](https://github.com/ozgureyilmaz/agentfico/actions/runs/43165723238) · [Nova-7 scores, citations and offline SERV call ID](nova-fraud-review.json) · [Kite mainnet capture and coverage](../../fixtures/kite/real/kitescan-mainnet-0xd9bee9d8d294b01f716c77b3c5953035a15ed2d2.meta.json) |
 | M8 probes and uploads | [Main CI](https://github.com/ozgureyilmaz/agentfico/actions/runs/43205214626) · [PR CI](https://github.com/ozgureyilmaz/agentfico/actions/runs/43166846501) · [Plan ID, log mapping call IDs and browser outputs](probe-and-upload.json) |
 | M9 recorded evaluations | [Initial and follow-up verdict manifest](../../fixtures/reppo/recorded.json) · [Approved batch observations](reppo-batch.json) |
-| M9 demo and back-test | [Fresh-clone timing, browser metrics and zero console errors](demo-browser.json) · [Simulated AUC and calibration output](simulated-backtest.json) · [Demo GIF](../../assets/demo.gif) · [Render container proof](render-container.json) |
+| M9 demo and back-test | [Final clean clone, 20 links and browser metrics](release-audit.json) · [Earlier demo timing](demo-browser.json) · [Simulated AUC and calibration output](simulated-backtest.json) · [Demo GIF](../../assets/demo.gif) · [Render container restart proof](render-release-container.json) |
 
 The public Kite address scored 649 on mainnet chain 2366. The provider repeated pages, so the score is provisional and based on 50 distinct transfer logs between blocks 122771 and 2301185. The source responses and their capture times are recorded with the fixture.
 
-The baseline Phoenix replay reached 691. Reppo evaluation `cmwaknixh000208jshh2w0av1` scored the initial synthetic samples 70, and follow-up `cmwd5ia5r000008l8wqzthd4r` scored revised samples 100. At the same cutoff, importing the follow-up changed the deterministic score from 691 to 696. [Exact comparison](phoenix-feedback.json)
+The baseline Phoenix replay reached 691. Reppo evaluation `cmwaknixh000208jshh2w0av1` scored the initial synthetic samples 70, and follow-up `cmwd5ia5r000008l8wqzthd4r` scored revised samples 100. At the same cutoff, importing the first follow-up changed the deterministic score from 691 to 696. The full recorded batch raised the final replay snapshot to 708. [Exact comparison](phoenix-feedback.json)
 
 ## Settled Reppo evaluations
 

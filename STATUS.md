@@ -3,15 +3,15 @@
 Tick only with proof: time (Istanbul) + one-line proof (command output, PR or commit link). No proof, no tick.
 Deadline: Nov 16 02:59 Istanbul (Nov 15 23:59 UTC). Code complete: Nov 13.
 
-Last updated: Nov 12 14:00 Istanbul
+Last updated: Nov 13 09:06 Istanbul
 
 ## Now
-M0–M8 are merged and verified on main. M9 has a verified local demo, simulated back-test and approved live batch in progress. The Render Free configuration and submission drafts are being finalized.
+M0–M8 are merged and verified on main. M9 passed the offline demo and Render container checks, with 20 settled Reppo evaluations. The hosted URL remains pending.
 
 ## Next
-1. Complete the approved Reppo batch and verify the demo from a fresh clone.
-2. Prepare the read-only Render Free service and request deployment approval.
-3. Finalize local M10 submission drafts.
+1. Approve the M9 and M10 branch pushes.
+2. Sign in to Render, approve the Free deployment and verify its public URL.
+3. Review the video and submission drafts.
 
 ## Setup (Ozgur)
 - [x] Repo created, public, MIT (Nov 05)
@@ -19,7 +19,7 @@ M0–M8 are merged and verified on main. M9 has a verified local demo, simulated
 - [ ] OpenServ data collection — owner reports it is enabled. TODO add the console screenshot to [docs/evidence](docs/evidence/) before ticking.
 - [x] Reppo account + API key in local `.env` (Nov 11 10:51 Istanbul) — five authenticated evaluations completed and used 2,200 credits.
 - [ ] Partner credits requested via the OpenServ Telegram if needed (Nov 4 email)
-- [ ] Hosting choice made
+- [x] Hosting choice made (Nov 13 09:06 Istanbul) — Render Free selected. [Validated configuration](docs/evidence/render-release-container.json)
 
 ## Milestones (criteria in AGENTS.md)
 - [x] M0 Scaffold + CI (Nov 08 09:38 Istanbul) — CI passed on the merged `main` commit `82699b1`. [Run proof](https://github.com/ozgureyilmaz/agentfico/actions/runs/42455536165)
@@ -31,12 +31,12 @@ M0–M8 are merged and verified on main. M9 has a verified local demo, simulated
 - [x] M6 Dashboard (Nov 11 10:55 Istanbul) — browser flows passed at desktop and 390 px, with 186 passing tests. [Main CI](https://github.com/ozgureyilmaz/agentfico/actions/runs/42985808699)
 - [x] M7 Fraud detectors + SERV fraud review + real Kite address (Nov 12 09:03 Istanbul) — six detectors tested, Nova-7 642 → 549, and the public Kite mainnet address scored 649 with partial coverage. [Detector and offline review proof](docs/evidence/nova-fraud-review.json) · [Kite capture](fixtures/kite/real/kitescan-mainnet-0xd9bee9d8d294b01f716c77b3c5953035a15ed2d2.meta.json) [Main CI](https://github.com/ozgureyilmaz/agentfico/actions/runs/43205141595)
 - [x] M8 Probe plans + assistant log mapping (Nov 12 09:10 Istanbul) — persisted three probes, settled one offline evaluation, mapped four assistant events and verified both browser scoring inputs. [Proof](docs/evidence/probe-and-upload.json) [Main CI](https://github.com/ozgureyilmaz/agentfico/actions/runs/43205214626)
-- [ ] M9 Ship — demo, screenshots, GIF, AUC and local browser checks verified. The live Reppo batch is in progress. Hosted URL remains UNSURE pending Render account setup and deployment approval.
+- [ ] M9 Ship — demo, screenshots, GIF, AUC and local browser checks verified. All 20 live Reppo evaluations settled and are clickable. Hosted URL remains UNSURE pending Render account setup and deployment approval.
 - [ ] M10 Submission assets
 
 ## How-we-win gates (from AGENTS.md)
 - [x] SERV trace panel + `/v1/serv-log` + committed sample log (Nov 12 09:21 Istanbul) — browser loaded the trace with token usage and the demo imported recorded call metadata. [Browser proof](docs/evidence/demo-browser.json) · [Live sample](docs/evidence/serv-calls.sample.jsonl)
-- [ ] 20+ real settled Reppo evals, eval IDs clickable
+- [x] 20+ real settled Reppo evals, eval IDs clickable (Nov 13 09:06 Istanbul) — 20 distinct completions and 20 working dashboard links. [Evaluation index](docs/evidence/INDEX.md#settled-reppo-evaluations) · [Browser proof](docs/evidence/release-audit.json)
 - [x] Fresh clone to dashboard < 3 min (Nov 12 09:21 Istanbul) — 3.301 s including clone, no `.env`, `/healthz` and dashboard loaded. [Timing](docs/evidence/demo-browser.json)
 - [ ] Hosted URL live: __
 - [x] Score-your-own-agent works (log, Kite address, upload) (Nov 12 09:10 Istanbul) — browser and CLI scores match for the assistant log (632) and recorded Kite address (649). [Proof](docs/evidence/probe-and-upload.json)
@@ -53,8 +53,8 @@ M0–M8 are merged and verified on main. M9 has a verified local demo, simulated
 
 ## Blockers / open questions
 - Kite mainnet transfer coverage remains partial. The explorer repeated its next page key; the provisional score uses 50 distinct transfer logs.
-- Hosting provider (Ozgur).
-- Reppo credits: enough for about 40 evals?
+- Render account sign-in and deployment approval (Ozgur).
+- Reppo balance verified at 13,200 credits after the approved batch.
 
 ## Reppo evals log
 | Date | Persona / agent | evalId | Score | Decision |
@@ -193,3 +193,7 @@ M0–M8 are merged and verified on main. M9 has a verified local demo, simulated
 - Nov 12 14:00 Istanbul · M9 · Reconciled 11 settled evaluations, `4,840` credits charged and `14,960` available. Reppo showed 16 completed evaluations overall and no in-flight evaluation, so the interrupted attempt had no provider ID or charge. The worker resumed the four remaining evaluations at the existing pace. [Journal proof](docs/evidence/reppo-batch.json)
 
 - Nov 12 14:09 Istanbul · M9 · Render image from `6ae6d74` passed at 512 MiB with no keys or disk mount. On recreation, the same fixture agents loaded. `/healthz` returned OK; assistant log 632, Kite 649, Nova-7 549, saved upload HTTP 403 and evaluation HTTP 503. [Local container proof](docs/evidence/render-container.json)
+
+- Nov 13 09:06 Istanbul · M9 · Reppo recorded all 15 approved evaluations as completed at 440 credits each, totaling 6,600 for M9. The account showed 20 completed evaluations and 13,200 credits available. The final ID was `cmwdhd6f2000007lf37r27ost`. [Batch evidence](docs/evidence/reppo-batch.json)
+- Nov 13 09:06 Istanbul · M9 · Clean clone at `760f6b2`: `bun install && bun run demo` reached the dashboard in 7.862 seconds including clone, with no `.env`. `bun run check` passed 209 tests. Browser checks at 1280 and 390 px found 20 clickable evaluation IDs and zero console errors. The latest Phoenix replay returned 708. [Release audit](docs/evidence/release-audit.json)
+- Nov 13 09:06 Istanbul · M9 · The 512 MiB Linux container rebuilt SQLite on restart and returned the same six agents, with no disk or keys. Log upload returned 632 and Kite replay 649. Save returned 403 and evaluation submission 503. [Container proof](docs/evidence/render-release-container.json)
