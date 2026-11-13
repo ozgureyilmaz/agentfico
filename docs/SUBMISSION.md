@@ -14,7 +14,7 @@
 | Short write-up | "what your project does, how it uses SERV Reasoning, and which track" | form field 7 + README sections | text below is final and matches the code |
 | X post | "Share your submission on X by the deadline and include a link" | post tagging @openservai and @reppo with video/GIF | URL pasted in field 9 |
 | Data collection | form asks "Is data collection enabled for your project?" | enabled at console.openserv.ai/settings/organization before the evidence run | screenshot in `docs/evidence/` |
-| Logo | form asks for a logo or icon upload | `assets/logo.png` (512x512) + `assets/logo.svg` | file exists, used in README and dashboard |
+| Logo | form asks for a logo or icon upload | `assets/brand/logo.png` (512x512) + `assets/brand/logo.svg` | files exist and the PNG is verified at 512 × 512 |
 | Track fit | Reppo track: "Build reliable agents that turn real-time feedback into measurable improvements" | Reppo Eval API is the quality factor (35%); Phoenix shows feedback -> improvement -> higher score | real Reppo eval IDs visible in the dashboard and report |
 | OpenServ account / API key | FAQ | `SERV_API_KEY` in local `.env` only | - |
 
@@ -52,8 +52,8 @@ Fields marked OZGUR are personal; fill on the day.
 8. **Project URL** (demo, website or repo): hosted demo URL (repo goes in README and field 10)
 9. **X post URL**: OZGUR, after posting
 10. **Additional URL**: https://github.com/ozgureyilmaz/agentfico (or the video if the form prefers)
-11. **Logo**: `assets/logo.png`
-12. **Data collection enabled?**: Yes (enable first, screenshot in `docs/evidence/`)
+11. **Logo**: [512 px PNG](../assets/brand/logo.png)
+12. **Data collection enabled?**: Owner reports yes. Add the console screenshot to [evidence](evidence/) before checking the proof item.
 13. **Team**: OZGUR (likely "I'm participating solo")
 14. **Agent-building experience**: OZGUR
 15. **Country**: OZGUR
@@ -64,10 +64,12 @@ Fields marked OZGUR are personal; fill on the day.
 20. **Quote permission**: OZGUR
 21. **Updates opt-in**: OZGUR
 
-### Field 7 draft (update with real numbers before submitting)
-AgentFICO is an open, free trust score for AI agents: a 300-850 number, like a FICO score, that anyone can check before letting an agent spend money, take a task, or join a marketplace. It is built only from behavior: work quality judged by the Reppo Evaluation API, payment conduct on Kite, reliability, consistency, identity age and fraud signals. The math is deterministic and versioned; every score comes with reason codes that cite the exact events and Reppo eval IDs behind it.
-SERV Reasoning does the judgment work: it designs mystery-shopper probes per agent category (Multipath + Shadow Agent), turns categories into Reppo rubrics (Kronos, prompt caching), summarizes Reppo critiques, writes reason-code explanations and trust memos, reviews fraud patterns with Prompt Guard on untrusted agent text, and maps unknown assistant logs into events. Every SERV call is logged and visible in the dashboard's SERV trace and at /v1/serv-log.
-Track: Reppo. Reppo feedback becomes a measurable score, and agents that act on it visibly improve. Demo personas are simulated and labeled; quality verdicts are real Reppo evaluations; real Kite addresses can be scored too. MIT licensed; `bun run demo` runs it locally.
+### Draft submission assets
+
+- [Typeform answers and field 7 draft](submission/writeup.md)
+- [2:25 video script and shot list](submission/video-script.md)
+- [X post draft](submission/x-post.md)
+- [Logo SVG](../assets/brand/logo.svg) and [512 px PNG](../assets/brand/logo.png)
 
 ## Final checklist (tick in STATUS.md too)
 - [ ] Code complete (Nov 13), fresh-clone test logged
@@ -75,8 +77,8 @@ Track: Reppo. Reppo feedback becomes a measurable score, and agents that act on 
 - [ ] README: pitch, GIF, screenshots, quickstart, API/CLI examples, SERV feature table (on/off), Reppo eval ID table, simulated-data notice, roadmap, sustainability, license, "not affiliated with FICO"
 - [ ] `docs/evidence/`: SERV call log sample, console usage screenshot, data-collection screenshot
 - [ ] Video 2-3 min, uploaded, plays logged out, link in README
-- [ ] Logo PNG + SVG
+- [x] Logo PNG + SVG ([assets](../assets/brand/), 512 × 512 PNG verified)
 - [ ] X post drafted (tags @openservai and @reppo, link, GIF); Ozgur posts it
-- [ ] Field 7 text final and matches the code
+- [x] Field 7 text final and matches the code ([draft](submission/writeup.md), 1,763 characters)
 - [ ] Ozgur OK to submit
 - [ ] Form submitted by Nov 15 20:00 Istanbul; confirmation saved

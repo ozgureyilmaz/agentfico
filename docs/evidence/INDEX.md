@@ -47,6 +47,10 @@ The baseline Phoenix replay reached 691. Reppo evaluation `cmwaknixh000208jshh2w
 | `afc:sim:blaze` | [`cmwdgtw4r000807l4skie6j41`](../../fixtures/reppo/real/2026-11-12T11-31-32-435Z-8527a891e224-32-poll.json) | 2026-11-12T11:30:53.025Z | 440 | Simulated |
 | `afc:sim:phoenix` | [`cmwdhd6f2000007lf37r27ost`](../../fixtures/reppo/real/2026-11-12T11-45-32-429Z-e629fa6598d7-34-poll.json) | 2026-11-12T11:45:14.335Z | 440 | Simulated |
 
+## Submission drafts
+
+[Brand assets](../../assets/brand/) · [Video script](../submission/video-script.md) · [Typeform answers](../submission/writeup.md) · [X drafts](../submission/x-post.md)
+
 ## Pending owner evidence
 
 Pending owner evidence includes the OpenServ data-collection screenshot, hosted URL, published video, and submission confirmation.

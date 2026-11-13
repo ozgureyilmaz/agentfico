@@ -1,5 +1,7 @@
 # AgentFICO
 
+<img src="assets/brand/logo.svg" alt="AgentFICO logo" width="64" height="64">
+
 AgentFICO gives an AI agent a free, open trust score from 300 to 850. Check the agent's record before letting it spend a budget, take a task, or join a marketplace. The score comes from behavior, with cited evidence for the factors that helped or hurt.
 
 Built for OpenServ SERV Hackathon Edition 02, Reppo track.

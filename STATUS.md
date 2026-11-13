@@ -32,7 +32,7 @@ M0–M8 are merged and verified on main. M9 passed the offline demo and Render c
 - [x] M7 Fraud detectors + SERV fraud review + real Kite address (Nov 12 09:03 Istanbul) — six detectors tested, Nova-7 642 → 549, and the public Kite mainnet address scored 649 with partial coverage. [Detector and offline review proof](docs/evidence/nova-fraud-review.json) · [Kite capture](fixtures/kite/real/kitescan-mainnet-0xd9bee9d8d294b01f716c77b3c5953035a15ed2d2.meta.json) [Main CI](https://github.com/ozgureyilmaz/agentfico/actions/runs/43205141595)
 - [x] M8 Probe plans + assistant log mapping (Nov 12 09:10 Istanbul) — persisted three probes, settled one offline evaluation, mapped four assistant events and verified both browser scoring inputs. [Proof](docs/evidence/probe-and-upload.json) [Main CI](https://github.com/ozgureyilmaz/agentfico/actions/runs/43205214626)
 - [ ] M9 Ship — demo, screenshots, GIF, AUC and local browser checks verified. All 20 live Reppo evaluations settled and are clickable. Hosted URL remains UNSURE pending Render account setup and deployment approval.
-- [ ] M10 Submission assets
+- [ ] M10 Submission assets — [logo](assets/brand/), [video script](docs/submission/video-script.md), [Typeform draft](docs/submission/writeup.md), and [X draft](docs/submission/x-post.md) prepared. Video and owner submission steps are pending.
 
 ## How-we-win gates (from AGENTS.md)
 - [x] SERV trace panel + `/v1/serv-log` + committed sample log (Nov 12 09:21 Istanbul) — browser loaded the trace with token usage and the demo imported recorded call metadata. [Browser proof](docs/evidence/demo-browser.json) · [Live sample](docs/evidence/serv-calls.sample.jsonl)
@@ -43,10 +43,10 @@ M0–M8 are merged and verified on main. M9 passed the offline demo and Render c
 - [x] Real Kite address scored and shown (Nov 12 09:10 Istanbul) — mainnet public address displayed at desktop and 390 px with partial coverage and a provisional score of 649. [Browser proof](docs/evidence/probe-and-upload.json) · [Live capture](fixtures/kite/real/)
 - [x] README: screenshots, GIF, SERV feature on/off table, sustainability (Nov 12 09:22 Istanbul) — [README](README.md) includes the verified screenshots and [12-second GIF](assets/demo.gif).
 - [ ] Video 2-3 min, link: __
-- [ ] Logo PNG + SVG
+- [x] Logo PNG + SVG (Nov 12 09:25 Istanbul) — `sips` confirmed 512 × 512. [Brand files](assets/brand/)
 
 ## Submission (Ozgur)
-- [ ] Field 7 final
+- [x] Field 7 final (Nov 12 14:12 Istanbul) — verified 1,763 characters in the [form draft](docs/submission/writeup.md).
 - [ ] X post published, URL: __
 - [ ] Ozgur OK to submit
 - [ ] Form submitted, confirmation saved
@@ -197,3 +197,6 @@ M0–M8 are merged and verified on main. M9 passed the offline demo and Render c
 - Nov 13 09:06 Istanbul · M9 · Reppo recorded all 15 approved evaluations as completed at 440 credits each, totaling 6,600 for M9. The account showed 20 completed evaluations and 13,200 credits available. The final ID was `cmwdhd6f2000007lf37r27ost`. [Batch evidence](docs/evidence/reppo-batch.json)
 - Nov 13 09:06 Istanbul · M9 · Clean clone at `760f6b2`: `bun install && bun run demo` reached the dashboard in 7.862 seconds including clone, with no `.env`. `bun run check` passed 209 tests. Browser checks at 1280 and 390 px found 20 clickable evaluation IDs and zero console errors. The latest Phoenix replay returned 708. [Release audit](docs/evidence/release-audit.json)
 - Nov 13 09:06 Istanbul · M9 · The 512 MiB Linux container rebuilt SQLite on restart and returned the same six agents, with no disk or keys. Log upload returned 632 and Kite replay 649. Save returned 403 and evaluation submission 503. [Container proof](docs/evidence/render-release-container.json)
+
+- Nov 12 09:25 Istanbul · M10 drafts · [Submission drafts](docs/submission/) and [brand assets](assets/brand/) created. `sips -g pixelWidth -g pixelHeight assets/brand/logo.png` → `512 × 512`. The video, X post, approval, and form submission stay unchecked.
+- Nov 12 14:12 Istanbul · M10 · Production build emitted the SVG and 512 × 512 PNG as favicons. Field 7 is `1763` characters, video script is `2:30`, and the two lowercase X variants fit within 280 characters with both links. [Submission drafts](docs/submission/)
