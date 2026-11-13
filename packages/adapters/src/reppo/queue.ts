@@ -4,6 +4,7 @@ import { join, resolve } from "node:path";
 import { type BehaviorEvent, BehaviorEventSchema } from "@agentfico/core";
 import type { AgentFicoDb } from "@agentfico/db";
 import { redactText } from "@agentfico/serv/redact";
+import { z } from "zod";
 import { redactReppoRaw, safeReppoJson, sanitizeReppoValue } from "./redaction";
 import type {
   EnqueueEvaluationInput,
@@ -774,9 +775,10 @@ function sampleCount(entry: ReppoQueueEntry): number {
 }
 
 function eventFromVerdict(
-  entry: ReppoQueueEntry,
+  entry: Pick<ReppoQueueEntry, "afcId" | "evalId" | "simulated" | "category">,
   verdict: ParsedVerdict,
   occurredAt: string,
+  count: number,
 ): BehaviorEvent {
   const event: BehaviorEvent = {
     event_id: stableUlid(occurredAt, `reppo:${entry.evalId}`),
@@ -792,7 +794,7 @@ function eventFromVerdict(
       decision: verdict.decision,
       confidence: verdict.confidence,
       manipulation: verdict.manipulation,
-      sample_count: sampleCount(entry),
+      sample_count: count,
       ...(entry.category === null ? {} : { category: entry.category }),
       ...(verdict.route === null ? {} : { route: verdict.route }),
     },
@@ -850,6 +852,68 @@ function persistEvent(db: AgentFicoDb, event: BehaviorEvent): void {
       evidenceHash,
       JSON.stringify(event),
     );
+}
+
+const recordedEvaluationSchema = z.object({
+  id: z.string().min(1),
+  status: z.literal("COMPLETED"),
+  taskType: z.literal("response"),
+  input: z.string(),
+  createdAt: z.iso.datetime(),
+  completedAt: z.iso.datetime(),
+});
+
+export function importRecordedReppoEvaluation(
+  db: AgentFicoDb,
+  afcId: string,
+  response: unknown,
+  simulated: boolean,
+): BehaviorEvent {
+  const sanitized = sanitizeReppoValue(response);
+  const record = recordedEvaluationSchema.parse(sanitized);
+  const verdict = validVerdict(sanitized, "evals");
+  if (!verdict) throw new Error("Invalid recorded Reppo verdict");
+  const trace = z
+    .object({
+      samples: z.array(z.unknown()).min(3).max(5),
+      category: z.string().optional(),
+    })
+    .parse(JSON.parse(record.input));
+  const event = eventFromVerdict(
+    { afcId, evalId: record.id, simulated, category: trace.category ?? null },
+    verdict,
+    record.completedAt,
+    trace.samples.length,
+  );
+
+  db.$client.transaction(() => {
+    const prior = db.$client
+      .query<{ afc_id: string }, [string]>(
+        "SELECT afc_id FROM verdicts WHERE eval_id = ?",
+      )
+      .get(record.id);
+    if (prior && prior.afc_id !== afcId)
+      throw new Error("Recorded evaluation belongs to a different subject");
+    persistEvent(db, event);
+    db.$client
+      .query(
+        `INSERT INTO verdicts
+       (eval_id, afc_id, status, score, decision, confidence, result_json, created_at, updated_at)
+       VALUES (?, ?, 'SETTLED', ?, ?, ?, ?, ?, ?)
+       ON CONFLICT(eval_id) DO NOTHING`,
+      )
+      .run(
+        record.id,
+        afcId,
+        verdict.score,
+        verdict.decision,
+        verdict.confidence,
+        JSON.stringify(sanitized),
+        record.createdAt,
+        record.completedAt,
+      );
+  })();
+  return event;
 }
 
 function persistSettlement(
@@ -1464,7 +1528,12 @@ async function pollLive(
         Number.isFinite(Date.parse(settledAtRaw))
           ? new Date(settledAtRaw).toISOString()
           : now.toISOString();
-      const event = eventFromVerdict(entry, verdict, settledAt);
+      const event = eventFromVerdict(
+        entry,
+        verdict,
+        settledAt,
+        sampleCount(entry),
+      );
       try {
         persistSettlement(
           db,

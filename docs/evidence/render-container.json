@@ -1,0 +1,17 @@
+{
+  "commit": "6ae6d74f4e10d0201aeffdf8c15e32e863e66e83",
+  "runtime": "local Linux arm64 container",
+  "memory_mib": 512,
+  "no_dotenv": true,
+  "no_provider_keys": true,
+  "no_persistent_disk": true,
+  "healthz_ok": true,
+  "same_agents_after_recreation": true,
+  "agent_count": 6,
+  "nova_score": 549,
+  "upload_score": 632,
+  "kite_score": 649,
+  "save_status": 403,
+  "evaluate_status": 503,
+  "recorded_live_trace_rows": 7
+}

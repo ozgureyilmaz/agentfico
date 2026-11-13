@@ -1,0 +1,102 @@
+[
+  {
+    "afc_id": "afc:sim:atlas",
+    "file": "real/2026-11-10T09-55-15-085Z-6b86b273ff34-4-poll.json",
+    "simulated": true
+  },
+  {
+    "afc_id": "afc:sim:blaze",
+    "file": "real/2026-11-10T10-10-15-127Z-d4735e3a265e-7-poll.json",
+    "simulated": true
+  },
+  {
+    "afc_id": "afc:sim:murk",
+    "file": "real/2026-11-10T10-25-15-128Z-4e07408562be-10-poll.json",
+    "simulated": true
+  },
+  {
+    "afc_id": "afc:sim:nova-7",
+    "file": "real/2026-11-10T10-40-15-135Z-4b227777d4dd-13-poll.json",
+    "simulated": true
+  },
+  {
+    "afc_id": "afc:sim:phoenix",
+    "file": "real/2026-11-10T10-55-15-174Z-ef2d127de37b-16-poll.json",
+    "simulated": true
+  },
+  {
+    "afc_id": "afc:sim:phoenix",
+    "file": "real/2026-11-12T06-13-35-252Z-6b86b273ff34-2-poll.json",
+    "simulated": true
+  },
+  {
+    "afc_id": "afc:asst:kite-reader",
+    "file": "real/2026-11-12T06-28-35-265Z-d4735e3a265e-4-poll.json",
+    "simulated": false
+  },
+  {
+    "afc_id": "afc:sim:atlas",
+    "file": "real/2026-11-12T06-43-35-270Z-4e07408562be-6-poll.json",
+    "simulated": true
+  },
+  {
+    "afc_id": "afc:sim:blaze",
+    "file": "real/2026-11-12T06-58-35-273Z-4b227777d4dd-8-poll.json",
+    "simulated": true
+  },
+  {
+    "afc_id": "afc:sim:murk",
+    "file": "real/2026-11-12T07-13-35-297Z-ef2d127de37b-10-poll.json",
+    "simulated": true
+  },
+  {
+    "afc_id": "afc:sim:nova-7",
+    "file": "real/2026-11-12T07-29-35-341Z-e7f6c011776e-13-poll.json",
+    "simulated": true
+  },
+  {
+    "afc_id": "afc:sim:phoenix",
+    "file": "real/2026-11-12T07-44-35-357Z-7902699be42c-16-poll.json",
+    "simulated": true
+  },
+  {
+    "afc_id": "afc:sim:atlas",
+    "file": "real/2026-11-12T07-58-35-383Z-2c624232cdd2-18-poll.json",
+    "simulated": true
+  },
+  {
+    "afc_id": "afc:sim:blaze",
+    "file": "real/2026-11-12T08-13-35-398Z-19581e27de7c-20-poll.json",
+    "simulated": true
+  },
+  {
+    "afc_id": "afc:sim:murk",
+    "file": "real/2026-11-12T08-28-35-399Z-4a44dc153642-22-poll.json",
+    "simulated": true
+  },
+  {
+    "afc_id": "afc:sim:nova-7",
+    "file": "real/2026-11-12T08-52-59-505Z-4fc82b26aecb-24-poll.json",
+    "simulated": true
+  },
+  {
+    "afc_id": "afc:sim:phoenix",
+    "file": "real/2026-11-12T11-00-32-338Z-6b51d431df5d-27-poll.json",
+    "simulated": true
+  },
+  {
+    "afc_id": "afc:sim:atlas",
+    "file": "real/2026-11-12T11-15-32-389Z-3fdba35f04dc-29-poll.json",
+    "simulated": true
+  },
+  {
+    "afc_id": "afc:sim:blaze",
+    "file": "real/2026-11-12T11-31-32-435Z-8527a891e224-32-poll.json",
+    "simulated": true
+  },
+  {
+    "afc_id": "afc:sim:phoenix",
+    "file": "real/2026-11-12T11-45-32-429Z-e629fa6598d7-34-poll.json",
+    "simulated": true
+  }
+]

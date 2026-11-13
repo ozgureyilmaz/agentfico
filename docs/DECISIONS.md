@@ -2,6 +2,9 @@
 
 ## Nov 12, 2026
 
+- **Read-only demo.** The demo builds the frontend and serves it with the API, seeds synthetic histories, and imports redacted recorded provider evidence. Hosted scoring uses fixtures. Render Free uses a fresh temporary SQLite directory on every process start. Uploads can be scored provisionally and the public API cannot save them or enqueue evaluations.
+- **Simulated validation.** Use 200 independent seeded histories and score only the first 60 days. Generate the incident labels for days 61–90 independently from each profile's latent risk, and report pairwise AUC and observed rates by score band. This measures the simulator's ranking behavior.
+
 - **Probe answer provenance.** Store the validated plan and its SERV call ID in SQLite. Queue at most one evaluation for its exact probe IDs, with owner-supplied answers and an offline option. Live submissions wait until the plan's latest scheduled time. The plan itself cannot run tasks or add score events.
 - **Assistant log provenance.** The public upload recognizes supported formats deterministically and treats their events as self-reported. The local job 6 mapping command logs validated candidates. It rejects disagreements with the typed source fields, so model text cannot replace score inputs.
 

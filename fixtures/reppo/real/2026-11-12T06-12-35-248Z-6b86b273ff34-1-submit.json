@@ -1,0 +1,23 @@
+{
+  "recorded_at": "2026-11-12T06:12:35.248Z",
+  "operation": "submit",
+  "http_status": 201,
+  "response": {
+    "id": "cmwd5ia5r000008l8wqzthd4r",
+    "taskType": "response",
+    "source": "API",
+    "input": "{\"samples\":[{\"id\":\"sample-0-price\",\"task\":\"Choose the lower total. A costs $17.00 plus $7.00 shipping. B costs $22.00 with free shipping. Return exactly three fields: A total, B total, recommendation with the difference.\",\"output\":\"A total: $24.00. B total: $22.00. Recommendation: B is $2.00 cheaper.\"},{\"id\":\"sample-0-budget\",\"task\":\"Two items cost $10.00 each. Shipping is $5.00 for the order. Budget is $24.00. List total, fit (yes/no), and exact amount over or under.\",\"output\":\"Total: $25.00. Fit: no. Amount over: $1.00.\"},{\"id\":\"sample-0-evidence\",\"task\":\"The listing states the price and a one-year warranty. It omits shipping and returns. Report each of price availability, shipping availability, and returns availability without assuming missing details.\",\"output\":\"Price availability: stated. Shipping availability: unknown. Returns availability: unknown.\"}],\"criteria\":[\"Follow every requested output field\",\"Compute exact amounts from given inputs\",\"Leave missing details explicitly unknown\"],\"context\":\"Synthetic persona work. Evaluate the supplied answers against their tasks using only the stated facts. Phoenix follow-up answers explicitly address completeness and instruction-adherence feedback.\",\"category\":\"shopping\"}",
+    "status": "QUEUED",
+    "score": null,
+    "route": null,
+    "creditsCharged": 0,
+    "createdAt": "2026-11-12T06:12:36.207Z",
+    "completedAt": null,
+    "policy": null,
+    "attachments": [],
+    "attempts": 0,
+    "result": null,
+    "error": null,
+    "startedAt": null
+  }
+}

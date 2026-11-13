@@ -1,0 +1,181 @@
+{
+  "preflight_available_credits": 19800,
+  "text_eval_credit_price": 440,
+  "approved_credit_limit": 6600,
+  "submit_attempts": 16,
+  "reconciliation": {
+    "checked_at_utc": "2026-11-12T10:59:32.093Z",
+    "previous_submit_attempt": 12,
+    "previous_queue_id": 12,
+    "last_error": "submit_transport_unknown",
+    "provider_completed": 16,
+    "provider_in_flight": 0,
+    "balance_credits": 14960,
+    "batch_settled": 11,
+    "batch_credits_charged": 4840,
+    "disposition": "no provider evaluation was created for the interrupted attempt",
+    "remaining_evaluations": 4
+  },
+  "settled": 15,
+  "charged_credits": 6600,
+  "queue_statuses": {
+    "settled": 15
+  },
+  "evaluations": [
+    {
+      "subject": "afc:sim:phoenix",
+      "eval_id": "cmwd5ia5r000008l8wqzthd4r",
+      "status": "COMPLETED",
+      "score": 100,
+      "completed_at_utc": "2026-11-12T06:13:12.190Z",
+      "credits_charged": 440,
+      "sample_history_simulated": true,
+      "recording": "../../fixtures/reppo/real/2026-11-12T06-13-35-252Z-6b86b273ff34-2-poll.json"
+    },
+    {
+      "subject": "afc:asst:kite-reader",
+      "eval_id": "cmwd61ksa000108l8b9sfhfrh",
+      "status": "COMPLETED",
+      "score": 93,
+      "completed_at_utc": "2026-11-12T06:28:28.297Z",
+      "credits_charged": 440,
+      "sample_history_simulated": false,
+      "recording": "../../fixtures/reppo/real/2026-11-12T06-28-35-265Z-d4735e3a265e-4-poll.json"
+    },
+    {
+      "subject": "afc:sim:atlas",
+      "eval_id": "cmwd6kv0r000208l8kiidh04e",
+      "status": "COMPLETED",
+      "score": 100,
+      "completed_at_utc": "2026-11-12T06:43:21.679Z",
+      "credits_charged": 440,
+      "sample_history_simulated": true,
+      "recording": "../../fixtures/reppo/real/2026-11-12T06-43-35-270Z-4e07408562be-6-poll.json"
+    },
+    {
+      "subject": "afc:sim:blaze",
+      "eval_id": "cmwd745fu000308l80bnp5y28",
+      "status": "COMPLETED",
+      "score": 50,
+      "completed_at_utc": "2026-11-12T06:58:14.025Z",
+      "credits_charged": 440,
+      "sample_history_simulated": true,
+      "recording": "../../fixtures/reppo/real/2026-11-12T06-58-35-273Z-4b227777d4dd-8-poll.json"
+    },
+    {
+      "subject": "afc:sim:murk",
+      "eval_id": "cmwd7ng7i000008jtzmydolt4",
+      "status": "COMPLETED",
+      "score": 38,
+      "completed_at_utc": "2026-11-12T07:13:15.752Z",
+      "credits_charged": 440,
+      "sample_history_simulated": true,
+      "recording": "../../fixtures/reppo/real/2026-11-12T07-13-35-297Z-ef2d127de37b-10-poll.json"
+    },
+    {
+      "subject": "afc:sim:nova-7",
+      "eval_id": "cmwd86qfa000008l3lv17p0go",
+      "status": "COMPLETED",
+      "score": 55,
+      "completed_at_utc": "2026-11-12T07:28:37.946Z",
+      "credits_charged": 440,
+      "sample_history_simulated": true,
+      "recording": "../../fixtures/reppo/real/2026-11-12T07-29-35-341Z-e7f6c011776e-13-poll.json"
+    },
+    {
+      "subject": "afc:sim:phoenix",
+      "eval_id": "cmwd8q0to000208kz3xj5ajgu",
+      "status": "COMPLETED",
+      "score": 100,
+      "completed_at_utc": "2026-11-12T07:43:59.532Z",
+      "credits_charged": 440,
+      "sample_history_simulated": true,
+      "recording": "../../fixtures/reppo/real/2026-11-12T07-44-35-357Z-7902699be42c-16-poll.json"
+    },
+    {
+      "subject": "afc:sim:atlas",
+      "eval_id": "cmwd99bjj000208jp8u0owgid",
+      "status": "COMPLETED",
+      "score": 100,
+      "completed_at_utc": "2026-11-12T07:58:08.759Z",
+      "credits_charged": 440,
+      "sample_history_simulated": true,
+      "recording": "../../fixtures/reppo/real/2026-11-12T07-58-35-383Z-2c624232cdd2-18-poll.json"
+    },
+    {
+      "subject": "afc:sim:blaze",
+      "eval_id": "cmwd9slvz000408jplb11gbp5",
+      "status": "COMPLETED",
+      "score": 40,
+      "completed_at_utc": "2026-11-12T08:13:22.321Z",
+      "credits_charged": 440,
+      "sample_history_simulated": true,
+      "recording": "../../fixtures/reppo/real/2026-11-12T08-13-35-398Z-19581e27de7c-20-poll.json"
+    },
+    {
+      "subject": "afc:sim:murk",
+      "eval_id": "cmwdabwa6000508jpwjqdzdef",
+      "status": "COMPLETED",
+      "score": 45,
+      "completed_at_utc": "2026-11-12T08:28:30.026Z",
+      "credits_charged": 440,
+      "sample_history_simulated": true,
+      "recording": "../../fixtures/reppo/real/2026-11-12T08-28-35-399Z-4a44dc153642-22-poll.json"
+    },
+    {
+      "subject": "afc:sim:nova-7",
+      "eval_id": "cmwdav6oy000008jsail3f930",
+      "status": "COMPLETED",
+      "score": 46,
+      "completed_at_utc": "2026-11-12T08:43:27.552Z",
+      "credits_charged": 440,
+      "sample_history_simulated": true,
+      "recording": "../../fixtures/reppo/real/2026-11-12T08-52-59-505Z-4fc82b26aecb-24-poll.json"
+    },
+    {
+      "subject": "afc:sim:phoenix",
+      "eval_id": "cmwdfrau9000007l45gv0ko1d",
+      "status": "COMPLETED",
+      "score": 100,
+      "completed_at_utc": "2026-11-12T11:00:00.198Z",
+      "credits_charged": 440,
+      "sample_history_simulated": true,
+      "recording": "../../fixtures/reppo/real/2026-11-12T11-00-32-338Z-6b51d431df5d-27-poll.json"
+    },
+    {
+      "subject": "afc:sim:atlas",
+      "eval_id": "cmwdgali2000607l4kkrvwrqv",
+      "status": "COMPLETED",
+      "score": 100,
+      "completed_at_utc": "2026-11-12T11:15:07.510Z",
+      "credits_charged": 440,
+      "sample_history_simulated": true,
+      "recording": "../../fixtures/reppo/real/2026-11-12T11-15-32-389Z-3fdba35f04dc-29-poll.json"
+    },
+    {
+      "subject": "afc:sim:blaze",
+      "eval_id": "cmwdgtw4r000807l4skie6j41",
+      "status": "COMPLETED",
+      "score": 40,
+      "completed_at_utc": "2026-11-12T11:30:53.025Z",
+      "credits_charged": 440,
+      "sample_history_simulated": true,
+      "recording": "../../fixtures/reppo/real/2026-11-12T11-31-32-435Z-8527a891e224-32-poll.json"
+    },
+    {
+      "subject": "afc:sim:phoenix",
+      "eval_id": "cmwdhd6f2000007lf37r27ost",
+      "status": "COMPLETED",
+      "score": 100,
+      "completed_at_utc": "2026-11-12T11:45:14.335Z",
+      "credits_charged": 440,
+      "sample_history_simulated": true,
+      "recording": "../../fixtures/reppo/real/2026-11-12T11-45-32-429Z-e629fa6598d7-34-poll.json"
+    }
+  ],
+  "provider_account_readback": {
+    "checked_at": "2026-11-13T09:06:40+03:00",
+    "completed_evaluations": 20,
+    "available_credits": 13200
+  }
+}

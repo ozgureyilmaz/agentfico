@@ -1,0 +1,44 @@
+{
+  "simulated": true,
+  "seed": 42,
+  "model_version": "afc-0.2",
+  "population": 200,
+  "scored": 200,
+  "unscored": 0,
+  "incident_count": 62,
+  "score_day": 60,
+  "incident_days": [61, 90],
+  "auc": 0.8208274894810659,
+  "calibration": [
+    {
+      "range": "300–579",
+      "count": 37,
+      "incidents": 29,
+      "observed_incident_rate": 0.7837837837837838
+    },
+    {
+      "range": "580–669",
+      "count": 120,
+      "incidents": 33,
+      "observed_incident_rate": 0.275
+    },
+    {
+      "range": "670–739",
+      "count": 0,
+      "incidents": 0,
+      "observed_incident_rate": null
+    },
+    {
+      "range": "740–799",
+      "count": 43,
+      "incidents": 0,
+      "observed_incident_rate": 0
+    },
+    {
+      "range": "800–850",
+      "count": 0,
+      "incidents": 0,
+      "observed_incident_rate": null
+    }
+  ]
+}

@@ -63,7 +63,7 @@ export type ReppoEnqueueFunction = (
 
 export class ApiServiceError extends Error {
   constructor(
-    readonly status: 400 | 404 | 409 | 413 | 422 | 429 | 503,
+    readonly status: 400 | 403 | 404 | 409 | 413 | 422 | 429 | 503,
     readonly code: string,
     message: string,
   ) {
@@ -447,7 +447,11 @@ function normalizeUploadedEvent(event: BehaviorEvent): BehaviorEvent {
 
 export function createApiService(options: ApiServiceOptions) {
   const { db } = options;
-  const env = options.env ?? process.env;
+  const configuredEnv = options.env ?? process.env;
+  const env =
+    configuredEnv.AFC_HOSTED === "1"
+      ? { ...configuredEnv, AFC_OFFLINE: "1" }
+      : configuredEnv;
   const activeSecrets = [env.SERV_API_KEY, env.REPPO_API_KEY]
     .filter(
       (secret): secret is string =>
@@ -854,6 +858,13 @@ export function createApiService(options: ApiServiceOptions) {
   }
 
   function scoreLog(content: string, input: ScoreLogOptions = {}) {
+    if (env.AFC_HOSTED === "1" && input.save) {
+      throw new ApiServiceError(
+        403,
+        "read_only_demo",
+        "Saving uploads is disabled on this deployment",
+      );
+    }
     const rawEvents = parseBehaviorEventJsonl(content);
     const subjects = new Set(rawEvents.map((event) => event.subject.afc_id));
     if (subjects.size !== 1) {

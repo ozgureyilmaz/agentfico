@@ -803,3 +803,59 @@ test("Nova-7 report cites detected transfers and logs descriptive SERV review wi
     db.$client.close();
   }
 });
+
+test("hosted demo rejects public writes and evaluation enqueue even with configured credentials", async () => {
+  const { db } = seededDb();
+  try {
+    const app = createApp({
+      db,
+      env: {
+        AFC_HOSTED: "1",
+        AFC_OFFLINE: "0",
+        REPPO_API_KEY: crypto.randomUUID(),
+      },
+      reppoEnqueue: () => {
+        throw new Error("Public enqueue must be disabled");
+      },
+    });
+    const file = new FormData();
+    file.set(
+      "file",
+      new File(
+        [await Bun.file("examples/assistant-log.jsonl").text()],
+        "assistant.jsonl",
+      ),
+    );
+    const save = await app.request("/v1/score/log?save=1", {
+      method: "POST",
+      body: file,
+    });
+    expect(save.status).toBe(403);
+    expect((await save.json()).error.code).toBe("read_only_demo");
+    const evaluate = await app.request("/v1/evaluate", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        afc_id: "afc:asst:demo",
+        samples: [1, 2, 3].map((index) => ({
+          id: String(index),
+          task: "Compare totals",
+          output: "Sample answer",
+        })),
+        criteria: ["Use the given numbers"],
+      }),
+    });
+    expect(evaluate.status).toBe(503);
+    expect((await evaluate.json()).error.code).toBe("evaluation_disabled");
+    const kite = await app.request("/v1/score/kite", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        address: "0x0000000000000000000000000000000000000001",
+      }),
+    });
+    expect((await kite.json()).error.code).toBe("kite_fixture_unavailable");
+  } finally {
+    db.$client.close();
+  }
+});

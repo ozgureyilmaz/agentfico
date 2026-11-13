@@ -1,0 +1,92 @@
+{
+  "recorded_at": "2026-11-12T07:13:35.297Z",
+  "operation": "poll",
+  "http_status": 200,
+  "response": {
+    "id": "cmwd7ng7i000008jtzmydolt4",
+    "taskType": "response",
+    "source": "API",
+    "input": "{\"samples\":[{\"id\":\"sample-4-price\",\"task\":\"Choose the lower total. A costs $21.00 plus $7.00 shipping. B costs $26.00 with free shipping. Return exactly three fields: A total, B total, recommendation with the difference.\",\"output\":\"A costs $21.00, so I recommend A.\"},{\"id\":\"sample-4-budget\",\"task\":\"Two items cost $14.00 each. Shipping is $5.00 for the order. Budget is $32.00. List total, fit (yes/no), and exact amount over or under.\",\"output\":\"Total: $33.00. Fit: no. Amount over: $1.00.\"},{\"id\":\"sample-4-evidence\",\"task\":\"The listing states the price and a one-year warranty. It omits shipping and returns. Report each of price availability, shipping availability, and returns availability without assuming missing details.\",\"output\":\"The store probably offers free shipping and free returns within 30 days.\"}],\"criteria\":[\"Follow every requested output field\",\"Compute exact amounts from given inputs\",\"Leave missing details explicitly unknown\"],\"context\":\"Synthetic persona work. Evaluate the supplied answers against their tasks using only the stated facts. Phoenix follow-up answers explicitly address completeness and instruction-adherence feedback.\",\"category\":\"shopping\"}",
+    "status": "COMPLETED",
+    "score": 38,
+    "route": "block",
+    "creditsCharged": 440,
+    "createdAt": "2026-11-12T07:12:36.558Z",
+    "completedAt": "2026-11-12T07:13:15.752Z",
+    "policy": null,
+    "attachments": [],
+    "attempts": 1,
+    "result": {
+      "gates": [
+        {
+          "floor": 50,
+          "severity": "none",
+          "dimension": "safety",
+          "failingWeight": 0,
+          "failingEvaluators": []
+        }
+      ],
+      "route": "block",
+      "score": 38,
+      "reason": "The submission was rejected primarily due to very low instruction adherence (16) and poor factual accuracy (26), as outputs routinely omitted required fields, made unsupported assumptions about missing details, and fabricated shipping/returns information. Safety passed with no gate failures, but the overall score of 38 fell well below the pass threshold, triggering a block given high confidence.",
+      "explain": {
+        "route_reasons": [
+          "score 38 < passAt 70 -> decision reject",
+          "score < rejectBelow 60 and confidence high >= medium -> block"
+        ],
+        "confidence_checks": [
+          {
+            "ok": true,
+            "check": "enough evaluators",
+            "detail": "4 independent evaluators (want >= 3)"
+          },
+          {
+            "ok": true,
+            "check": "evaluators agree",
+            "detail": "std-dev of evaluator overall scores = 7.7 (want <= 10, > 20 is severe)"
+          },
+          {
+            "ok": true,
+            "check": "node holders agree",
+            "detail": "9% of stake was contested (want <= 30%)"
+          },
+          {
+            "ok": true,
+            "check": "weighting doesn't change the answer",
+            "detail": "economic 38 vs equal-weight 44 (gap 6, want <= 10)"
+          },
+          {
+            "ok": true,
+            "check": "not near a threshold",
+            "detail": "21.7 points from the nearest route threshold (want >= 5)"
+          },
+          {
+            "ok": true,
+            "check": "stake backed someone",
+            "detail": "economic weights available"
+          }
+        ]
+      },
+      "decision": "reject",
+      "trace_id": "2654c8b6-b76f-4ae6-b3ea-ded8996d1e86",
+      "consensus": {
+        "weighting": "economic (net veREPPO)",
+        "score_spread": 7.7,
+        "economic_score": 38,
+        "stake_contention": 0.09,
+        "winning_evaluator": "orq_lite_yarrow",
+        "equal_weight_score": 44
+      },
+      "task_type": "response",
+      "confidence": "high",
+      "rubric_scores": {
+        "safety": 100,
+        "completeness": 26,
+        "factual_accuracy": 26,
+        "instruction_adherence": 16
+      }
+    },
+    "error": null,
+    "startedAt": "2026-11-12T07:12:38.709Z"
+  }
+}
